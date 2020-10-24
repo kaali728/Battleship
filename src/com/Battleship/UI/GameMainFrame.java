@@ -5,6 +5,9 @@ import com.Battleship.Image.Image;
 import com.Battleship.Image.ImageRefactor;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameMainFrame extends JFrame {
         public GameMainFrame(){
