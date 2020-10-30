@@ -9,41 +9,59 @@ import java.awt.event.ActionListener;
 
 public class MultiPanels extends JFrame implements ActionListener {
 
-    JPanel panel1;
-    JPanel GamePanel;
-    JPanel MenuPanel;
+    JButton button1;
+    JButton button2;
+    JButton button3;
+    JLabel label;
+    JPanel panel;
 
-    JButton click = new JButton("Click");
-    CardLayout cardLayout;
+    public MultiPanels(){
+        setSize(400, 800);
+        panel = new JPanel();
 
-    MultiPanels(){
-        cardLayout = new CardLayout();
-        panel1 = new JPanel(cardLayout);
-        panel1.setBackground(Color.red);
-        panel1.add(click);
-        GamePanel = new JPanel();
-        MenuPanel = new JPanel();
-        panel1.add(GamePanel, "game");
-        panel1.add(MenuPanel, "menu");
+        // Leeres JLabel-Objekt wird erzeugt
+        label = new JLabel();
 
+        //Drei Buttons werden erstellt
+        button1 = new JButton("Button 1");
+        button2 = new JButton ("Button 2");
+        button3 = new JButton ("Button 3");
 
-        click.addActionListener(this);
+        //Buttons werden dem Listener zugeordnet
+        button1.addActionListener(this);
+        button2.addActionListener(this);
+        button3.addActionListener(this);
 
-        add(panel1);
-        add(click, BorderLayout.SOUTH);
-        pack();
-        setSize(800,400);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocationByPlatform(true);
-        setVisible(true);
+        //Buttons werden dem JPanel hinzugefügt
+        panel.add(button1);
+        panel.add(button2);
+        panel.add(button3);
 
+        //JLabel wird dem Panel hinzugefügt
+        panel.add(label);
+        this.add(panel);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        gameOn();
+    public static void main(String[] args)
+    {
+        // Ein neues Objekt der Klasse BeispielListener wird erzeugt
+        // und sichtbar gemacht
+        MultiPanels bl = new MultiPanels();
+        bl.setVisible(true);
     }
-    public void gameOn(){
-        cardLayout.show(panel1, "panel");
+
+    public void actionPerformed (ActionEvent ae){
+        // Die Quelle wird mit getSource() abgefragt und mit den
+        // Buttons abgeglichen. Wenn die Quelle des ActionEvents einer
+        // der Buttons ist, wird der Text des JLabels entsprechend geändert
+        if(ae.getSource() == this.button1){
+            label.setText(("Button 1 wurde betätigt"));
+        }
+        else if(ae.getSource() == this.button2){
+            label.setText("Button 2 wurde betätigt");
+        }
+        else if (ae.getSource() == this.button3){
+            label.setText(("Button 3 wurde betätigt"));
+        }
     }
 }
