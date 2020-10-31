@@ -1,6 +1,5 @@
 package com.Battleship.UI;
 
-import javafx.scene.layout.Pane;
 
 import javax.swing.*;
 import java.awt.*;
