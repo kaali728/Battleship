@@ -18,8 +18,8 @@ public class GameMainFrame extends JFrame {
         pack();
         //ICON setzen
         setIconImage(ImageFactory.createImage(Image.ICON).getImage());
-
         setLocationRelativeTo(null); //Setzt das Fenster in der Mitte
         setVisible(true);
     }
+
 }
