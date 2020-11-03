@@ -44,8 +44,8 @@ public class SinglePlayerScreen extends JPanel implements ActionListener, Change
             slider.setMajorTickSpacing(25);
             size.setText("size=" + slider.getValue());
 
-            add(slider);
-            add(size);
+            vbox.add(slider);
+            vbox.add(size);
         }
         vbox.add(Box.createVerticalStrut(100));
         vbox.setAlignmentX(Component.CENTER_ALIGNMENT);

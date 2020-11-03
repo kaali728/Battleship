@@ -11,6 +11,5 @@ public class Board extends Canvas {
     public void initlayout(){
         setBackground(Color.BLUE);
         setSize(new Dimension(500,500));
-
     }
 }
