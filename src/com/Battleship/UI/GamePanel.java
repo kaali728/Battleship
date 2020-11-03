@@ -24,7 +24,8 @@ public class GamePanel extends JPanel {
         setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
         add(new MainScreen(this), "main");
         add(new SinglePlayerScreen(this), "singleplayer");
-        cl.show(this, "main");
+        add(new Battlefield(this), "battlefield");
+        cl.show(this, "battlefield");
     }
     public void changeScreen(String s){
         cl.show(this, s );
