@@ -1,6 +1,7 @@
 package com.Battleship.UI;
 
 import com.Battleship.Model.Board;
+import com.Battleship.Player.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,8 @@ import java.awt.event.ActionListener;
 
 public class ShipSetupScreen extends Panel {
     GamePanel mainPanel;
-    private javax.swing.JTable jTable1;
+    JButton back;
+
 
     ShipSetupScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
@@ -18,16 +20,25 @@ public class ShipSetupScreen extends Panel {
     }
 
     public void initvar() {
+        back = new JButton("Back");
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainPanel.changeScreen("main");
+            }
+        });
     }
 
     public void initlayout() {
         Box hbox = Box.createHorizontalBox();
         {
             hbox.add(Box.createHorizontalStrut(10));
-            hbox.add(new Board(7));
+            int sizefield = this.mainPanel.getSingleplayer().getFieldsize();
+            hbox.add(new Board(sizefield));
             hbox.add(Box.createHorizontalStrut(10));
         }
         add(hbox);
+        add(back);
         hbox.setAlignmentY(Component.CENTER_ALIGNMENT);
     }
 }
