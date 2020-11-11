@@ -1,5 +1,5 @@
 package com.Battleship.Image;
 
 public enum Image {
-    ICON;
+    ICON, BACKGROUND
 }

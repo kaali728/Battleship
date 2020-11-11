@@ -1,35 +1,42 @@
 package com.Battleship.UI;
 
 import com.Battleship.Constants.Constants;
+import com.Battleship.Player.Player;
 
-import javax.smartcardio.Card;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel {
     private CardLayout cl;
-    private static int currentCard = 1;
+    private Player Singleplayer = new Player();
 
-    public GamePanel(){initLayout(); }
-    void initLayout(){
+    // Hintergrundbild
+    public GamePanel() {
+        initLayout();
+    }
+
+    void initLayout() {
         cl = new CardLayout();
-        setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
         setLayout(cl);
-        add(new StartScreen(), "1");
-        add(new ShipOrder(), "2");
-        cl.show(this,"" + (currentCard));
+        setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
+        add(new MainScreen(this), "main");
+        add(new SinglePlayerScreen(this), "singleplayer");
 
-
+        cl.show(this, "main");
+    }
+    public void changeScreen(String s){
+        if(s == "battlefield"){
+            add(new ShipSetupScreen(this), "battlefield");
+        }
+        cl.show(this, s );
     }
 
-    public int getCurrentCard() {
-        return currentCard;
+    public void setSingleplayer(Player singleplayer) {
+        Singleplayer = singleplayer;
     }
 
-
-    public void setCurrentCard(int currentCard) {
-        this.currentCard = currentCard;
+    public Player getSingleplayer() {
+        return Singleplayer;
     }
 }
