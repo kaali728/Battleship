@@ -39,7 +39,7 @@ public class MainScreen extends JPanel {
 
             multiplayer.addActionListener(
                     (e) -> {
-                        mainPanel.changeScreen("main");
+                        mainPanel.changeScreen("multiplayer");
                     }
             );
             singleplayer.addActionListener(

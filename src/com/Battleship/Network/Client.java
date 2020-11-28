@@ -7,8 +7,58 @@ import java.io.*;
 
 public class Client {
     // Variablen, die im gesamten Programm benötigt werden.
-    private static Writer out;		// Verpackung des Socket-Ausgabestroms.
-    private static JButton button;	// Der o. g. Knopf.
+    public static Writer out;		// Verpackung des Socket-Ausgabestroms.
+    public static JButton button;	// Der o. g. Knopf.
+
+    public static void create(String address, int port) {
+        System.out.println("CLIENT CREATE");
+
+        Thread clientThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try  {
+                    Socket socket = new Socket(address, port);
+
+                    // Send message to server.
+                    PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+                    printWriter.println("Hello, I am a message from the client.");
+                    printWriter.flush();
+
+                    // Get message from server.
+                    InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    out = new OutputStreamWriter(socket.getOutputStream());
+
+                    String str = bufferedReader.readLine();
+                    System.out.println("[Server]: " + str);
+
+                    // Netzwerknachrichten lesen und verarbeiten.
+                    // Da die graphische Oberfläche von einem separaten Thread verwaltet
+                    // wird, kann man hier unabhängig davon auf Nachrichten warten.
+                    // Manipulationen an der Oberfläche sollten aber mittels invokeLater
+                    // (oder invokeAndWait) ausgeführt werden.
+                    while (true) {
+                        String line = bufferedReader.readLine();
+                        if (line == null) break;
+                        SwingUtilities.invokeLater(
+                                () -> button.setEnabled(true)
+                        );
+                    }
+
+                    // EOF ins Socket "schreiben" und das Programm explizit beenden
+                    // (weil es sonst weiterlaufen würde, bis der Benutzer das Hauptfenster
+                    // schließt).
+                    socket.shutdownOutput();
+                    System.out.println("Connection closed.");
+                    System.exit(0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        clientThread.start();
+    }
 
     // Graphische Oberfläche aufbauen und anzeigen.
     private static void startGui () {

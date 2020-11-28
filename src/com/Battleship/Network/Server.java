@@ -7,11 +7,114 @@ import java.io.*;
 
 public class Server {
     // Variablen, die im gesamten Programm benötigt werden.
-    private static Writer out;		// Verpackung des Socket-Ausgabestroms.
-    private static JButton button;	// Der o. g. Knopf.
+    public static Writer out;        // Verpackung des Socket-Ausgabestroms.
+    public static JButton button;    // Der o. g. Knopf.
+
+    private static ServerSocket serverSocket;
+    private static Socket socket;
+
+    public static void create(int port) {
+        System.out.println("SERVER CREATE");
+
+        Thread serverThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ServerSocket serverSocket = new ServerSocket(port);
+                    Socket socket = serverSocket.accept();
+
+                    // Send message to client.
+                    PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+                    printWriter.println("Hello, I am a message from the almighty server.");
+                    printWriter.flush();
+
+                    // Get message from client.
+                    InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    out = new OutputStreamWriter(socket.getOutputStream());
+
+                    String str = bufferedReader.readLine();
+                    System.out.println("[Client]: " + str);
+
+                    // Graphische Oberfläche aufbauen.
+//                        SwingUtilities.invokeLater(
+//                                Server::startGui
+//                        );
+
+                    // Netzwerknachrichten lesen und verarbeiten.
+                    // Da die graphische Oberfläche von einem separaten Thread verwaltet
+                    // wird, kann man hier unabhängig davon auf Nachrichten warten.
+                    // Manipulationen an der Oberfläche sollten aber mittels invokeLater
+                    // (oder invokeAndWait) ausgeführt werden.
+                    while (true) {
+                        String line = bufferedReader.readLine();
+                        if (line == null) break;
+                        SwingUtilities.invokeLater(
+                                () -> button.setEnabled(true)
+                        );
+                    }
+
+                    // EOF ins Socket "schreiben" und das Programm explizit beenden
+                    // (weil es sonst weiterlaufen würde, bis der Benutzer das Hauptfenster
+                    // schließt).
+                    socket.shutdownOutput();
+                    System.out.println("Connection closed.");
+                    System.exit(0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        serverThread.start();
+
+//                    try {
+//                        // Send message to client.
+//                        PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+//                        printWriter.println("Hello, I am a message from the almighty server.");
+//                        printWriter.flush();
+//
+//                        // Get message from client.
+//                        InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
+//                        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+//                        out = new OutputStreamWriter(socket.getOutputStream());
+//
+//                        String str = bufferedReader.readLine();
+//                        System.out.println("[Client]: " + str);
+//
+//                        // Graphische Oberfläche aufbauen.
+////                        SwingUtilities.invokeLater(
+////                                Server::startGui
+////                        );
+//
+//                        // Netzwerknachrichten lesen und verarbeiten.
+//                        // Da die graphische Oberfläche von einem separaten Thread verwaltet
+//                        // wird, kann man hier unabhängig davon auf Nachrichten warten.
+//                        // Manipulationen an der Oberfläche sollten aber mittels invokeLater
+//                        // (oder invokeAndWait) ausgeführt werden.
+//                        //            while (true) {
+//                        //                String line = bufferedReader.readLine();
+//                        //                if (line == null) break;
+//                        //                SwingUtilities.invokeLater(
+//                        //                        () -> button.setEnabled(true)
+//                        //                );
+//                        //            }
+//
+//                        // EOF ins Socket "schreiben" und das Programm explizit beenden
+//                        // (weil es sonst weiterlaufen würde, bis der Benutzer das Hauptfenster
+//                        // schließt).
+//                        socket.shutdownOutput();
+//                        System.out.println("Connection closed.");
+//                        System.exit(0);
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
+
+
+    }
 
     // Graphische Oberfläche aufbauen und anzeigen.
-    private static void startGui () {
+    private static void startGui() {
         // Hauptfenster mit Titelbalken etc. (JFrame) erzeugen.
         JFrame frame = new JFrame("Server");
 
@@ -42,8 +145,7 @@ public class Server {
                     try {
                         out.write(String.format("%s%n", "message"));
                         out.flush();
-                    }
-                    catch (IOException ex) {
+                    } catch (IOException ex) {
                         System.out.println("write to socket failed");
                     }
                 }
@@ -62,46 +164,46 @@ public class Server {
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(5000);
-        Socket socket = serverSocket.accept();
-
-        // Send message to client.
-        PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-        printWriter.println("Hello, I am a message from the almighty server.");
-        printWriter.flush();
-
-        // Get message from client.
-        InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        out = new OutputStreamWriter(socket.getOutputStream());
-
-        String str = bufferedReader.readLine();
-        System.out.println("[Client]: " + str);
-
-        // Graphische Oberfläche aufbauen.
-        SwingUtilities.invokeLater(
-                Server::startGui
-        );
-
-        // Netzwerknachrichten lesen und verarbeiten.
-        // Da die graphische Oberfläche von einem separaten Thread verwaltet
-        // wird, kann man hier unabhängig davon auf Nachrichten warten.
-        // Manipulationen an der Oberfläche sollten aber mittels invokeLater
-        // (oder invokeAndWait) ausgeführt werden.
-        while (true) {
-            String line = bufferedReader.readLine();
-            if (line == null) break;
-            SwingUtilities.invokeLater(
-                    () -> button.setEnabled(true)
-            );
-        }
-
-        // EOF ins Socket "schreiben" und das Programm explizit beenden
-        // (weil es sonst weiterlaufen würde, bis der Benutzer das Hauptfenster
-        // schließt).
-        socket.shutdownOutput();
-        System.out.println("Connection closed.");
-        System.exit(0);
-    }
+//    public static void main(String[] args) throws IOException {
+//        ServerSocket serverSocket = new ServerSocket(5000);
+//        Socket socket = serverSocket.accept();
+//
+//        // Send message to client.
+//        PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+//        printWriter.println("Hello, I am a message from the almighty server.");
+//        printWriter.flush();
+//
+//        // Get message from client.
+//        InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
+//        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+//        out = new OutputStreamWriter(socket.getOutputStream());
+//
+//        String str = bufferedReader.readLine();
+//        System.out.println("[Client]: " + str);
+//
+//        // Graphische Oberfläche aufbauen.
+//        SwingUtilities.invokeLater(
+//                Server::startGui
+//        );
+//
+//        // Netzwerknachrichten lesen und verarbeiten.
+//        // Da die graphische Oberfläche von einem separaten Thread verwaltet
+//        // wird, kann man hier unabhängig davon auf Nachrichten warten.
+//        // Manipulationen an der Oberfläche sollten aber mittels invokeLater
+//        // (oder invokeAndWait) ausgeführt werden.
+//        while (true) {
+//            String line = bufferedReader.readLine();
+//            if (line == null) break;
+//            SwingUtilities.invokeLater(
+//                    () -> button.setEnabled(true)
+//            );
+//        }
+//
+//        // EOF ins Socket "schreiben" und das Programm explizit beenden
+//        // (weil es sonst weiterlaufen würde, bis der Benutzer das Hauptfenster
+//        // schließt).
+//        socket.shutdownOutput();
+//        System.out.println("Connection closed.");
+//        System.exit(0);
+//    }
 }
