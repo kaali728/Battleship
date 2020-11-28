@@ -44,6 +44,7 @@ public class MainScreen extends JPanel {
             );
             singleplayer.addActionListener(
                     (e) -> {
+                        mainPanel.setGameState("singleplayer");
                         mainPanel.changeScreen("singleplayer");
                     }
             );

@@ -34,7 +34,7 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
     private int destroyerCount;
     private int submarineCount;
     int carrierCount;
-
+    Box vbox;
 
     private int submarineCounterMax;
     private int destroyerCounterMax;
@@ -64,28 +64,35 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Ship> fleet = new ArrayList<>();
-                Ship s1 = new Ship("carrier", carrierCount);
-                Ship s2 = new Ship("battleship", battleshipCount);
-                Ship s3 = new Ship("submarine", submarineCount);
-                Ship s4 = new Ship("destroyer", destroyerCount);
-                fleet.add(s1);
-                fleet.add(s2);
-                fleet.add(s3);
-                fleet.add(s4);
+                for (int i=0; i<carrierCount; i++){
+                    fleet.add(new Ship("carrier"));
+                }
+                for (int i=0; i<battleshipCount; i++){
+                    fleet.add(new Ship("battleship"));
+                }
+                for (int i=0; i<submarineCount; i++){
+                    fleet.add(new Ship("submarine"));
+                }
+                for (int i=0; i<destroyerCount; i++){
+                    fleet.add(new Ship("destroyer"));
+                }
+                singplayer.setFleet(fleet);
                 singplayer.setFieldsize(fieldslider.getValue());
+                mainPanel.setGameState("setzen");
                 mainPanel.changeScreen("battlefield");
             }
         });
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                mainPanel.setGameState("start");
                 mainPanel.changeScreen("main");
             }
         });
     }
     public void initlayout(){
         setBackground(Color.white);
-        Box vbox = Box.createVerticalBox();
+        vbox = Box.createVerticalBox();
         Component vspace = Box.createVerticalStrut(100);
         {
             // paint the ticks and tarcks
@@ -135,17 +142,7 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
 
             vbox.add(fieldslider);
             vbox.add(size);
-            vbox.add(carrierSlider);
-            vbox.add(carrierLabel);
 
-            vbox.add(battleshipSlider);
-            vbox.add(battleshipLabel);
-
-            vbox.add(submarineslider);
-            vbox.add(submarineLabel);
-
-            vbox.add(destroyerslider);
-            vbox.add(destroyerLabel);
 
             vbox.add(back);
             vbox.add(play);
@@ -172,6 +169,17 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             this.submarineslider.setMaximum(submarineCounterMax);
             this.destroyerslider.setMaximum(destroyerCounterMax);
             this.battleshipSlider.setMaximum(battleshipCounterMax);
+            vbox.add(carrierSlider);
+            vbox.add(carrierLabel);
+
+            vbox.add(battleshipSlider);
+            vbox.add(battleshipLabel);
+
+            vbox.add(submarineslider);
+            vbox.add(submarineLabel);
+
+            vbox.add(destroyerslider);
+            vbox.add(destroyerLabel);
 
         }
         if(e.getSource().equals(carrierSlider)){
