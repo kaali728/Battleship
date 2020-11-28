@@ -1,130 +1,156 @@
 package com.Battleship.UI;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-// Erstes Beispiel zur Verwendung von (AWT und) Swing.
-class Swing1 {
-    // Graphische Oberfläche aufbauen und anzeigen.
-    private static void start () {
-        // Hauptfenster mit Titelbalken etc. (JFrame) erzeugen.
-        // "Swing1" wird in den Titelbalken geschrieben.
-        JFrame frame = new JFrame("Swing1");
+public class Swing1 {
 
-        // Beim Schließen des Fensters (z. B. durch Drücken des
-        // X-Knopfs in Windows) soll das Programm beendet werden.
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private final int hGap = 5;
+    private final int vGap = 5;
 
-        // Der Inhalt des Fensters soll von einem BoxLayout-Manager
-        // verwaltet werden, der seine Bestandteile vertikal (von
-        // oben nach unten) anordnet.
-        frame.setContentPane(Box.createVerticalBox());
+    private String[] borderConstraints = {
+            BorderLayout.PAGE_START,
+            BorderLayout.LINE_START,
+            BorderLayout.CENTER,
+            BorderLayout.LINE_END,
+            BorderLayout.PAGE_END
+    };
 
-        // Dehnbaren Zwischenraum am oberen Rand hinzufügen.
-        frame.add(Box.createGlue());
+    private JButton[] buttons;
 
-        // Darunter ein horizontal zentriertes "Etikett" (JLabel)
-        // hinzufügen.
-        JLabel label = new JLabel("Etikett");
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        frame.add(label);
+    private GridBagConstraints gbc;
 
-        // Festen Zwischenraum der Größe 50 Pixel hinzufügen.
-        frame.add(Box.createVerticalStrut(50));
+    private JPanel borderPanel;
+    private JPanel flowPanel;
+    private JPanel gridPanel;
+    private JPanel gridBagPanel;
+    private JPanel cardPanel;
 
-        // Horizontal zentrierten Knopf (JButton) hinzufügen.
-        // Beim Drücken des Knopfs wird die an addActionListener
-        // übergebene anonyme Funktion (e) -> { ...... } aufgerufen,
-        // die einen Parameter des Typs ActionEvent besitzen muss,
-        // der hier aber nicht verwendet wird und dessen Typ auch nicht
-        // explizit angegeben werden muss.
-        JButton button = new JButton("Knopf");
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.addActionListener(
-                (e) -> { System.out.println("Knopf gedrückt"); }
-        );
-        frame.add(button);
+    public Swing1() {
+        buttons = new JButton[16];
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.insets = new Insets(hGap, vGap, hGap, vGap);
+    }
 
-        // Festen Zwischenraum der Größe 50 Pixel hinzufügen.
-        frame.add(Box.createVerticalStrut(50));
+    private void displayGUI() {
+        JFrame frame = new JFrame("Layout Example");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Horizontale Box hinzufügen, die ihrerseits aus drei
-        // "Etiketten" (JLabel) besteht, die jeweils ein Piktogramm
-        // (ImageIcon) enthalten. Dehnbarer Zwischenraum vor und nach
-        // den "Etiketten" sorgt für eine gleichmäßige horizontale
-        // Verteilung innerhalb der Box.
-        Box box = Box.createHorizontalBox();
-        {
-            Icon green = new ImageIcon("green.png");
-            Icon yellow = new ImageIcon("yellow.png");
-            Icon red = new ImageIcon("red.png");
-            box.add(Box.createGlue());
-            box.add(new JLabel(green));
-            box.add(Box.createGlue());
-            box.add(new JLabel(yellow));
-            box.add(Box.createGlue());
-            box.add(new JLabel(red));
-            box.add(Box.createGlue());
+        JPanel contentPane = new JPanel(
+                new GridLayout(0, 1, hGap, vGap));
+        contentPane.setBorder(
+                BorderFactory.createEmptyBorder(hGap, vGap, hGap, vGap));
+        borderPanel = new JPanel(new BorderLayout(hGap, vGap));
+        borderPanel.setBorder(
+                BorderFactory.createTitledBorder("BorderLayout"));
+        borderPanel.setOpaque(true);
+        borderPanel.setBackground(Color.WHITE);
+        for (int i = 0; i < 5; i++) {
+            buttons[i] = new JButton(borderConstraints[i]);
+            borderPanel.add(buttons[i], borderConstraints[i]);
         }
-        frame.add(box);
+        contentPane.add(borderPanel);
 
-        // Dehnbaren Zwischenraum am unteren Rand hinzufügen.
-        frame.add(Box.createGlue());
-
-        // Menüzeile (JMenuBar) erzeugen und einzelne Menüs (JMenu)
-        // mit Menüpunkten (JMenuItem) hinzufügen.
-        // Jeder Menüpunkt ist eigentlich ein Knopf, dem wie oben
-        // eine anonyme Funktion zugeordnet werden kann.
-        // (Hier exemplarisch nur für einen Menüpunkt.)
-        JMenuBar bar = new JMenuBar();
-        {
-            JMenu menu = new JMenu("File");
-            {
-                JMenuItem item = new JMenuItem("Open");
-                item.addActionListener(
-                        (e) -> { System.out.println("File -> Open"); }
-                );
-                menu.add(item);
-            }
-            {
-                JMenuItem item = new JMenuItem("Save");
-                menu.add(item);
-            }
-            bar.add(menu);
+        flowPanel = new JPanel(new FlowLayout(
+                FlowLayout.CENTER, hGap, vGap));
+        flowPanel.setBorder(
+                BorderFactory.createTitledBorder("FlowLayout"));
+        flowPanel.setOpaque(true);
+        flowPanel.setBackground(Color.WHITE);
+        for (int i = 5; i < 8; i++) {
+            buttons[i] = new JButton(Integer.toString(i));
+            flowPanel.add(buttons[i]);
         }
-        {
-            JMenu menu = new JMenu("Edit");
-            {
-                JMenuItem item = new JMenuItem("Copy");
-                menu.add(item);
-            }
-            {
-                JMenuItem item = new JMenuItem("Paste");
-                menu.add(item);
-            }
-            bar.add(menu);
+        contentPane.add(flowPanel);
+
+        gridPanel = new JPanel(new GridLayout(2, 2, hGap, vGap));
+        gridPanel.setBorder(
+                BorderFactory.createTitledBorder("GridLayout"));
+        gridPanel.setOpaque(true);
+        gridPanel.setBackground(Color.WHITE);
+        for (int i = 8; i < 12; i++) {
+            buttons[i] = new JButton(Integer.toString(i));
+            gridPanel.add(buttons[i]);
         }
+        contentPane.add(gridPanel);
 
-        // Menüzeile zum Fenster hinzufügen.
-        frame.setJMenuBar(bar);
+        gridBagPanel = new JPanel(new GridBagLayout());
+        gridBagPanel.setBorder(
+                BorderFactory.createTitledBorder("GridBagLayout"));
+        gridBagPanel.setOpaque(true);
+        gridBagPanel.setBackground(Color.WHITE);
+        buttons[12] = new JButton(Integer.toString(12));
+        addComp(gridBagPanel, buttons[12], 0, 0, 1, 1
+                , GridBagConstraints.BOTH, 0.33, 0.5);
+        buttons[13] = new JButton(Integer.toString(13));
+        addComp(gridBagPanel, buttons[13], 1, 0, 1, 1
+                , GridBagConstraints.BOTH, 0.33, 0.5);
+        buttons[14] = new JButton(Integer.toString(14));
+        addComp(gridBagPanel, buttons[14], 0, 1, 2, 1
+                , GridBagConstraints.BOTH, 0.66, 0.5);
+        buttons[15] = new JButton(Integer.toString(15));
+        addComp(gridBagPanel, buttons[15], 2, 0, 1, 2
+                , GridBagConstraints.BOTH, 0.33, 1.0);
+        contentPane.add(gridBagPanel);
 
-        // Am Schluss (!) die optimale Fenstergröße ermitteln (pack)
-        // und das Fenster anzeigen (setVisible).
+        cardPanel = new JPanel(new CardLayout(hGap, vGap));
+        cardPanel.setBorder(
+                BorderFactory.createTitledBorder("CardLayout"));
+        cardPanel.setOpaque(true);
+        cardPanel.setBackground(Color.WHITE);
+        cardPanel.add(getPanel(Color.BLUE));
+        cardPanel.add(getPanel(Color.GREEN));
+        contentPane.add(cardPanel);
+
+        frame.setContentPane(contentPane);
         frame.pack();
+        frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
 
-    // Hauptprogramm.
-    public static void main (String [] args) {
-        // Laut Swing-Dokumentation sollte die graphische Oberfläche
-        // nicht direkt im Hauptprogramm (bzw. im Haupt-Thread) erzeugt
-        // und angezeigt werden, sondern in einem von Swing verwalteten
-        // separaten Thread.
-        // Hierfür wird der entsprechende Code in eine parameterlose
-        // anonyme Funktion () -> { ...... } "verpackt", die an
-        // SwingUtilities.invokeLater übergeben wird.
-        SwingUtilities.invokeLater(
-                () -> { start(); }
-        );
+    private JPanel getPanel(Color bColor) {
+        JPanel panel = new JPanel(new FlowLayout(
+                FlowLayout.CENTER, hGap, vGap));
+        panel.setOpaque(true);
+        panel.setBackground(bColor.darker().darker());
+        JButton swapperButton = new JButton("Next");
+        swapperButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+                cardLayout.next(cardPanel);
+            }
+        });
+
+        panel.add(swapperButton);
+
+        return panel;
+    }
+
+    private void addComp(JPanel panel, JComponent comp
+            , int x, int y, int gWidth
+            , int gHeight, int fill
+            , double weightx, double weighty) {
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.gridwidth = gWidth;
+        gbc.gridheight = gHeight;
+        gbc.fill = fill;
+        gbc.weightx = weightx;
+        gbc.weighty = weighty;
+
+        panel.add(comp, gbc);
+    }
+
+    public static void main(String[] args) {
+        Runnable runnable = new Runnable(){
+            @Override
+            public void run() {
+                new Swing1().displayGUI();
+            }
+        };
+        EventQueue.invokeLater(runnable);
     }
 }

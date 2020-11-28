@@ -32,10 +32,6 @@ public class GamePanel extends JPanel {
         cl.show(this, s );
     }
 
-    public void setSingleplayer(Player singleplayer) {
-        Singleplayer = singleplayer;
-    }
-
     public Player getSingleplayer() {
         return Singleplayer;
     }
