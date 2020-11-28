@@ -93,7 +93,6 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
     public void initlayout(){
         setBackground(Color.white);
         vbox = Box.createVerticalBox();
-        Component vspace = Box.createVerticalStrut(100);
         {
             // paint the ticks and tarcks
             fieldslider.setPaintTrack(true);

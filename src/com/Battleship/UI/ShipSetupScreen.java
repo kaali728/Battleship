@@ -29,8 +29,14 @@ public class ShipSetupScreen extends Panel {
         vertical.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(postionBoard != null && postionBoard.isHorizontal()){
-                    postionBoard.setHorizontal(!postionBoard.isHorizontal());
+                if(postionBoard != null) {
+                    if (postionBoard.isHorizontal()) {
+                        vertical.setText("horizontal");
+                        postionBoard.setHorizontal(!postionBoard.isHorizontal());
+                    } else {
+                        vertical.setText("vertical");
+                        postionBoard.setHorizontal(!postionBoard.isHorizontal());
+                    }
                 }
             }
         });
