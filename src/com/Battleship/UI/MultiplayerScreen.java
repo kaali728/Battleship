@@ -5,12 +5,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MultiplayerSetupScreen extends JPanel {
+public class MultiplayerScreen extends JPanel {
     GamePanel mainPanel;
     JButton client;
     JButton server;
 
-    MultiplayerSetupScreen(GamePanel mainPanel) {
+    MultiplayerScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
         initVar();
         initLayout();

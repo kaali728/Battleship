@@ -34,8 +34,7 @@ public class ClientScreen extends JPanel {
                     try {
                         Client.out.write(String.format("%s%n", "message"));
                         Client.out.flush();
-                    }
-                    catch (IOException ex) {
+                    } catch (IOException ex) {
                         System.out.println("write to socket failed");
                     }
                 }

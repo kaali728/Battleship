@@ -9,6 +9,7 @@ public class Server {
     // Variablen, die im gesamten Programm benötigt werden.
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
     public static JButton button;    // Der o. g. Knopf.
+    public static int fieldsize;
 
     private static ServerSocket serverSocket;
     private static Socket socket;
@@ -25,7 +26,7 @@ public class Server {
 
                     // Send message to client.
                     PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-                    printWriter.println("Hello, I am a message from the almighty server.");
+                    printWriter.println("Welcome to Battleship the field size is selected to " + fieldsize);
                     printWriter.flush();
 
                     // Get message from client.

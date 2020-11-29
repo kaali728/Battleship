@@ -1,5 +1,8 @@
 package com.Battleship.Network;
 
+import com.Battleship.Model.Board;
+import com.Battleship.UI.ClientScreen;
+
 import javax.swing.*;
 import java.awt.*;
 import java.net.*;
@@ -7,8 +10,8 @@ import java.io.*;
 
 public class Client {
     // Variablen, die im gesamten Programm benötigt werden.
-    public static Writer out;		// Verpackung des Socket-Ausgabestroms.
-    public static JButton button;	// Der o. g. Knopf.
+    public static Writer out;        // Verpackung des Socket-Ausgabestroms.
+    public static JButton button;    // Der o. g. Knopf.
 
     public static void create(String address, int port) {
         System.out.println("CLIENT CREATE");
@@ -16,7 +19,7 @@ public class Client {
         Thread clientThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try  {
+                try {
                     Socket socket = new Socket(address, port);
 
                     // Send message to server.
@@ -29,6 +32,9 @@ public class Client {
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                     out = new OutputStreamWriter(socket.getOutputStream());
 
+                    // Wir ueberpruefen ob die Spielfeld groesse schon gesetzt ist,
+                    // ist das nicht der fall nehmen wir die erste Nachricht des Servers
+                    // was als Schluss die Groesse des Spielfeldes ausgibt.
                     String str = bufferedReader.readLine();
                     System.out.println("[Server]: " + str);
 
@@ -61,7 +67,7 @@ public class Client {
     }
 
     // Graphische Oberfläche aufbauen und anzeigen.
-    private static void startGui () {
+    private static void startGui() {
         // Hauptfenster mit Titelbalken etc. (JFrame) erzeugen.
         JFrame frame = new JFrame("Client");
 
@@ -92,8 +98,7 @@ public class Client {
                     try {
                         out.write(String.format("%s%n", "message"));
                         out.flush();
-                    }
-                    catch (IOException ex) {
+                    } catch (IOException ex) {
                         System.out.println("write to socket failed");
                     }
                 }

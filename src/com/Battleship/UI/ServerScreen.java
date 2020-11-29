@@ -1,5 +1,6 @@
 package com.Battleship.UI;
 
+import com.Battleship.Model.Board;
 import com.Battleship.Network.Server;
 
 import javax.swing.*;
@@ -7,11 +8,13 @@ import java.awt.*;
 import java.io.IOException;
 
 public class ServerScreen extends JPanel {
-    Integer port;
+    int port;
+    int fieldsize;
     JButton button;
 
-    ServerScreen(Integer port) {
+    ServerScreen(int port, int fieldsize) {
         this.port = port;
+        this.fieldsize = fieldsize;
         initVar();
         initLayout();
     }
@@ -20,6 +23,7 @@ public class ServerScreen extends JPanel {
         System.out.println(port);
 
         Server.create(port);
+        Server.fieldsize = fieldsize;
 
         button = new JButton("Server");
         Server.button = button;
@@ -53,5 +57,14 @@ public class ServerScreen extends JPanel {
         vbox.add(Box.createVerticalStrut(100));
         vbox.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(vbox);
+
+        // Board
+        Box hbox = Box.createHorizontalBox();
+        {
+            hbox.add(Box.createHorizontalStrut(10));
+            hbox.add(new Board(fieldsize));
+            hbox.add(Box.createHorizontalStrut(10));
+        }
+        add(hbox);
     }
 }
