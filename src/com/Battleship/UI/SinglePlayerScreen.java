@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SinglePlayerScreen extends JPanel implements ChangeListener {
@@ -67,21 +68,26 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Ship> fleet = new ArrayList<>();
+                ArrayList<Ship> enemyfleet = new ArrayList<>();
                 for (int i=0; i<carrierCount; i++){
                     fleet.add(new Ship("carrier"));
+                    enemyfleet.add(new Ship("carrier"));
                 }
                 for (int i=0; i<battleshipCount; i++){
                     fleet.add(new Ship("battleship"));
+                    enemyfleet.add(new Ship("battleship"));
                 }
                 for (int i=0; i<submarineCount; i++){
                     fleet.add(new Ship("submarine"));
+                    enemyfleet.add(new Ship("submarine"));
                 }
                 for (int i=0; i<destroyerCount; i++){
                     fleet.add(new Ship("destroyer"));
+                    enemyfleet.add(new Ship("destroyer"));
                 }
                 singplayer.setFleet(fleet);
                 singplayer.setFieldsize(fieldslider.getValue());
-                enemyPlayer.setFleet(fleet);
+                enemyPlayer.setFleet(enemyfleet);
                 enemyPlayer.setFieldsize(fieldslider.getValue());
                 mainPanel.setGameState("setzen");
                 mainPanel.changeScreen("battlefield");

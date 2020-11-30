@@ -17,7 +17,7 @@ public class Ship implements ActionListener {
     private int whosship;
     //how many ship do i have? that tell us counter
 
-    private int row,column;
+    private int row = -1,column = -1;
     private int shipPostion;
     private Color shipColor;
 
@@ -129,6 +129,11 @@ public class Ship implements ActionListener {
     public void setShiplength(int shiplength) {
         this.shiplength = shiplength;
     }
+
+    public boolean getHorizontal(){
+        return this.horizontal;
+    }
+
 
     @Override
     public String toString() {
