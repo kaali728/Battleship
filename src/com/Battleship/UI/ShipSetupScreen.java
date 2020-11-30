@@ -14,6 +14,7 @@ public class ShipSetupScreen extends Panel {
     JButton back;
     JButton vertical;
     Board postionBoard;
+    JButton play;
 
 
     ShipSetupScreen(GamePanel mainPanel) {
@@ -25,6 +26,17 @@ public class ShipSetupScreen extends Panel {
     public void initvar() {
         back = new JButton("Back");
         vertical = new JButton("vertical");
+        play = new JButton("Play");
+
+        play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainPanel.getSingleplayer().setFleet(postionBoard.getFleet());
+                mainPanel.setGameState("battle");
+                mainPanel.changeScreen("battle");
+            }
+        });
+
 
         vertical.addActionListener(new ActionListener() {
             @Override
@@ -44,7 +56,8 @@ public class ShipSetupScreen extends Panel {
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainPanel.changeScreen("main");
+                mainPanel.setGameState("start");
+                mainPanel.changeScreen("singleplayer");
             }
         });
     }
@@ -62,6 +75,7 @@ public class ShipSetupScreen extends Panel {
         add(hbox);
         add(vertical);
         add(back);
+        add(play);
         hbox.setAlignmentY(Component.CENTER_ALIGNMENT);
     }
 }

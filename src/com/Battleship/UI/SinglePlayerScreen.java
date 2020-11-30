@@ -1,6 +1,7 @@
 package com.Battleship.UI;
 
 import com.Battleship.Model.Ship;
+import com.Battleship.Player.AIPlayer;
 import com.Battleship.Player.Player;
 
 import javax.swing.*;
@@ -30,6 +31,7 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
     JButton play;
     int sizefield;
     Player singplayer;
+    AIPlayer enemyPlayer;
     private int battleshipCount;
     private int destroyerCount;
     private int submarineCount;
@@ -44,6 +46,7 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
         this.mainPanel = mainPanel;
         initvar();
         singplayer = mainPanel.getSingleplayer();
+        enemyPlayer = mainPanel.getEnemyPlayer();
         initlayout();
     }
     public void initvar(){
@@ -78,6 +81,8 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
                 }
                 singplayer.setFleet(fleet);
                 singplayer.setFieldsize(fieldslider.getValue());
+                enemyPlayer.setFleet(fleet);
+                enemyPlayer.setFieldsize(fieldslider.getValue());
                 mainPanel.setGameState("setzen");
                 mainPanel.changeScreen("battlefield");
             }

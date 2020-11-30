@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class Ship implements ActionListener {
     //carrier 5 ,battleship 4,submarine 3,destroyer  2
@@ -127,5 +128,22 @@ public class Ship implements ActionListener {
 
     public void setShiplength(int shiplength) {
         this.shiplength = shiplength;
+    }
+
+    @Override
+    public String toString() {
+        return "Ship{" +
+                "shipModel='" + shipModel + '\'' +
+                ", shiplength=" + shiplength +
+                ", health=" + health +
+                ", sunken=" + sunken +
+                ", whosship=" + whosship +
+                ", row=" + row +
+                ", column=" + column +
+                ", shipPostion=" + shipPostion +
+                ", shipColor=" + shipColor +
+                ", horizontal=" + horizontal +
+                ", shipBoard=" + Arrays.toString(shipBoard) +
+                '}';
     }
 }

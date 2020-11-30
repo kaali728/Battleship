@@ -341,10 +341,22 @@ public class Board extends JPanel {
         return true;
     }
 
+
+    /**
+     * mark all field who we have a ship on it
+     * <p>
+     * @param  row
+     * @param  column
+     */
     public void makeMark(int row,int column){
         button[row][column].setMark(true);
     }
 
+
+    /**
+     * count how many ship do we have in our arraylist
+     * <p>
+     */
     public void countShip(){
         for (Ship s: fleet) {
             if(s.getShipModel().equals("carrier")){
