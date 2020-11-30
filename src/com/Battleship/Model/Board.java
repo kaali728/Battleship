@@ -110,10 +110,12 @@ public class Board extends JPanel {
                     if(postionCheck && areaCheck){
                         s.setRowColumn(row,column);
                         for (int i=0; i<s.getShiplength(); i++){
-                            if(horizontal){
+                            if(!horizontal){
                                 button[row + i][column].setBackground(s.getShipColor());
+                                makeMark(row + i,column);
                             }else{
                                 button[row][column + i].setBackground(s.getShipColor());
+                                makeMark(row,column + i);
                             }
                         }
                         carrierCount--;
@@ -130,12 +132,12 @@ public class Board extends JPanel {
                         if(postionCheck && areaCheck) {
                             s.setRowColumn(row, column);
                             for (int i = 0; i < s.getShiplength(); i++) {
-                                if (horizontal) {
+                                if(!horizontal){
                                     button[row + i][column].setBackground(s.getShipColor());
-
-                                } else {
+                                    makeMark(row + i,column);
+                                }else{
                                     button[row][column + i].setBackground(s.getShipColor());
-
+                                    makeMark(row,column + i);
                                 }
                             }
                             battleshipCount--;
@@ -153,12 +155,12 @@ public class Board extends JPanel {
                             if(postionCheck && areaCheck) {
                                 s.setRowColumn(row, column);
                                 for (int i = 0; i < s.getShiplength(); i++) {
-                                    if (horizontal) {
+                                    if(!horizontal){
                                         button[row + i][column].setBackground(s.getShipColor());
-
-                                    } else {
+                                        makeMark(row + i,column);
+                                    }else{
                                         button[row][column + i].setBackground(s.getShipColor());
-
+                                        makeMark(row,column + i);
                                     }
                                 }
                                 submarineCount--;
@@ -175,11 +177,12 @@ public class Board extends JPanel {
                                 if(postionCheck && areaCheck) {
                                     s.setRowColumn(row, column);
                                     for (int i = 0; i < s.getShiplength(); i++) {
-                                        if (horizontal) {
+                                        if(!horizontal){
                                             button[row + i][column].setBackground(s.getShipColor());
-
-                                        } else {
+                                            makeMark(row + i,column);
+                                        }else{
                                             button[row][column + i].setBackground(s.getShipColor());
+                                            makeMark(row,column + i);
                                         }
                                     }
                                     destoryerCount--;
@@ -196,31 +199,106 @@ public class Board extends JPanel {
 
 
     public boolean checkBoardPostion(int row, int column, int length, boolean horizontal){
-        int lengthInRow;
-        int lengthInColumn;
+        int diffRow = rows - (row+1);
+        int diffCol = columns - (column+1);
 
-        int diffRow = rows - row;
-        int diffCol = columns - column;
-
-//        if(horizontal){
-//            lengthInRow = row + length;
-//            if(diffRow - lengthInRow <= 0){
-//                return false;
-//            }
-//        }else{
-//            lengthInColumn = column + length;
-//            if(diffCol - lengthInColumn <= 0){
-//                return false;
-//            }
-//        }
-
+        if(!horizontal){
+            if(length - 1 > diffRow){
+                return false;
+            }
+        }else{
+            if(length - 1 > diffCol){
+                return false;
+            }
+        }
         //schaut ob es richtige postion ist
         return true;
     }
 
-    public boolean checkShipArea(int rows, int columns, int length, boolean horizontal){
+
+
+    /**
+     * Returns if Ship can be placed on this place.
+     * <p>
+     * @param  row
+     * @param  column
+     * @param  length
+     * @param  horizontal
+     * @return      true or false
+     */
+    public boolean checkShipArea(int row, int column, int length, boolean horizontal){
+        boolean hasLeftColumn = false;
+        boolean hasRightColumn = false;
+        boolean hasUpRow = false;
+        boolean hasDownRow = false;
+
+        int leftColumn = 0;
+        int rightColumn = 0;
+        int upRow = 0;
+        int downRow = 0;
+
+        if(column - 1 >= 0){
+            hasLeftColumn = true;
+            leftColumn = column -1;
+        }
+        if(column + 1 <= columns - 1){
+            hasRightColumn = true;
+            rightColumn = column + 1;
+        }
+        if(row - 1 >= 0){
+            hasUpRow = true;
+            upRow = row -1;
+        }
+        if(row + 1 <= rows -1){
+            hasDownRow = true;
+            downRow = row + 1;
+        }
         //schaut ob es der umgebung für shiff past
+        if(horizontal){
+            for (int i=0; i<length; i++){
+                if(i == 0){
+                    if(hasLeftColumn && button[row][leftColumn].isMark()){
+                        return false;
+                    }
+                    if(hasLeftColumn && hasUpRow && button[upRow][leftColumn].isMark()){
+                        return false;
+                    }
+                    if(hasLeftColumn && hasDownRow && button[downRow][leftColumn].isMark()){
+                        return false;
+                    }
+                }
+                try{
+                    if(hasUpRow && button[upRow][column + i].isMark()){
+                        return false;
+                    }
+                    if(hasDownRow && button[downRow][column + i].isMark()){
+                        return false;
+                    }
+                }catch (Exception e){
+                    return false;
+                }
+
+                if(i<length){
+                    if((column + i)+1<=columns - 1 && button[row][(column + i) +1].isMark()){
+                        return false;
+                    }
+                    if((column + i)+1<=columns - 1  && hasUpRow && button[upRow][(column + i) +1].isMark()){
+                        return false;
+                    }
+                    if((column + i)+1<=columns - 1  && hasDownRow && button[downRow][(column + i) +1].isMark()){
+                        return false;
+                    }
+                }
+
+            }
+        }else{
+
+        }
         return true;
+    }
+
+    public void makeMark(int row,int column){
+        button[row][column].setMark(true);
     }
 
     public void countShip(){
