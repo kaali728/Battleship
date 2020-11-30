@@ -16,7 +16,7 @@ public class Board extends JPanel {
     int rows;
     int columns;
 
-    ArrayList<Ship> fleet;
+    private ArrayList<Ship> fleet;
 
     private int carrierCount;
     private int battleshipCount;
@@ -329,5 +329,9 @@ public class Board extends JPanel {
 
     public void setHorizontal(boolean horizontal) {
         this.horizontal = horizontal;
+    }
+
+    public ArrayList<Ship> getFleet() {
+        return fleet;
     }
 }
