@@ -59,10 +59,7 @@ public class Board extends JPanel {
                     public void actionPerformed(ActionEvent e) {
                         if(gameState == "setzen"){
                             setShip(e);
-                            carrierText = new JLabel("Carrier" + carrierCount);
-                            battleshipText = new JLabel("Battleship" + battleshipCount);
-                            submarineText = new JLabel("Submarine" + submarineCount);
-                            destroyerText = new JLabel("Destoryer" + destoryerCount);
+
                         }
                         if(gameState == "battle"){
                             boolean success = shoot(e);
@@ -119,6 +116,8 @@ public class Board extends JPanel {
                             }
                         }
                         carrierCount--;
+                        carrierText = new JLabel("Carrier" + carrierCount);
+
                         return s;
                     }
                 }
@@ -141,6 +140,7 @@ public class Board extends JPanel {
                                 }
                             }
                             battleshipCount--;
+                            battleshipText = new JLabel("Battleship" + battleshipCount);
 
                             return s;
                         }
@@ -164,6 +164,8 @@ public class Board extends JPanel {
                                     }
                                 }
                                 submarineCount--;
+                                submarineText = new JLabel("Submarine" + submarineCount);
+
                                 return s;
                             }
                         }
@@ -186,6 +188,7 @@ public class Board extends JPanel {
                                         }
                                     }
                                     destoryerCount--;
+                                    destroyerText = new JLabel("Destoryer" + destoryerCount);
                                     return s;
                                 }
                             }
@@ -278,7 +281,7 @@ public class Board extends JPanel {
                     return false;
                 }
 
-                if(i<length){
+                if(i == length - 1){
                     if((column + i)+1<=columns - 1 && button[row][(column + i) +1].isMark()){
                         return false;
                     }
@@ -292,6 +295,47 @@ public class Board extends JPanel {
 
             }
         }else{
+            for (int i=0; i<length; i++){
+                if(i == 0){
+                    if(hasUpRow && button[upRow][column].isMark()){
+                        return false;
+                    }
+                    if(hasLeftColumn && hasUpRow && button[upRow][leftColumn].isMark()){
+                        return false;
+                    }
+                    if(hasLeftColumn && hasDownRow && button[downRow][leftColumn].isMark()){
+                        return false;
+                    }
+                    if(hasRightColumn && hasUpRow && button[upRow][rightColumn].isMark()){
+                        return false;
+                    }
+                    if(hasRightColumn && hasDownRow && button[downRow][rightColumn].isMark()){
+                        return false;
+                    }
+                }
+                try{
+                    if(hasLeftColumn && button[row +i][leftColumn].isMark()){
+                        return false;
+                    }
+                    if(hasRightColumn && button[row+i][rightColumn].isMark()){
+                        return false;
+                    }
+                }catch (Exception e){
+                    return false;
+                }
+
+                if(i == length - 1){
+                    if((row + i)+1<=rows - 1 && button[row+i+1][column].isMark()){
+                        return false;
+                    }
+                    if((row + i)+1<=rows - 1  && hasLeftColumn && button[(row + i) + 1][leftColumn].isMark()){
+                        return false;
+                    }
+                    if((row + i)+1<=rows - 1  && hasRightColumn && button[(row +i)+ 1][rightColumn].isMark()){
+                        return false;
+                    }
+                }
+            }
 
         }
         return true;
