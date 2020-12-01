@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Board extends JPanel {
     int size=0;
@@ -266,20 +267,22 @@ public class Board extends JPanel {
     }
 
     public Ship setShip(int row,int column){
+        Random random= new Random();
+        boolean hori = random.nextBoolean();
         if(carrierCount != 0){
             for (Ship s: fleet) {
                 if(s.getShipModel() == "carrier"  && s.getRow() == -1 && s.getRow() == -1){
-                    boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),horizontal);
-                    boolean areaCheck = checkShipArea(row,column,s.getShiplength(),horizontal);
+                    boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),hori);
+                    boolean areaCheck = checkShipArea(row,column,s.getShiplength(),hori);
                     if(postionCheck && areaCheck){
                         s.setRowColumn(row,column);
-                        if(horizontal){
+                        if(hori){
                             s.setHorizontal(true);
                         }else{
                             s.setHorizontal(false);
                         }
                         for (int i=0; i<s.getShiplength(); i++){
-                            if(!horizontal){
+                            if(!hori){
                                 button[row + i][column].setBackground(s.getShipColor());
                                 makeMark(row + i,column);
                             }else{
@@ -298,17 +301,17 @@ public class Board extends JPanel {
             if(battleshipCount != 0){
                 for (Ship s: fleet) {
                     if(s.getShipModel() == "battleship"  && s.getRow() == -1 && s.getRow() == -1){
-                        boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),horizontal);
-                        boolean areaCheck = checkShipArea(row,column,s.getShiplength(),horizontal);
+                        boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),hori);
+                        boolean areaCheck = checkShipArea(row,column,s.getShiplength(),hori);
                         if(postionCheck && areaCheck) {
                             s.setRowColumn(row,column);
-                            if(horizontal){
+                            if(hori){
                                 s.setHorizontal(true);
                             }else{
                                 s.setHorizontal(false);
                             }
                             for (int i = 0; i < s.getShiplength(); i++) {
-                                if(!horizontal){
+                                if(!hori){
                                     button[row + i][column].setBackground(s.getShipColor());
                                     makeMark(row + i,column);
                                 }else{
@@ -327,17 +330,17 @@ public class Board extends JPanel {
                 if(submarineCount != 0){
                     for (Ship s: fleet) {
                         if(s.getShipModel() == "submarine"  && s.getRow() == -1 && s.getRow() == -1){
-                            boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),horizontal);
-                            boolean areaCheck = checkShipArea(row,column,s.getShiplength(),horizontal);
+                            boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),hori);
+                            boolean areaCheck = checkShipArea(row,column,s.getShiplength(),hori);
                             if(postionCheck && areaCheck) {
                                 s.setRowColumn(row,column);
-                                if(horizontal){
+                                if(hori){
                                     s.setHorizontal(true);
                                 }else{
                                     s.setHorizontal(false);
                                 }
                                 for (int i = 0; i < s.getShiplength(); i++) {
-                                    if(!horizontal){
+                                    if(!hori){
                                         button[row + i][column].setBackground(s.getShipColor());
                                         makeMark(row + i,column);
                                     }else{
@@ -356,17 +359,17 @@ public class Board extends JPanel {
                     if(destoryerCount != 0){
                         for (Ship s: fleet) {
                             if(s.getShipModel() == "destroyer" && s.getRow() == -1 && s.getRow() == -1){
-                                boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),horizontal);
-                                boolean areaCheck = checkShipArea(row,column,s.getShiplength(),horizontal);
+                                boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),hori);
+                                boolean areaCheck = checkShipArea(row,column,s.getShiplength(),hori);
                                 if(postionCheck && areaCheck) {
                                     s.setRowColumn(row,column);
-                                    if(horizontal){
+                                    if(hori){
                                         s.setHorizontal(true);
                                     }else{
                                         s.setHorizontal(false);
                                     }
                                     for (int i = 0; i < s.getShiplength(); i++) {
-                                        if(!horizontal){
+                                        if(!hori){
                                             button[row + i][column].setBackground(s.getShipColor());
                                             makeMark(row + i,column);
                                         }else{
