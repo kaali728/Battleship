@@ -56,6 +56,13 @@ public class AIPlayer {
         }
     }
 
+    public void Enemyshoot(Board player){
+        Random random= new Random();
+        int row = random.nextInt(fieldsize - 1);
+        int column = random.nextInt(fieldsize - 1);
+        player.shoot(row,column);
+    }
+
     //schauen ob in diese coordinaten was drin ist oder nicht
     public boolean checkCoordPostion(int row, int column, boolean hori, int length){
         // usedPosition = {(row,column), (row,column), (row,column), (row,column)}

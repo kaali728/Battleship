@@ -1,5 +1,7 @@
 package com.Battleship.Model;
 
+import com.Battleship.Player.AIPlayer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -35,6 +37,9 @@ public class Board extends JPanel {
     private JLabel destroyerText;
 
     private boolean playerBoard = true;
+    private Board playerBoardobj;
+
+    private AIPlayer aiPlayer;
 
 
     public Board(int size, ArrayList<Ship> fleet, String GameState){
@@ -52,6 +57,17 @@ public class Board extends JPanel {
         this.gameState = GameState;
         this.button = new Field[size][size];
         this.playerBoard = playerBoard;
+        countShip();
+        initlayout();
+    }
+    public Board(int size, ArrayList<Ship> fleet, String GameState, boolean playerBoard, AIPlayer aiPlayer, Board playerBoardobj){
+        this.size=size;
+        this.fleet = fleet;
+        this.gameState = GameState;
+        this.button = new Field[size][size];
+        this.playerBoard = playerBoard;
+        this.aiPlayer = aiPlayer;
+        this.playerBoardobj = playerBoardobj;
         countShip();
         initlayout();
     }
@@ -133,13 +149,50 @@ public class Board extends JPanel {
                 //System.out.println(fleet);
                 button[row][column].setText("<html><b color=white>💣</b></html>");
                 button[row][column].setBackground(new Color(0xE52100));
+                aiPlayer.Enemyshoot(playerBoardobj);
+                return true;
             }else{
-                button[row][column].setText("<html><b color=white>x</b></html>");
+                button[row][column].setText("<html><b color=white>X</b></html>");
                 button[row][column].setBackground(new Color(0x0000B2));
+                aiPlayer.Enemyshoot(playerBoardobj);
             }
         }
         return false;
     }
+
+    public boolean shoot(int row, int column){
+        //schauen ob der person gewonnen hat oder nicht
+        //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
+        //cordianten von enemy schiffe
+        //!playerboard shoot doppelt and that can be help and extra feature
+        if(playerBoard){
+            ArrayList<Field> posFields = getPosShip();
+            //System.out.println(posFields);
+            for (Field f: posFields) {
+                if(f.getRow() == row && f.getColumn() == column && f.isMark()){
+                    button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
+                    button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
+                    return true;
+                }
+            }
+                button[row][column].setText("<html><b color=white>X</b></html>");
+                button[row][column].setBackground(new Color(0x0000B2));
+
+        }
+        return false;
+    }
+
+    public ArrayList<Field> getPosShip(){
+        ArrayList<Field> fieldsShip = new ArrayList<>();
+        for (Ship s: fleet) {
+            for (Field f: s.getShipBoard()) {
+                fieldsShip.add(f);
+            }
+        }
+        return fieldsShip;
+    }
+
+
 
     public Ship setShip(ActionEvent e){
         String[] coordinate = e.getActionCommand().split(",");
@@ -157,18 +210,21 @@ public class Board extends JPanel {
                         }else{
                             s.setHorizontal(false);
                         }
+                        ArrayList<Field> pos = new ArrayList<>();
                         for (int i=0; i<s.getShiplength(); i++){
                             if(!horizontal){
                                 button[row + i][column].setBackground(s.getShipColor());
                                 makeMark(row + i,column);
+                                pos.add(button[row + i][column]);
                             }else{
                                 button[row][column + i].setBackground(s.getShipColor());
                                 makeMark(row,column + i);
+                                pos.add(button[row][column + i]);
                             }
                         }
                         carrierCount--;
                         carrierText = new JLabel("Carrier" + carrierCount);
-
+                        s.setShipBoard(pos);
                         return s;
                     }
                 }
@@ -186,18 +242,22 @@ public class Board extends JPanel {
                             }else{
                                 s.setHorizontal(false);
                             }
+                            ArrayList<Field> pos = new ArrayList<>();
+
                             for (int i = 0; i < s.getShiplength(); i++) {
                                 if(!horizontal){
                                     button[row + i][column].setBackground(s.getShipColor());
                                     makeMark(row + i,column);
+                                    pos.add(button[row + i][column]);
                                 }else{
                                     button[row][column + i].setBackground(s.getShipColor());
                                     makeMark(row,column + i);
+                                    pos.add(button[row][column + i]);
                                 }
                             }
                             battleshipCount--;
                             battleshipText = new JLabel("Battleship" + battleshipCount);
-
+                            s.setShipBoard(pos);
                             return s;
                         }
                     }
@@ -215,18 +275,22 @@ public class Board extends JPanel {
                                 }else{
                                     s.setHorizontal(false);
                                 }
+                                ArrayList<Field> pos = new ArrayList<>();
+
                                 for (int i = 0; i < s.getShiplength(); i++) {
                                     if(!horizontal){
                                         button[row + i][column].setBackground(s.getShipColor());
                                         makeMark(row + i,column);
+                                        pos.add(button[row + i][column]);
                                     }else{
                                         button[row][column + i].setBackground(s.getShipColor());
                                         makeMark(row,column + i);
+                                        pos.add(button[row][column + i]);
                                     }
                                 }
                                 submarineCount--;
                                 submarineText = new JLabel("Submarine" + submarineCount);
-
+                                s.setShipBoard(pos);
                                 return s;
                             }
                         }
@@ -244,17 +308,21 @@ public class Board extends JPanel {
                                     }else{
                                         s.setHorizontal(false);
                                     }
+                                    ArrayList<Field> pos = new ArrayList<>();
                                     for (int i = 0; i < s.getShiplength(); i++) {
                                         if(!horizontal){
                                             button[row + i][column].setBackground(s.getShipColor());
                                             makeMark(row + i,column);
+                                            pos.add(button[row + i][column]);
                                         }else{
                                             button[row][column + i].setBackground(s.getShipColor());
                                             makeMark(row,column + i);
+                                            pos.add(button[row][column + i]);
                                         }
                                     }
                                     destoryerCount--;
                                     destroyerText = new JLabel("Destoryer" + destoryerCount);
+                                    s.setShipBoard(pos);
                                     return s;
                                 }
                             }
@@ -281,18 +349,21 @@ public class Board extends JPanel {
                         }else{
                             s.setHorizontal(false);
                         }
+                        ArrayList<Field> pos = new ArrayList<>();
                         for (int i=0; i<s.getShiplength(); i++){
                             if(!hori){
-                                button[row + i][column].setBackground(s.getShipColor());
+                                //button[row + i][column].setBackground(s.getShipColor());
+                                pos.add(button[row + i][column]);
                                 makeMark(row + i,column);
                             }else{
-                                button[row][column + i].setBackground(s.getShipColor());
+                                //button[row][column + i].setBackground(s.getShipColor());
+                                pos.add(button[row][column + i]);
                                 makeMark(row,column + i);
                             }
                         }
                         carrierCount--;
                         carrierText = new JLabel("Carrier" + carrierCount);
-
+                        s.setShipBoard(pos);
                         return s;
                     }
                 }
@@ -310,18 +381,22 @@ public class Board extends JPanel {
                             }else{
                                 s.setHorizontal(false);
                             }
+                            ArrayList<Field> pos = new ArrayList<>();
+
                             for (int i = 0; i < s.getShiplength(); i++) {
                                 if(!hori){
-                                    button[row + i][column].setBackground(s.getShipColor());
+                                    //button[row + i][column].setBackground(s.getShipColor());
+                                    pos.add(button[row + i][column]);
                                     makeMark(row + i,column);
                                 }else{
-                                    button[row][column + i].setBackground(s.getShipColor());
+                                    //button[row][column + i].setBackground(s.getShipColor());
+                                    pos.add(button[row][column + i]);
                                     makeMark(row,column + i);
                                 }
                             }
                             battleshipCount--;
                             battleshipText = new JLabel("Battleship" + battleshipCount);
-
+                            s.setShipBoard(pos);
                             return s;
                         }
                     }
@@ -339,17 +414,22 @@ public class Board extends JPanel {
                                 }else{
                                     s.setHorizontal(false);
                                 }
+                                ArrayList<Field> pos = new ArrayList<>();
+
                                 for (int i = 0; i < s.getShiplength(); i++) {
                                     if(!hori){
-                                        button[row + i][column].setBackground(s.getShipColor());
+                                        //button[row + i][column].setBackground(s.getShipColor());
+                                        pos.add(button[row + i][column]);
                                         makeMark(row + i,column);
                                     }else{
-                                        button[row][column + i].setBackground(s.getShipColor());
+                                        //button[row][column + i].setBackground(s.getShipColor());
+                                        pos.add(button[row][column + i]);
                                         makeMark(row,column + i);
                                     }
                                 }
                                 submarineCount--;
                                 submarineText = new JLabel("Submarine" + submarineCount);
+                                s.setShipBoard(pos);
 
                                 return s;
                             }
@@ -368,17 +448,22 @@ public class Board extends JPanel {
                                     }else{
                                         s.setHorizontal(false);
                                     }
+                                    ArrayList<Field> pos = new ArrayList<>();
+
                                     for (int i = 0; i < s.getShiplength(); i++) {
                                         if(!hori){
-                                            button[row + i][column].setBackground(s.getShipColor());
+                                            //button[row + i][column].setBackground(s.getShipColor());
+                                            pos.add(button[row + i][column]);
                                             makeMark(row + i,column);
                                         }else{
-                                            button[row][column + i].setBackground(s.getShipColor());
+                                            //button[row][column + i].setBackground(s.getShipColor());
+                                            pos.add(button[row][column + i]);
                                             makeMark(row,column + i);
                                         }
                                     }
                                     destoryerCount--;
                                     destroyerText = new JLabel("Destoryer" + destoryerCount);
+                                    s.setShipBoard(pos);
                                     return s;
                                 }
                             }

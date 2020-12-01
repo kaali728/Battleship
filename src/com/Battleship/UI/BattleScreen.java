@@ -45,7 +45,7 @@ public class BattleScreen extends Panel {
        });
        playerBoard = new Board(this.mainPanel.getSingleplayer().getFieldsize(), this.mainPanel.getSingleplayer().getFleet(),this.mainPanel.getGameState(), true);
        playerBoard.setMyShip();
-       enemyBoard = new Board(this.mainPanel.getEnemyPlayer().getFieldsize(), this.mainPanel.getEnemyPlayer().getFleet(), this.mainPanel.getGameState(), false);
+       enemyBoard = new Board(this.mainPanel.getEnemyPlayer().getFieldsize(), this.mainPanel.getEnemyPlayer().getFleet(), this.mainPanel.getGameState(), false, this.mainPanel.getEnemyPlayer(), playerBoard);
        this.mainPanel.getEnemyPlayer().setEnemyBoard(enemyBoard);
        this.mainPanel.getEnemyPlayer().setEnemyShip();
     }

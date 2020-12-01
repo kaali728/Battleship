@@ -29,4 +29,14 @@ public class Field extends JButton {
     public void setMark(boolean mark) {
         this.mark = mark;
     }
+
+    @Override
+    public String toString() {
+        return "Field{" +
+                "row=" + row +
+                ", column=" + column +
+                ", gameState='" + gameState + '\'' +
+                ", mark=" + mark +
+                '}';
+    }
 }

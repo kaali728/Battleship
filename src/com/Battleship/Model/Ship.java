@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Ship implements ActionListener {
@@ -22,10 +23,11 @@ public class Ship implements ActionListener {
     private Color shipColor;
 
     private boolean horizontal = true;
-    private JButton[][] shipBoard;
+    private ArrayList<Field> shipBoard;
 
     public Ship(String model){
         this.whosship = 0;
+        this.shipBoard = new ArrayList<>();
         switch (model){
             case "carrier":
                 this.shipModel = "carrier";
@@ -74,13 +76,7 @@ public class Ship implements ActionListener {
         this.shipPostion = shipPostion;
     }
 
-    public JButton[][] getShipBoard() {
-        return shipBoard;
-    }
 
-    public void setShipBoard(JButton[][] shipBoard) {
-        this.shipBoard = shipBoard;
-    }
 
     public void shot(){
         health--;
@@ -134,6 +130,13 @@ public class Ship implements ActionListener {
         return this.horizontal;
     }
 
+    public ArrayList<Field> getShipBoard() {
+        return shipBoard;
+    }
+
+    public void setShipBoard(ArrayList<Field> shipBoard) {
+        this.shipBoard = shipBoard;
+    }
 
     @Override
     public String toString() {
@@ -148,7 +151,7 @@ public class Ship implements ActionListener {
                 ", shipPostion=" + shipPostion +
                 ", shipColor=" + shipColor +
                 ", horizontal=" + horizontal +
-                ", shipBoard=" + Arrays.toString(shipBoard) +
+                ", shipBoard=" + shipBoard +
                 '}';
     }
 }
