@@ -1,5 +1,6 @@
 package com.Battleship.Player;
 
+import com.Battleship.Model.Board;
 import com.Battleship.Model.Ship;
 
 import java.nio.ShortBuffer;
@@ -11,6 +12,7 @@ public class AIPlayer {
     private int fieldsize;
     private ArrayList<Ship> fleet = new ArrayList<>();
     private HashMap<Integer,Integer> usedPosition= new HashMap<>();
+    private Board enemyBoard;
 
     public AIPlayer(){
         fieldsize = 0;
@@ -31,22 +33,26 @@ public class AIPlayer {
         this.fleet = fleet;
     }
 
+    public Board getEnemyBoard() {
+        return enemyBoard;
+    }
+
+    public void setEnemyBoard(Board enemyBoard) {
+        this.enemyBoard = enemyBoard;
+    }
+
     public void setEnemyShip(){
         Random random= new Random();
-        //fleet has all ship in it carrier and ...
         for (Ship s: fleet) {
             while (true){
                 int row = random.nextInt(fieldsize - 1);
-                int column= random.nextInt(fieldsize - 1);
-                boolean hori = random.nextBoolean();
-                boolean checkThePosition= checkBoardPostion(row,column,s.getShiplength(),hori);
-
-                if(checkThePosition &&  checkCoordPostion(row,column, hori, s.getShiplength())){
-                    s.setHorizontal(hori);
-                    s.setRowColumn(row, column);
+                int column = random.nextInt(fieldsize - 1);
+                Ship shipret = enemyBoard.setShip(row, column);
+                if(shipret != null){
                     break;
                 }
             }
+
         }
     }
 
@@ -181,4 +187,6 @@ public class AIPlayer {
         //schaut ob es richtige postion ist
         return true;
     }
+
+
 }
