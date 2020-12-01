@@ -4,15 +4,16 @@ import com.Battleship.Model.Board;
 import com.Battleship.Model.Ship;
 
 import java.nio.ShortBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 public class AIPlayer {
     private int fieldsize;
     private ArrayList<Ship> fleet = new ArrayList<>();
     private HashMap<Integer,Integer> usedPosition= new HashMap<>();
+    private HashMap<Integer,Integer> nextHit= new HashMap<>();
+    private HashMap<Integer,Integer> usedCord= new HashMap<>();
     private Board enemyBoard;
+    private Board playerBoard;
 
     public AIPlayer(){
         fieldsize = 0;
@@ -57,15 +58,75 @@ public class AIPlayer {
     }
 
     public void Enemyshoot(Board player){
+        this.playerBoard = player;
         Random random= new Random();
-        int row = random.nextInt(fieldsize - 1);
-        int column = random.nextInt(fieldsize - 1);
-        if((row + column) % 2 == 0){
-            System.out.println("black");
-        }else{
-            System.out.println("White");
+        while(true) {
+            int row = random.nextInt(fieldsize - 1);
+            int column = random.nextInt(fieldsize - 1);
+            System.out.println("row" + row + " column " + column);
+            if ((row + column) % 2 == 0) {
+                //System.out.println("Black");
+                //player.shoot(row,column);
+            } else {
+                if(!isUsedCord(row,column)){
+                    addTousedCord(row,column);
+                    //System.out.println("White");
+                    boolean lastHit = false;
+//                if (nextHit.size() != 0) {
+//                    for (Map.Entry<Integer, Integer> entry : nextHit.entrySet()) {
+//                        Integer key = entry.getKey();
+//                        Integer value = entry.getValue();
+//                        //System.out.println(key+ " "+value);
+//                        lastHit = player.shoot(key, value);
+//                        if (lastHit == true){
+//                            hitShipBehind(key,column);
+//                        }
+//                        nextHit.remove(key);
+//                        break;
+//                    }
+//                } else {
+//                    lastHit = player.shoot(row, column);
+//                }
+                    //System.out.println(lastHit);
+                    lastHit = player.shoot(row, column);
+                    if (lastHit) {
+                        hitShipBehind(row, column);
+                    }
+                    break;
+                }
+            }
         }
-        player.shoot(row,column);
+    }
+
+    public void addTousedCord(int row, int column){
+        usedCord.put(row,column);
+    }
+
+    public boolean isUsedCord(int row, int column){
+        for (Map.Entry<Integer, Integer> entry : nextHit.entrySet()) {
+            Integer key = entry.getKey();
+            Integer value = entry.getValue();
+            if(key == row && value == column){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hitShipBehind(int row, int column){
+        if(column - 1 >= 0){
+            nextHit.put(row, column - 1);
+        }
+        if(column + 1 <= fieldsize - 1){
+            nextHit.put(row, column + 1);
+        }
+        if(row - 1 >= 0){
+            nextHit.put(row- 1, column );
+        }
+        if(row + 1 <= fieldsize -1){
+            nextHit.put(row+ 1, column );
+        }
+        return false;
     }
 
     //schauen ob in diese coordinaten was drin ist oder nicht
@@ -201,4 +262,7 @@ public class AIPlayer {
     }
 
 
+    public void isShotet() {
+        //Enemyshoot(playerBoard);
+    }
 }

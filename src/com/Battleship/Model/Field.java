@@ -7,6 +7,7 @@ public class Field extends JButton {
     int column;
     String gameState;
     private boolean mark = false;
+    private boolean isShot = false;
 
     public Field(int row, int column, String gameState){
         this.row = row;
@@ -38,5 +39,13 @@ public class Field extends JButton {
                 ", gameState='" + gameState + '\'' +
                 ", mark=" + mark +
                 '}';
+    }
+
+    public boolean isShot() {
+        return isShot;
+    }
+
+    public void setShot(boolean shot) {
+        isShot = shot;
     }
 }
