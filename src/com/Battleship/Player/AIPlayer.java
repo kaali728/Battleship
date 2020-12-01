@@ -60,6 +60,11 @@ public class AIPlayer {
         Random random= new Random();
         int row = random.nextInt(fieldsize - 1);
         int column = random.nextInt(fieldsize - 1);
+        if((row + column) % 2 == 0){
+            System.out.println("black");
+        }else{
+            System.out.println("White");
+        }
         player.shoot(row,column);
     }
 

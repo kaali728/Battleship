@@ -32,8 +32,22 @@ public class ShipSetupScreen extends Panel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainPanel.getSingleplayer().setFleet(postionBoard.getFleet());
-                mainPanel.setGameState("battle");
-                mainPanel.changeScreen("battle");
+                boolean isok = false;
+                for (Ship s: mainPanel.getSingleplayer().getFleet()) {
+                    if(s.getRow() != -1 && s.getColumn() != -1){
+                        isok = true;
+                    }else{
+                        isok = false;
+                        break;
+                    }
+                }
+                if(isok){
+                    mainPanel.setGameState("battle");
+                    mainPanel.changeScreen("battle");
+                }else{
+                    postionBoard.makealarm();
+                }
+
             }
         });
 

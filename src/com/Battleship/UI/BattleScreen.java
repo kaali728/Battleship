@@ -30,6 +30,7 @@ public class BattleScreen extends Panel {
        saveGame = new JButton("Save Game");
        enemyLabel = new JLabel("Enemy");
        playerLabel = new JLabel("Player");
+
        endGame.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {

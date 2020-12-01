@@ -42,12 +42,16 @@ public class Board extends JPanel {
     private AIPlayer aiPlayer;
 
 
+    private int allHealth;
+
+
     public Board(int size, ArrayList<Ship> fleet, String GameState){
         this.size=size;
         this.fleet = fleet;
         this.gameState = GameState;
         this.button = new Field[size][size];
         countShip();
+        countHealth();
         initlayout();
     }
 
@@ -58,6 +62,7 @@ public class Board extends JPanel {
         this.button = new Field[size][size];
         this.playerBoard = playerBoard;
         countShip();
+        countHealth();
         initlayout();
     }
     public Board(int size, ArrayList<Ship> fleet, String GameState, boolean playerBoard, AIPlayer aiPlayer, Board playerBoardobj){
@@ -69,6 +74,7 @@ public class Board extends JPanel {
         this.aiPlayer = aiPlayer;
         this.playerBoardobj = playerBoardobj;
         countShip();
+        countHealth();
         initlayout();
     }
 
@@ -144,12 +150,19 @@ public class Board extends JPanel {
         //schauen ob der person gewonnen hat oder nicht
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
         //cordianten von enemy schiffe
+        //System.out.println(allHealth);
+
         if(!playerBoard){
             if(button[row][column].isMark()){
                 //System.out.println(fleet);
                 button[row][column].setText("<html><b color=white>💣</b></html>");
                 button[row][column].setBackground(new Color(0xE52100));
                 aiPlayer.Enemyshoot(playerBoardobj);
+                allHealth--;
+                if(isGameOver()){
+                    JOptionPane.showMessageDialog(this, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+                    return false;
+                }
                 return true;
             }else{
                 button[row][column].setText("<html><b color=white>X</b></html>");
@@ -165,6 +178,7 @@ public class Board extends JPanel {
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
         //cordianten von enemy schiffe
         //!playerboard shoot doppelt and that can be help and extra feature
+
         if(playerBoard){
             ArrayList<Field> posFields = getPosShip();
             //System.out.println(posFields);
@@ -172,6 +186,11 @@ public class Board extends JPanel {
                 if(f.getRow() == row && f.getColumn() == column && f.isMark()){
                     button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
                     button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
+                    allHealth--;
+                    if(isGameOver()){
+                        JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+                        return false;
+                    }
                     return true;
                 }
             }
@@ -181,6 +200,26 @@ public class Board extends JPanel {
         }
         return false;
     }
+
+
+    public void countHealth(){
+        for (Ship s: fleet) {
+            allHealth += s.getHealth();
+        }
+    }
+
+    public int getAllHealth() {
+        return allHealth;
+    }
+
+    public boolean isGameOver(){
+        if(allHealth==0){
+            gameState="Game Over";
+            return true;
+        }
+        return false;
+    }
+
 
     public ArrayList<Field> getPosShip(){
         ArrayList<Field> fieldsShip = new ArrayList<>();
@@ -663,5 +702,9 @@ public class Board extends JPanel {
 
     public ArrayList<Ship> getFleet() {
         return fleet;
+    }
+
+    public void makealarm() {
+        JOptionPane.showMessageDialog(this, "You should place all ships!", "Place Ship", JOptionPane.INFORMATION_MESSAGE);
     }
 }

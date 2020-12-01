@@ -50,7 +50,7 @@ public class Ship implements ActionListener {
             case "destroyer":
                 this.shipModel = "destroyer";
                 shiplength = 2;
-                health = 3;
+                health = 2;
                 this.shipColor = Color.magenta;
                 break;
             default:
@@ -136,6 +136,14 @@ public class Ship implements ActionListener {
 
     public void setShipBoard(ArrayList<Field> shipBoard) {
         this.shipBoard = shipBoard;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     @Override
