@@ -11,7 +11,8 @@ public class AIPlayer {
     private ArrayList<Ship> fleet = new ArrayList<>();
     private HashMap<Integer,Integer> usedPosition= new HashMap<>();
     private HashMap<Integer,Integer> nextHit= new HashMap<>();
-    private HashMap<Integer,Integer> usedCord= new HashMap<>();
+    private ArrayList<Integer> usedCordRow = new ArrayList<>();
+    private ArrayList<Integer> usedCordColumn = new ArrayList<>();
     private Board enemyBoard;
     private Board playerBoard;
 
@@ -63,15 +64,18 @@ public class AIPlayer {
         while(true) {
             int row = random.nextInt(fieldsize - 1);
             int column = random.nextInt(fieldsize - 1);
-            System.out.println("row" + row + " column " + column);
-            if ((row + column) % 2 == 0) {
-                //System.out.println("Black");
-                //player.shoot(row,column);
-            } else {
-                if(!isUsedCord(row,column)){
-                    addTousedCord(row,column);
-                    //System.out.println("White");
-                    boolean lastHit = false;
+            if(isUsedCord(row,column)){
+                System.out.println("schon shootet");
+            }else{
+                player.shoot(row, column);
+                System.out.println("row " + row + " column " + column);
+                System.out.println("========================================");
+                addTousedCord(row,column);
+                break;
+            }
+//            if(!isUsedCord(row,column)){
+//                addTousedCord(row,column);
+//                boolean lastHit = false;
 //                if (nextHit.size() != 0) {
 //                    for (Map.Entry<Integer, Integer> entry : nextHit.entrySet()) {
 //                        Integer key = entry.getKey();
@@ -87,30 +91,35 @@ public class AIPlayer {
 //                } else {
 //                    lastHit = player.shoot(row, column);
 //                }
-                    //System.out.println(lastHit);
-                    lastHit = player.shoot(row, column);
-                    if (lastHit) {
-                        hitShipBehind(row, column);
-                    }
-                    break;
-                }
-            }
+//                System.out.println(lastHit);
+//                lastHit = player.shoot(row, column);
+//                if (lastHit) {
+//                    hitShipBehind(row, column);
+//                }
+//                break;
+//            }
         }
     }
 
     public void addTousedCord(int row, int column){
-        usedCord.put(row,column);
+        usedCordRow.add(row);
+        usedCordColumn.add(column);
     }
 
     public boolean isUsedCord(int row, int column){
-        for (Map.Entry<Integer, Integer> entry : nextHit.entrySet()) {
-            Integer key = entry.getKey();
-            Integer value = entry.getValue();
-            if(key == row && value == column){
-                return true;
+        boolean rowSame = false;
+        boolean columnSame = false;
+        for (int cordrow: usedCordRow) {
+            if(cordrow == row){
+                rowSame = true;
             }
         }
-        return false;
+        for (int cordColumn: usedCordColumn) {
+            if(cordColumn == column){
+                columnSame = true;
+            }
+        }
+        return rowSame && columnSame;
     }
 
     public boolean hitShipBehind(int row, int column){

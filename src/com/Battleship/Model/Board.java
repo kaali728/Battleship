@@ -161,6 +161,7 @@ public class Board extends JPanel {
                 button[row][column].setText("<html><b color=white>💣</b></html>");
                 button[row][column].setBackground(new Color(0xE52100));
                 aiPlayer.Enemyshoot(playerBoardobj);
+                button[row][column].setShot(true);
                 allHealth--;
                 if(isGameOver()){
                     JOptionPane.showMessageDialog(this, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
@@ -187,14 +188,10 @@ public class Board extends JPanel {
             ArrayList<Field> posFields = getPosShip();
             //System.out.println(posFields);
             for (Field f: posFields) {
-                if(f.getRow() == row && f.getColumn() == column && f.isShot()){
-                    //aiPlayer.isShotet();
-
-                }
                 if(f.getRow() == row && f.getColumn() == column && !f.isShot() && !f.isMark()){
                     f.setShot(true);
                 }
-                if(f.getRow() == row && f.getColumn() == column && f.isMark() && !f.isShot()){
+                if(f.getRow() == row && f.getColumn() == column && f.isMark()){
                     button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
                     button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
                     f.setShot(true);
