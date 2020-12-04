@@ -13,7 +13,7 @@ import java.util.*;
 public class AIPlayer {
     private int fieldsize;
     private ArrayList<Ship> fleet = new ArrayList<>();
-    private  Map<Integer, int[]>  nextHit = new HashMap<>();
+    private  Map<Integer, int[]>  nextHit = new LinkedHashMap<>();
     private Map<Integer, int[]> usedCord = new HashMap<>();
 
 
@@ -81,24 +81,33 @@ public class AIPlayer {
                 }
             }
         }else{
-            Integer key = null;
             boolean isHit = false;
-            for (Map.Entry<Integer, int[]> entry : nextHit.entrySet()) {
-                key = entry.getKey();
-                int[] value = entry.getValue();
-                int nextRow = value[0];
-                int nextColumn = value[1];
-                if(!isUsedCord(nextRow,nextColumn)){
+            Map.Entry<Integer,int[]> entry = nextHit.entrySet().iterator().next();
+            // nextHit.entrySet().toArray()[0] up
+            // nextHit.entrySet().toArray()[1] left
+            // nextHit.entrySet().toArray()[2] down
+            // nextHit.entrySet().toArray()[3] right
+            int key= entry.getKey();
+            int[] value = entry.getValue();
+            int nextRow = value[0];
+            int nextColumn = value[1];
+            if(!isUsedCord(nextRow,nextColumn)) {
                     isHit = player.shoot(nextRow, nextColumn);
-                    addTousedCord(nextRow,nextColumn);
-                    if(isHit){
-                        hitShipBehind(nextRow,nextColumn);
+                    addTousedCord(nextRow, nextColumn);
+                    if (isHit) {
+                        hitShipBehind(nextRow, nextColumn);
                     }
-                    break;
                 }
-            }
             nextHit.remove(key);
         }
+    }
+
+
+    public int hori_or_verti(int s){
+        // 0 ist hori
+        // 1 ist verti
+        int side = s;
+        return side;
     }
 
 
@@ -127,29 +136,35 @@ public class AIPlayer {
     public void hitShipBehind(int row, int column) {
         if (row - 1 >= 0) {
             int[] cord = {row -1, column};
-            nextHit.put(hashCode(row - 1,column), cord);
-            System.out.println("Up");
+            if(usedCord.get(hashCode(row-1,column)) == null){
+                nextHit.put(hashCode(row-1,column), cord);
+            }
+            //System.out.println("Up");
         }
 
         if (column - 1 >= 0) {
             int[] cord = {row, column-1};
-            nextHit.put(hashCode(row,column-1), cord);
-            System.out.println("Left");
+            if(usedCord.get(hashCode(row,column-1)) == null){
+                nextHit.put(hashCode(row,column-1), cord);
+            }
+            //System.out.println("Left");
         }
 
         if (row + 1 <= fieldsize - 1) {
             int[] cord = {row+1, column};
-            nextHit.put(hashCode(row+1, column), cord);
-            System.out.println("Down");
+            if(usedCord.get(hashCode(row+1, column)) == null){
+                nextHit.put(hashCode(row+1, column), cord);
+            }
+            //System.out.println("Down");
         }
 
         if (column + 1 <= fieldsize - 1) {
             int[] cord = {row, column +1};
-            nextHit.put(hashCode(row, column+1), cord);
-            System.out.println("Right");
+            if(usedCord.get(hashCode(row, column+1)) == null){
+                nextHit.put(hashCode(row, column+1), cord);
+            }
+            //System.out.println("Right");
         }
-
-
     }
 
     //schauen ob in diese coordinaten was drin ist oder nicht
