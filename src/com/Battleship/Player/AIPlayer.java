@@ -1,9 +1,10 @@
 package com.Battleship.Player;
 
 import com.Battleship.Model.Board;
+import com.Battleship.Model.Field;
 import com.Battleship.Model.Ship;
+import javafx.util.Pair;
 
-import java.nio.ShortBuffer;
 import java.util.*;
 
 public class AIPlayer {
@@ -11,8 +12,14 @@ public class AIPlayer {
     private ArrayList<Ship> fleet = new ArrayList<>();
     private HashMap<Integer,Integer> usedPosition= new HashMap<>();
     private HashMap<Integer,Integer> nextHit= new HashMap<>();
-    private ArrayList<Integer> usedCordRow = new ArrayList<>();
-    private ArrayList<Integer> usedCordColumn = new ArrayList<>();
+    private Map<Integer, int[]> usedCord = new HashMap<>();
+
+    private boolean hitShip;
+
+    public void setHitS(Field hitS) {
+        this.hitShip = hitS.isMark();
+    }
+
     private Board enemyBoard;
     private Board playerBoard;
 
@@ -54,7 +61,6 @@ public class AIPlayer {
                     break;
                 }
             }
-
         }
     }
 
@@ -64,77 +70,90 @@ public class AIPlayer {
         while(true) {
             int row = random.nextInt(fieldsize - 1);
             int column = random.nextInt(fieldsize - 1);
-            if(isUsedCord(row,column)){
-                System.out.println("schon shootet");
-            }else{
-                player.shoot(row, column);
-                System.out.println("row " + row + " column " + column);
-                System.out.println("========================================");
-                addTousedCord(row,column);
-                break;
-            }
-//            if(!isUsedCord(row,column)){
+//            if(isUsedCord(row,column)){
+//                System.out.println(row + " " + column);
+//                System.out.println("========================================");
+//                //System.out.println("schon shootet"+ usedCord.get(1));
+//                System.out.println("=========================================");
+//            }else{
 //                addTousedCord(row,column);
-//                boolean lastHit = false;
-//                if (nextHit.size() != 0) {
-//                    for (Map.Entry<Integer, Integer> entry : nextHit.entrySet()) {
-//                        Integer key = entry.getKey();
-//                        Integer value = entry.getValue();
-//                        //System.out.println(key+ " "+value);
-//                        lastHit = player.shoot(key, value);
-//                        if (lastHit == true){
-//                            hitShipBehind(key,column);
-//                        }
-//                        nextHit.remove(key);
-//                        break;
-//                    }
-//                } else {
-//                    lastHit = player.shoot(row, column);
-//                }
-//                System.out.println(lastHit);
-//                lastHit = player.shoot(row, column);
-//                if (lastHit) {
-//                    hitShipBehind(row, column);
-//                }
+//                player.shoot(row, column);
+//                System.out.println("row " + row + " column " + column);
+//                System.out.println("========================================");
+//                //System.out.println("schon shootet"+ usedCord);
+//                System.out.println("=========================================");
 //                break;
 //            }
+            if(!isUsedCord(row,column)){
+                addTousedCord(row,column);
+                boolean lastHit = false;
+                if (nextHit.size() != 0) {
+                    for (Map.Entry<Integer, Integer> entry : nextHit.entrySet()) {
+                        Integer key = entry.getKey();
+                        Integer value = entry.getValue();
+                        //System.out.println(key+ " "+value);
+                        lastHit = player.shoot(key, value);
+                        if (lastHit == true){
+                            hitShipBehind(key,column, this.hitShip);
+                        }
+                        nextHit.remove(key);
+                        break;
+                    }
+                } else {
+                    lastHit = player.shoot(row, column);
+                }
+                //System.out.println(lastHit);
+                //lastHit = player.shoot(row, column);
+//                if (lastHit) {
+//                    hitShipBehind(row, column, this.hitShip);
+//                }
+                break;
+            }
         }
     }
 
+
     public void addTousedCord(int row, int column){
-        usedCordRow.add(row);
-        usedCordColumn.add(column);
+        int[] entry = {row, column};
+        usedCord.put(row+column, entry);
     }
 
     public boolean isUsedCord(int row, int column){
-        boolean rowSame = false;
-        boolean columnSame = false;
-        for (int cordrow: usedCordRow) {
-            if(cordrow == row){
-                rowSame = true;
+        for(Map.Entry<Integer, int[]> entry : usedCord.entrySet()) {
+            Integer key = entry.getKey();
+            int[] value = entry.getValue();
+            if(value[0] == row && value[1] == column){
+                return true;
             }
         }
-        for (int cordColumn: usedCordColumn) {
-            if(cordColumn == column){
-                columnSame = true;
-            }
-        }
-        return rowSame && columnSame;
+        return false;
     }
 
-    public boolean hitShipBehind(int row, int column){
-        if(column - 1 >= 0){
-            nextHit.put(row, column - 1);
-        }
-        if(column + 1 <= fieldsize - 1){
-            nextHit.put(row, column + 1);
-        }
-        if(row - 1 >= 0){
-            nextHit.put(row- 1, column );
-        }
-        if(row + 1 <= fieldsize -1){
-            nextHit.put(row+ 1, column );
-        }
+    public boolean hitShipBehind(int row, int column, boolean hitShip){
+       boolean hit= true;
+       while (hit) {
+            if (column - 1 >= 0) {  // hier muss er Prüfen ob der Linke Teil Markiert ist, sonst geht er bis zu ende
+                nextHit.put(row, column - 1);
+                System.out.println("Left");
+                return true;                    //hier abbruch bedingung einsetzen
+            }
+           if (column + 1 <= fieldsize - 1) {
+               nextHit.put(row, column + 1);
+               System.out.println("Right");
+               return true;
+           }
+           if (row - 1 >= 0) {
+               nextHit.put(row - 1, column);
+               System.out.println("Down");
+               return true;
+           }
+           if (row + 1 <= fieldsize - 1) {
+               nextHit.put(row + 1, column);
+               System.out.println("Up");
+               return true;
+           }
+           hit=hitShip;
+    }
         return false;
     }
 

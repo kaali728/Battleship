@@ -205,7 +205,6 @@ public class Board extends JPanel {
             }
                 button[row][column].setText("<html><b color=white>X</b></html>");
                 button[row][column].setBackground(new Color(0x0000B2));
-
         }
         return false;
     }
