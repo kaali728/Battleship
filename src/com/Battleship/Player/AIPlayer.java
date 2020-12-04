@@ -13,7 +13,7 @@ import java.util.*;
 public class AIPlayer {
     private int fieldsize;
     private ArrayList<Ship> fleet = new ArrayList<>();
-    private  Map<Integer, int[]>  nextHit = new HashMap<>();
+    private  Map<Integer, int[]> nextHit = new HashMap<>();
     private Map<Integer, int[]> usedCord = new HashMap<>();
 
 
@@ -125,31 +125,57 @@ public class AIPlayer {
     }
 
     public void hitShipBehind(int row, int column) {
-        if (row - 1 >= 0) {
+        boolean hitH= false;
+        boolean hitV= true;
+
+
+        if (row - 1 >= 0 && hitV) {
             int[] cord = {row -1, column};
-            nextHit.put(hashCode(row - 1,column), cord);
-            System.out.println("Up");
+            if(usedCord.get(hashCode(row - 1,column)) == null) {
+                nextHit.put(hashCode(row - 1, column), cord);
+            }
+            hitH = hori(row, column, true);
+            hitV = vert(row, column, false);
         }
 
-        if (column - 1 >= 0) {
-            int[] cord = {row, column-1};
-            nextHit.put(hashCode(row,column-1), cord);
-            System.out.println("Left");
-        }
-
-        if (row + 1 <= fieldsize - 1) {
+        if (row + 1 <= fieldsize-1 && hitV) {
             int[] cord = {row+1, column};
-            nextHit.put(hashCode(row+1, column), cord);
-            System.out.println("Down");
+            if(usedCord.get(hashCode(row + 1, column)) == null) {
+                nextHit.put(hashCode(row + 1, column), cord);
+            }
+            hitH = hori(row, column, true);
         }
 
-        if (column + 1 <= fieldsize - 1) {
+        if (column + 1 <= fieldsize-1 && hitH) {
             int[] cord = {row, column +1};
-            nextHit.put(hashCode(row, column+1), cord);
-            System.out.println("Right");
+            if(usedCord.get(hashCode(row, column + 1)) == null) {
+                nextHit.put(hashCode(row, column + 1), cord);
+            }
+        }
+        if (column - 1 >= 0 && hitH) {
+            int[] cord = {row, column-1};
+            if(usedCord.get(hashCode(row,column-1)) == null) {
+                nextHit.put(hashCode(row, column - 1), cord);
+            }
         }
 
+    }
 
+    public boolean hori (int row, int column, boolean hori){
+        if(hori){
+            nextHit.remove(hashCode(row + 1, column));
+            nextHit.remove(hashCode(row - 1,column));
+            return true;
+        }
+        return false;
+    }
+    public boolean vert (int row, int column, boolean verti){
+        if(verti){
+            nextHit.remove(hashCode(row, column + 1));
+            nextHit.remove(hashCode(row,column - 1));
+            return true;
+        }
+        return false;
     }
 
     //schauen ob in diese coordinaten was drin ist oder nicht
