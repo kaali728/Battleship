@@ -31,24 +31,28 @@ public class BattleScreen extends Panel {
        enemyLabel = new JLabel("Enemy");
        playerLabel = new JLabel("Player");
 
-       endGame.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               mainPanel.setGameState("start");
-               mainPanel.changeScreen("main");
-           }
-       });
-       saveGame.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               //System.out.println(playerBoard + " " + enemyBoard);
-           }
-       });
+
+
        playerBoard = new Board(this.mainPanel.getSingleplayer().getFieldsize(), this.mainPanel.getSingleplayer().getFleet(),this.mainPanel.getGameState(), true);
        playerBoard.setMyShip();
        enemyBoard = new Board(this.mainPanel.getEnemyPlayer().getFieldsize(), this.mainPanel.getEnemyPlayer().getFleet(), this.mainPanel.getGameState(), false, this.mainPanel.getEnemyPlayer(), playerBoard);
        this.mainPanel.getEnemyPlayer().setEnemyBoard(enemyBoard);
        this.mainPanel.getEnemyPlayer().setEnemyShip();
+
+        endGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainPanel.getEnemyPlayer().endGame();
+                mainPanel.setGameState("start");
+                mainPanel.changeScreen("main");
+            }
+        });
+        saveGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //System.out.println(playerBoard + " " + enemyBoard);
+            }
+        });
     }
 
     public void initlayout(){
