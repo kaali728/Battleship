@@ -13,7 +13,7 @@ import java.util.*;
 public class AIPlayer {
     private int fieldsize;
     private ArrayList<Ship> fleet = new ArrayList<>();
-    private  Map<Integer, int[]> nextHit = new HashMap<>();
+    private  Map<Integer, int[]>  nextHit = new LinkedHashMap<>();
     private Map<Integer, int[]> usedCord = new HashMap<>();
 
 
@@ -81,24 +81,33 @@ public class AIPlayer {
                 }
             }
         }else{
-            Integer key = null;
             boolean isHit = false;
-            for (Map.Entry<Integer, int[]> entry : nextHit.entrySet()) {
-                key = entry.getKey();
-                int[] value = entry.getValue();
-                int nextRow = value[0];
-                int nextColumn = value[1];
-                if(!isUsedCord(nextRow,nextColumn)){
+            Map.Entry<Integer,int[]> entry = nextHit.entrySet().iterator().next();
+            // nextHit.entrySet().toArray()[0] up
+            // nextHit.entrySet().toArray()[1] left
+            // nextHit.entrySet().toArray()[2] down
+            // nextHit.entrySet().toArray()[3] right
+            int key= entry.getKey();
+            int[] value = entry.getValue();
+            int nextRow = value[0];
+            int nextColumn = value[1];
+            if(!isUsedCord(nextRow,nextColumn)) {
                     isHit = player.shoot(nextRow, nextColumn);
-                    addTousedCord(nextRow,nextColumn);
-                    if(isHit){
-                        hitShipBehind(nextRow,nextColumn);
+                    addTousedCord(nextRow, nextColumn);
+                    if (isHit) {
+                        hitShipBehind(nextRow, nextColumn);
                     }
-                    break;
                 }
-            }
             nextHit.remove(key);
         }
+    }
+
+
+    public int hori_or_verti(int s){
+        // 0 ist hori
+        // 1 ist verti
+        int side = s;
+        return side;
     }
 
 
