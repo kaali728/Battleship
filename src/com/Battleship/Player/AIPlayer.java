@@ -128,7 +128,6 @@ public class AIPlayer {
         boolean hitH= false;
         boolean hitV= true;
 
-
         if (row - 1 >= 0 && hitV) {
             int[] cord = {row -1, column};
             if(usedCord.get(hashCode(row - 1,column)) == null) {
