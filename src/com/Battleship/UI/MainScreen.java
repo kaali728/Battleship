@@ -3,6 +3,7 @@ package com.Battleship.UI;
 import com.Battleship.Constants.Constants;
 import com.Battleship.Image.Image;
 import com.Battleship.Image.ImageFactory;
+import com.sun.jmx.snmp.SnmpNull;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -36,19 +37,27 @@ public class MainScreen extends JPanel {
 
         JPanel titlePanel = new JPanel();
         //titlePanel.setBounds(100,100,Constants.WIDTH, Constants.HEIGHT);
-        titlePanel.setPreferredSize(new Dimension(Constants.WIDTH,Constants.HEIGHT-500));
+        titlePanel.setPreferredSize(new Dimension(Constants.WIDTH,Constants.HEIGHT-100));
         titlePanel.setBackground(Color.black);
+
+
+
         JLabel titleLable = new JLabel("Battleship");
         titleLable.setForeground(new Color	(43,209,252));
         titleLable.setFont(titlefont);
-        titlePanel.add(titleLable);
         titleLable.setVerticalAlignment(SwingConstants.CENTER);
         titleLable.setHorizontalAlignment(SwingConstants.CENTER);
+
+        titlePanel.add(titleLable);
+
 
 
         singleplayer.setMaximumSize(new Dimension(150,50));
         multiplayer.setMaximumSize(new Dimension(150,50));
         spielstandLaden.setMaximumSize(new Dimension(150,50));
+
+
+
 
         singleplayer.setBackground(Color.black);
         singleplayer.setForeground(Color.WHITE);
@@ -84,28 +93,67 @@ public class MainScreen extends JPanel {
                 }
         );
 
+        singleplayer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                singleplayer.setBorder(b);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                singleplayer.setBorder(null);
+            }
+        });
+
+        multiplayer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                multiplayer.setBorder(b);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                multiplayer.setBorder(null);
+            }
+        });
+
+        spielstandLaden.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                spielstandLaden.setBorder(b);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                spielstandLaden.setBorder(null);
+            }
+        });
+
+
+
+
         JPanel buttonPanel1 =  new JPanel();
         buttonPanel1.setBackground(Color.black);
         buttonPanel1.setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
-        buttonPanel1.add(singleplayer);
-
-        JPanel buttonPanel2 =  new JPanel();
-        buttonPanel1.setBackground(Color.black);
-        buttonPanel1.setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
-        buttonPanel1.add(multiplayer);
-
-
-        JPanel buttonPanel3 =  new JPanel();
-        buttonPanel1.setBackground(Color.black);
-        buttonPanel1.setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
-        buttonPanel1.add(spielstandLaden);
 
 
 
+
+
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+
+        Box vBox = Box.createVerticalBox();
+        vBox.setBackground(Color.black);
+        vBox.setSize(Constants.WIDTH, Constants.HEIGHT);
+        vBox.setAlignmentX(CENTER_ALIGNMENT);
+        vBox.setAlignmentY(CENTER_ALIGNMENT);
+        {
+            vBox.add(singleplayer);
+            vBox.add(Box.createVerticalStrut(20));
+            vBox.add(multiplayer);
+            vBox.add(Box.createVerticalStrut(20));
+            vBox.add(spielstandLaden);
+        }
+        buttonPanel1.add(vBox);
         add(titlePanel);
         add(buttonPanel1);
-        add(buttonPanel2);
-        add(buttonPanel3);
     }
     // Für den Hintergrund auf einem JPanel muss man diese Funktion überschreiben.
     @Override
