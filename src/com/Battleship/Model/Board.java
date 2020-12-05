@@ -198,6 +198,7 @@ public class Board extends JPanel {
                     allHealth--;
                     if(isGameOver()){
                         JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+
                         return false;
                     }
                     return true;
@@ -208,6 +209,7 @@ public class Board extends JPanel {
         }
         return false;
     }
+
 
 
     public void countHealth(){
@@ -368,7 +370,7 @@ public class Board extends JPanel {
                                         }
                                     }
                                     destoryerCount--;
-                                    destroyerText = new JLabel("Destoryer" + destoryerCount);
+                                    destroyerText = new JLabel("Destroyer" + destoryerCount);
                                     s.setShipBoard(pos);
                                     return s;
                                 }

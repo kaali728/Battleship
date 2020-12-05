@@ -137,7 +137,6 @@ public class AIPlayer {
         boolean hitH= false;
         boolean hitV= true;
 
-
         if (row - 1 >= 0 && hitV) {
             int[] cord = {row -1, column};
             if(usedCord.get(hashCode(row - 1,column)) == null) {
@@ -161,6 +160,7 @@ public class AIPlayer {
                 nextHit.put(hashCode(row, column + 1), cord);
             }
         }
+
         if (column - 1 >= 0 && hitH) {
             int[] cord = {row, column-1};
             if(usedCord.get(hashCode(row,column-1)) == null) {
