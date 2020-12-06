@@ -3,17 +3,24 @@ package com.Battleship.UI;
 import com.Battleship.Constants.Constants;
 import com.Battleship.Image.Image;
 import com.Battleship.Image.ImageFactory;
+import com.Battleship.Sound.Sound;
+import com.Battleship.Sound.SoundFactory;
 import com.sun.jmx.snmp.SnmpNull;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.font.TextAttribute;
+import java.util.Map;
 
 public class MainScreen extends JPanel {
     JButton singleplayer;
     JButton multiplayer;
     JButton spielstandLaden;
+    JButton soundButton;
     GamePanel mainPanel;
+    private SoundFactory sound;
+    boolean startSound = true;
     private ImageIcon background;
 
 
@@ -27,6 +34,10 @@ public class MainScreen extends JPanel {
         singleplayer = new JButton("Singleplayer");
         multiplayer = new JButton("Multiplayer");
         spielstandLaden = new JButton("Load Game");
+        soundButton = new JButton("Sound");
+        sound = new SoundFactory();
+        sound.load(Sound.MAINSOUND);
+        sound.play(SoundFactory.sound);
         //this.background = ImageFactory.createImage(Image.BACKGROUND);
 
     }
@@ -55,6 +66,7 @@ public class MainScreen extends JPanel {
         singleplayer.setMaximumSize(new Dimension(150,50));
         multiplayer.setMaximumSize(new Dimension(150,50));
         spielstandLaden.setMaximumSize(new Dimension(150,50));
+        soundButton.setMaximumSize(new Dimension(150,50));
 
 
 
@@ -80,6 +92,13 @@ public class MainScreen extends JPanel {
         spielstandLaden.setBorder(null);
 
 
+        soundButton.setBackground(Color.black);
+        soundButton.setForeground(Color.WHITE);
+        soundButton.setFont(buttonfont);
+        soundButton.setFocusPainted(false);
+        soundButton.setBorder(null);
+
+
 
         multiplayer.addActionListener(
                 (e) -> {
@@ -90,6 +109,22 @@ public class MainScreen extends JPanel {
                 (e) -> {
                     mainPanel.setGameState("singleplayer");
                     mainPanel.changeScreen("singleplayer");
+                }
+        );
+
+
+        soundButton.addActionListener(
+                (e) -> {
+                    if(startSound){
+                        sound.stop();
+                        soundButton.setText("Sound OFF");
+                        startSound = false;
+                    }else{
+                        sound.play(SoundFactory.sound);
+                        soundButton.setText("Sound");
+                        startSound = true;
+                    }
+
                 }
         );
 
@@ -126,6 +161,17 @@ public class MainScreen extends JPanel {
             }
         });
 
+        soundButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                soundButton.setBorder(b);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                soundButton.setBorder(null);
+            }
+        });
+
 
 
 
@@ -150,6 +196,9 @@ public class MainScreen extends JPanel {
             vBox.add(multiplayer);
             vBox.add(Box.createVerticalStrut(20));
             vBox.add(spielstandLaden);
+            vBox.add(Box.createVerticalStrut(20));
+            vBox.add(soundButton);
+
         }
         buttonPanel1.add(vBox);
         add(titlePanel);
