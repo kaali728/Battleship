@@ -114,6 +114,12 @@ public class MainScreen extends JPanel {
                 }
         );
 
+        spielstandLaden.addActionListener(
+                (e) -> {
+
+                }
+        );
+
 
         soundButton.addActionListener(
                 (e) -> {
