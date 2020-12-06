@@ -102,11 +102,13 @@ public class MainScreen extends JPanel {
 
         multiplayer.addActionListener(
                 (e) -> {
+                    mainPanel.setSound(sound);
                     mainPanel.changeScreen("main");
                 }
         );
         singleplayer.addActionListener(
                 (e) -> {
+                    mainPanel.setSound(sound);
                     mainPanel.setGameState("singleplayer");
                     mainPanel.changeScreen("singleplayer");
                 }

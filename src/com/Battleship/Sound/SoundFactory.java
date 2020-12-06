@@ -30,7 +30,7 @@ public class SoundFactory {
         try {
             clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(sound));
-
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(value);
             clip.start();

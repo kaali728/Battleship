@@ -30,9 +30,7 @@ public class BattleScreen extends Panel implements ActionListener {
     }
 
     public void initvar() {
-        sound = new SoundFactory();
-        sound.load(Sound.MAINSOUND);
-        sound.play(SoundFactory.sound);
+        sound = mainPanel.getSound();
         soundButton = new JButton("Sound");
         endGame = new JButton("End Game");
         saveGame = new JButton("Save Game");

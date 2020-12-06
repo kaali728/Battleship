@@ -3,6 +3,7 @@ package com.Battleship.UI;
 import com.Battleship.Constants.Constants;
 import com.Battleship.Player.AIPlayer;
 import com.Battleship.Player.Player;
+import com.Battleship.Sound.SoundFactory;
 
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ public class GamePanel extends JPanel {
     private CardLayout cl;
     private Player Singleplayer = new Player();
     private AIPlayer EnemyPlayer = new AIPlayer();
+    private SoundFactory sound;
 
     // start - singleplayer - multiplayer - setzen - battle
     private String gameState;
@@ -52,5 +54,13 @@ public class GamePanel extends JPanel {
 
     public void setGameState(String gameState) {
         this.gameState = gameState;
+    }
+
+    public void setSound(SoundFactory sound){
+        this.sound = sound;
+    }
+
+    public SoundFactory getSound() {
+        return sound;
     }
 }
