@@ -1,17 +1,17 @@
 package com.Battleship.UI;
 
+import SpielstandLaden.SpeichernUnterClass;
 import com.Battleship.Constants.Constants;
-import com.Battleship.Image.Image;
-import com.Battleship.Image.ImageFactory;
 import com.Battleship.Sound.Sound;
 import com.Battleship.Sound.SoundFactory;
-import com.sun.jmx.snmp.SnmpNull;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.font.TextAttribute;
-import java.util.Map;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainScreen extends JPanel {
     JButton singleplayer;
@@ -22,6 +22,7 @@ public class MainScreen extends JPanel {
     private SoundFactory sound;
     boolean startSound = true;
     private ImageIcon background;
+    private SpeichernUnterClass speichern;
 
 
     MainScreen(GamePanel gamePanel) {
@@ -38,6 +39,7 @@ public class MainScreen extends JPanel {
         sound = new SoundFactory();
         sound.load(Sound.MAINSOUND);
         sound.play(SoundFactory.sound);
+        speichern = new SpeichernUnterClass();
         //this.background = ImageFactory.createImage(Image.BACKGROUND);
 
     }
@@ -116,7 +118,7 @@ public class MainScreen extends JPanel {
 
         spielstandLaden.addActionListener(
                 (e) -> {
-
+                    spielstandLaden.equals(speichern.saveAs(null));
                 }
         );
 
@@ -132,7 +134,6 @@ public class MainScreen extends JPanel {
                         soundButton.setText("Sound");
                         startSound = true;
                     }
-
                 }
         );
 
