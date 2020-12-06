@@ -13,6 +13,8 @@ public class SpeichernUnterClass  extends JFrame {
     public boolean saveAs(String pfad) {
         JFileChooser choosePath;
         File file;
+        FileWriter fw;
+        BufferedWriter bw;
 
         if (pfad == null) {
             pfad = System.getProperty("user.home");
@@ -38,16 +40,16 @@ public class SpeichernUnterClass  extends JFrame {
                     file.createNewFile();
                 }
 
-                FileWriter fw = new FileWriter(file);
+                fw = new FileWriter(file);
 
-                BufferedWriter bw = new BufferedWriter(fw);
+                bw = new BufferedWriter(fw);
                 bw.write(ship);
 
                 bw.close();
 
-            }catch(IOException ioe){
+            }catch(IOException e){
                 System.out.println("Fehler");
-                ioe.printStackTrace();
+                e.printStackTrace();
             }
             choosePath.setVisible(false);
             return true;
