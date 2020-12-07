@@ -22,7 +22,6 @@ public class MainScreen extends JPanel {
     private SoundFactory sound;
     boolean startSound = true;
     private ImageIcon background;
-    private SpeichernUnterClass speichern;
 
 
     MainScreen(GamePanel gamePanel) {
@@ -39,7 +38,6 @@ public class MainScreen extends JPanel {
         sound = new SoundFactory();
         sound.load(Sound.MAINSOUND);
         sound.play(SoundFactory.sound);
-        speichern = new SpeichernUnterClass();
         //this.background = ImageFactory.createImage(Image.BACKGROUND);
 
     }
@@ -118,7 +116,6 @@ public class MainScreen extends JPanel {
 
         spielstandLaden.addActionListener(
                 (e) -> {
-                    spielstandLaden.equals(speichern.saveAs(null));
                 }
         );
 
