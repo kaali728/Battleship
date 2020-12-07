@@ -35,6 +35,7 @@ public class ServerSetupScreen extends JPanel {
         size.setMinorTickSpacing(5);
         size.setMajorTickSpacing(25);
         sizeLabel.setText("size =" + size.getValue());
+        size.setValue(16);
 
         createServer = new JButton("Create server");
         createServer.addActionListener(new ActionListener() {
