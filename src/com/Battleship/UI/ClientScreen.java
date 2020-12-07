@@ -171,6 +171,7 @@ public class ClientScreen extends JPanel {
         }
         add(hbox);
         add(button);
+        updateUI();
         //frame.add(button);
         //playerBoard = new Board(this.mainPanel.getSingleplayer().getFieldsize(), this.mainPanel.getSingleplayer().getFleet(), this.mainPanel.getGameState(), true);
         //frame.add(new Board(fieldsize));

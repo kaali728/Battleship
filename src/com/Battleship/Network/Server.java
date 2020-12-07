@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Server {
     // Variablen, die im gesamten Programm benötigt werden.
@@ -28,11 +30,41 @@ public class Server {
 
                     // Send message to client.
                     PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-                    printWriter.println("Welcome to Battleship the field size is selected to " + fieldsize);
+                    printWriter.println("size " + fieldsize + fieldsize);
                     printWriter.println("CarrierCount " + carrierCount);
                     printWriter.println("battleshipCount " + battleshipCount);
                     printWriter.println("submarineCount " + submarineCount);
                     printWriter.println("destroyerCount " + destroyerCount);
+                    int ca = 5;
+                    int bat = 4;
+                    int subma = 3;
+                    int des= 2;
+                    int sum = carrierCount + battleshipCount+ submarineCount + destroyerCount;
+
+
+                    ArrayList<Integer> anzahl = new ArrayList<>();
+
+                    for (int i = 0; i < carrierCount; i++) {
+                        anzahl.add(ca);
+                    }
+                    for (int i = 0; i < battleshipCount; i++) {
+                        anzahl.add(bat);
+                    }
+                    for (int i = 0; i < submarineCount; i++) {
+                        anzahl.add(subma);
+                    }
+                    for (int i = 0; i < destroyerCount; i++) {
+                        anzahl.add(des);
+                    }
+                    //ships 5 4 4 3 3 3 2 2 2 2
+
+                    String list = Arrays.toString(anzahl.toArray()).replace("[", "").replace("]", "");
+                    System.out.println("Ships "+list.replace(",", ""));
+                    printWriter.print("Ships "+list.replace(",", ""));
+
+
+
+
 
                     printWriter.flush();
 
