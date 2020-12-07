@@ -62,7 +62,7 @@ public class ServerScreen extends JPanel {
         Box hbox = Box.createHorizontalBox();
         {
             hbox.add(Box.createHorizontalStrut(10));
-            hbox.add(new Board(fieldsize));
+            //hbox.add(new Board(fieldsize));
             hbox.add(Box.createHorizontalStrut(10));
         }
         add(hbox);

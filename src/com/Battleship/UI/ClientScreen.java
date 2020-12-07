@@ -110,7 +110,8 @@ public class ClientScreen extends JPanel {
                 }
         );
         frame.add(button);
-        frame.add(new Board(fieldsize));
+        //playerBoard = new Board(this.mainPanel.getSingleplayer().getFieldsize(), this.mainPanel.getSingleplayer().getFleet(), this.mainPanel.getGameState(), true);
+        //frame.add(new Board(fieldsize));
 
         // Dehnbaren Zwischenraum am unteren Rand hinzufügen.
         frame.add(Box.createGlue());
