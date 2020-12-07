@@ -1,24 +1,21 @@
-package com.Battleship.Network;
+package com.Battleship.UI;
 
 import com.Battleship.Model.Board;
-import com.Battleship.UI.ClientScreen;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.*;
 import java.io.*;
+import java.net.Socket;
 
-public class Client {
-    // Variablen, die im gesamten Programm benötigt werden.
+public class ClientScreen extends JPanel {
+    private static JButton button;
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
-    public static JButton button;    // Der o. g. Knopf.
+    public int fieldsize;
 
-    public static void create(String address, int port) {
-        System.out.println("CLIENT CREATE");
-
-        Thread clientThread = new Thread(new Runnable() {
+    ClientScreen(String address, Integer port) {
+        new SwingWorker() {
             @Override
-            public void run() {
+            protected Object doInBackground() {
                 try {
                     Socket socket = new Socket(address, port);
 
@@ -37,6 +34,13 @@ public class Client {
                     // was als Schluss die Groesse des Spielfeldes ausgibt.
                     String str = bufferedReader.readLine();
                     System.out.println("[Server]: " + str);
+                    str = str.substring(str.length() - 2);
+                    str = str.replaceAll("\\s","");
+                    fieldsize = Integer.parseInt(str);
+
+                    System.out.println("CONNECTION THREAD: " + Thread.currentThread().getName());
+
+                    SwingUtilities.invokeLater(() -> initLayout());
 
                     // Netzwerknachrichten lesen und verarbeiten.
                     // Da die graphische Oberfläche von einem separaten Thread verwaltet
@@ -60,14 +64,16 @@ public class Client {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                return null;
             }
-        });
-
-        clientThread.start();
+        }.execute();
     }
 
-    // Graphische Oberfläche aufbauen und anzeigen.
-    private static void startGui() {
+    public void initLayout() {
+
+        System.out.println("LAYOUT THREAD: " + Thread.currentThread().getName());
+        System.out.println("FIELDSIZE " + fieldsize);
+
         // Hauptfenster mit Titelbalken etc. (JFrame) erzeugen.
         JFrame frame = new JFrame("Client");
 
@@ -93,17 +99,18 @@ public class Client {
                 // und eine beliebige Nachricht an die andere "Seite" geschickt,
                 // damit diese ihren Knopf aktivieren kann.
                 (e) -> {
-                    System.out.println("Client clicked the button.");
                     button.setEnabled(false);
                     try {
                         out.write(String.format("%s%n", "message"));
                         out.flush();
-                    } catch (IOException ex) {
+                    }
+                    catch (IOException ex) {
                         System.out.println("write to socket failed");
                     }
                 }
         );
         frame.add(button);
+        frame.add(new Board(fieldsize));
 
         // Dehnbaren Zwischenraum am unteren Rand hinzufügen.
         frame.add(Box.createGlue());
@@ -112,47 +119,31 @@ public class Client {
         // und das Fenster anzeigen (setVisible).
         frame.pack();
         frame.setVisible(true);
-    }
 
-    public static void main(String[] args) throws IOException {
-        Socket socket = new Socket("localhost", 5000);
-
-        // Send message to server.
-        PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-        printWriter.println("Hello, I am a message from the client.");
-        printWriter.flush();
-
-        // Get message from server.
-        InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        out = new OutputStreamWriter(socket.getOutputStream());
-
-        String str = bufferedReader.readLine();
-        System.out.println("[Server]: " + str);
-
-        // Graphische Oberfläche aufbauen.
-        SwingUtilities.invokeLater(
-                Client::startGui
-        );
-
-        // Netzwerknachrichten lesen und verarbeiten.
-        // Da die graphische Oberfläche von einem separaten Thread verwaltet
-        // wird, kann man hier unabhängig davon auf Nachrichten warten.
-        // Manipulationen an der Oberfläche sollten aber mittels invokeLater
-        // (oder invokeAndWait) ausgeführt werden.
-        while (true) {
-            String line = bufferedReader.readLine();
-            if (line == null) break;
-            SwingUtilities.invokeLater(
-                    () -> button.setEnabled(true)
-            );
-        }
-
-        // EOF ins Socket "schreiben" und das Programm explizit beenden
-        // (weil es sonst weiterlaufen würde, bis der Benutzer das Hauptfenster
-        // schließt).
-        socket.shutdownOutput();
-        System.out.println("Connection closed.");
-        System.exit(0);
+//        button = new JButton("Client");
+//        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+//        button.addActionListener(
+//                // Wenn der Knopf gedrückt wird,
+//                // erfolgt eine Kontrollausgabe auf System.out.
+//                // Anschließend wird der Knopf deaktiviert
+//                // und eine beliebige Nachricht an die andere "Seite" geschickt,
+//                // damit diese ihren Knopf aktivieren kann.
+//                (e) -> {
+//                    button.setEnabled(false);
+//                    try {
+//                        out.write(String.format("%s%n", "message"));
+//                        out.flush();
+//                    }
+//                    catch (IOException ex) {
+//                        System.out.println("write to socket failed");
+//                    }
+//                }
+//        );
+//
+//        setBackground(Color.green);
+//        Box vbox = Box.createVerticalBox();
+//        vbox.add(Box.createVerticalStrut(100));
+//        vbox.setAlignmentX(Component.CENTER_ALIGNMENT);
+//        add(vbox);
     }
 }
