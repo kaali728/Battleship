@@ -717,4 +717,8 @@ public class Board extends JPanel {
     public void makealarm() {
         JOptionPane.showMessageDialog(this, "You should place all ships!", "Place Ship", JOptionPane.INFORMATION_MESSAGE);
     }
+
+    public Field[][] getButton() {
+        return button;
+    }
 }

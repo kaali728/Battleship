@@ -38,6 +38,7 @@ public class Field extends JButton {
                 ", column=" + column +
                 ", gameState='" + gameState + '\'' +
                 ", mark=" + mark +
+                ", isShot=" + isShot +
                 '}';
     }
 
