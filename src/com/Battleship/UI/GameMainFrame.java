@@ -5,6 +5,7 @@ import com.Battleship.Image.Image;
 import com.Battleship.Image.ImageFactory;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class GameMainFrame extends JFrame {
     public GameMainFrame() {
