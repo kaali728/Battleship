@@ -125,24 +125,6 @@ public class MainScreen extends JPanel {
                         sound.play(SoundFactory.sound);
                         soundButton.setText("Sound");
                         startSound = true;
-
-        Box vbox = Box.createVerticalBox();
-        {
-            singleplayer.setMaximumSize(new Dimension(150,50));
-            vbox.add(Box.createGlue());
-            multiplayer.setMaximumSize(new Dimension(150,50));
-            vbox.add(Box.createGlue());
-            spielstandLaden.setMaximumSize(new Dimension(150,50));
-
-            multiplayer.addActionListener(
-                    (e) -> {
-                        mainPanel.changeScreen("multiplayer");
-                    }
-            );
-            singleplayer.addActionListener(
-                    (e) -> {
-                        mainPanel.changeScreen("singleplayer");
-
                     }
                 }
         );
