@@ -120,7 +120,6 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             size.setText("size=" + fieldslider.getValue());
 
 
-
             carrierSlider.setPaintTrack(true);
             carrierSlider.setPaintTicks(true);
             carrierSlider.setPaintLabels(true);

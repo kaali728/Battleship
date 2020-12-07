@@ -1,4 +1,4 @@
-package SpielstandLaden;
+package com.Battleship.SpielstandLaden;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -44,7 +44,7 @@ public class SpeichernUnterClass  extends JFrame {
                 fw = new FileWriter(file+".txt");
 
                 bw = new BufferedWriter(fw);
-                bw.write(ship);
+                               bw.write(ship);
 
                 bw.close();
 
