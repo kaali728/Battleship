@@ -10,6 +10,11 @@ import java.io.IOException;
 
 public class SpeichernUnterClass  extends JFrame {
 
+    //kommt variable die von der spiel brett kommen
+
+
+
+
     public boolean saveAs(String pfad) {
         JFileChooser choosePath;
         File file;
@@ -32,15 +37,11 @@ public class SpeichernUnterClass  extends JFrame {
             try{
                 pfad = choosePath.getSelectedFile().toString();
 
-                String ship = "Schiffe die in der Txt ";
+                String ship = "Schiffe die in der Txt 4";
 
                 file =new File(pfad);
 
-                if(!file.exists()){
-                    file.createNewFile();
-                }
-
-                fw = new FileWriter(file);
+                fw = new FileWriter(file+".txt");
 
                 bw = new BufferedWriter(fw);
                 bw.write(ship);
