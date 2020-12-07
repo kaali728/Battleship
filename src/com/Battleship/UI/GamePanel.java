@@ -1,7 +1,9 @@
 package com.Battleship.UI;
 
 import com.Battleship.Constants.Constants;
+import com.Battleship.Player.AIPlayer;
 import com.Battleship.Player.Player;
+import com.Battleship.Sound.SoundFactory;
 
 
 import javax.swing.*;
@@ -10,7 +12,11 @@ import java.awt.*;
 public class GamePanel extends JPanel {
     private CardLayout cl;
     private Player Singleplayer = new Player();
+    private AIPlayer EnemyPlayer = new AIPlayer();
+    private SoundFactory sound;
 
+    // start - singleplayer - multiplayer - setzen - battle
+    private String gameState;
     // Hintergrundbild
     public GamePanel() {
         initLayout();
@@ -19,9 +25,11 @@ public class GamePanel extends JPanel {
     void initLayout() {
         cl = new CardLayout();
         setLayout(cl);
+        this.gameState = "start";
         setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
         add(new MainScreen(this), "main");
         add(new SinglePlayerScreen(this), "singleplayer");
+
         add(new MultiplayerScreen(this), "multiplayer");
         add(new ServerSetupScreen(this), "serverSetupScreen");
         add(new ClientSetupScreen(this), "clientSetupScreen");
@@ -33,6 +41,11 @@ public class GamePanel extends JPanel {
         if (s == "battlefield") {
             add(new ShipSetupScreen(this), "battlefield");
         }
+
+        if(gameState.equals("battle")){
+            add(new BattleScreen(this), "battle");
+        }
+      
         cl.show(this, s);
     }
 
@@ -46,11 +59,26 @@ public class GamePanel extends JPanel {
         cl.show(this, s);
     }
 
-    public void setSingleplayer(Player singleplayer) {
-        Singleplayer = singleplayer;
-    }
-
     public Player getSingleplayer() {
         return Singleplayer;
+    }
+
+    public AIPlayer getEnemyPlayer(){ return EnemyPlayer; }
+
+
+    public String getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(String gameState) {
+        this.gameState = gameState;
+    }
+
+    public void setSound(SoundFactory sound){
+        this.sound = sound;
+    }
+
+    public SoundFactory getSound() {
+        return sound;
     }
 }
