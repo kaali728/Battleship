@@ -1,16 +1,13 @@
 package com.Battleship.UI;
 
-import SpielstandLaden.SpeichernUnterClass;
+import com.Battleship.SpielstandLaden.SpeichernUnterClass;
 import com.Battleship.Model.Board;
-import com.Battleship.Model.Ship;
-import com.Battleship.Sound.Sound;
 import com.Battleship.Sound.SoundFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class BattleScreen extends Panel implements ActionListener {
     GamePanel mainPanel;

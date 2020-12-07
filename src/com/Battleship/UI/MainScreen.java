@@ -1,6 +1,5 @@
 package com.Battleship.UI;
 
-import SpielstandLaden.SpeichernUnterClass;
 import com.Battleship.Constants.Constants;
 import com.Battleship.Sound.Sound;
 import com.Battleship.Sound.SoundFactory;
@@ -8,10 +7,6 @@ import com.Battleship.Sound.SoundFactory;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class MainScreen extends JPanel {
     JButton singleplayer;
