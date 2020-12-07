@@ -1,10 +1,14 @@
 package com.Battleship.UI;
 
+import com.Battleship.Model.Ship;
+import com.Battleship.Player.Player;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class ServerSetupScreen extends JPanel {
     GamePanel mainPanel;
@@ -29,6 +33,7 @@ public class ServerSetupScreen extends JPanel {
     JLabel submarineLabel;
 
     Box vbox;
+    Player singplayer;
 
 
     private int battleshipCount;
@@ -46,6 +51,7 @@ public class ServerSetupScreen extends JPanel {
 
     ServerSetupScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
+        singplayer = mainPanel.getSingleplayer();
         initVar();
         initLayout();
     }
@@ -88,8 +94,35 @@ public class ServerSetupScreen extends JPanel {
         createServer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                portNumber = Integer.parseInt(port.getText());
-                mainPanel.changeScreen("serverScreen", portNumber, fieldsize);
+                if(fieldsize != 0){
+                    ArrayList<Ship> fleet = new ArrayList<>();
+                    ArrayList<Ship> enemyfleet = new ArrayList<>();
+                    for (int i=0; i<carrierCount; i++){
+                        fleet.add(new Ship("carrier"));
+                        enemyfleet.add(new Ship("carrier"));
+                    }
+                    for (int i=0; i<battleshipCount; i++){
+                        fleet.add(new Ship("battleship"));
+                        enemyfleet.add(new Ship("battleship"));
+                    }
+                    for (int i=0; i<submarineCount; i++){
+                        fleet.add(new Ship("submarine"));
+                        enemyfleet.add(new Ship("submarine"));
+                    }
+                    for (int i=0; i<destroyerCount; i++){
+                        fleet.add(new Ship("destroyer"));
+                        enemyfleet.add(new Ship("destroyer"));
+                    }
+                    singplayer.setFleet(fleet);
+                    singplayer.setFieldsize(fieldsize);
+                    mainPanel.setGameState("setzen");
+                    mainPanel.changeScreen("battlefield");
+                    portNumber = Integer.parseInt(port.getText());
+                    mainPanel.changeScreen("serverScreen", portNumber, fieldsize);
+                }else{
+                    JOptionPane.showMessageDialog(mainPanel, "Set your Field size!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                }
+
             }
         });
     }
