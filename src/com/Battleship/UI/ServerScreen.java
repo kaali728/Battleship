@@ -1,20 +1,32 @@
 package com.Battleship.UI;
 
 import com.Battleship.Model.Board;
+import com.Battleship.Model.Ship;
 import com.Battleship.Network.Server;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ServerScreen extends JPanel {
     int port;
     int fieldsize;
     JButton button;
+    int carrierCount, battleshipCount, submarineCount, destroyerCount;
+    GamePanel mainPanel;
+    Board postionBoard;
 
-    ServerScreen(int port, int fieldsize) {
+
+
+    ServerScreen(int port, int fieldsize, int carrierCount,int battleshipCount,int submarineCount,int destroyerCount, GamePanel mainPanel) {
         this.port = port;
         this.fieldsize = fieldsize;
+        this.carrierCount = carrierCount;
+        this.battleshipCount = battleshipCount;
+        this.submarineCount = submarineCount;
+        this.destroyerCount = destroyerCount;
+        this.mainPanel = mainPanel;
         initVar();
         initLayout();
     }
@@ -24,6 +36,15 @@ public class ServerScreen extends JPanel {
 
         Server.create(port);
         Server.fieldsize = fieldsize;
+
+        Server.carrierCount = carrierCount;
+
+        Server.battleshipCount = battleshipCount;
+
+        Server.submarineCount = submarineCount;
+
+        Server.destroyerCount = destroyerCount;
+
 
         button = new JButton("Server");
         Server.button = button;
@@ -62,7 +83,9 @@ public class ServerScreen extends JPanel {
         Box hbox = Box.createHorizontalBox();
         {
             hbox.add(Box.createHorizontalStrut(10));
-            //hbox.add(new Board(fieldsize));
+            ArrayList<Ship> fleet = this.mainPanel.getSingleplayer().getFleet();
+            postionBoard = new Board(fieldsize, fleet,this.mainPanel.getGameState());
+            hbox.add(postionBoard);
             hbox.add(Box.createHorizontalStrut(10));
         }
         add(hbox);

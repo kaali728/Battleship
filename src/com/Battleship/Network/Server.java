@@ -10,6 +10,8 @@ public class Server {
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
     public static JButton button;    // Der o. g. Knopf.
     public static int fieldsize;
+    public static int carrierCount, battleshipCount, submarineCount, destroyerCount;
+
 
     private static ServerSocket serverSocket;
     private static Socket socket;
@@ -27,6 +29,11 @@ public class Server {
                     // Send message to client.
                     PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
                     printWriter.println("Welcome to Battleship the field size is selected to " + fieldsize);
+                    printWriter.println("CarrierCount " + carrierCount);
+                    printWriter.println("battleshipCount " + battleshipCount);
+                    printWriter.println("submarineCount " + submarineCount);
+                    printWriter.println("destroyerCount " + destroyerCount);
+
                     printWriter.flush();
 
                     // Get message from client.

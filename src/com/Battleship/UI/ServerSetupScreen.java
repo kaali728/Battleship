@@ -33,7 +33,7 @@ public class ServerSetupScreen extends JPanel {
     JLabel submarineLabel;
 
     Box vbox;
-    Player singplayer;
+    Player serverPlayer;
 
 
     private int battleshipCount;
@@ -51,7 +51,7 @@ public class ServerSetupScreen extends JPanel {
 
     ServerSetupScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
-        singplayer = mainPanel.getSingleplayer();
+        serverPlayer = mainPanel.getSingleplayer();
         initVar();
         initLayout();
     }
@@ -96,29 +96,24 @@ public class ServerSetupScreen extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 if(fieldsize != 0){
                     ArrayList<Ship> fleet = new ArrayList<>();
-                    ArrayList<Ship> enemyfleet = new ArrayList<>();
                     for (int i=0; i<carrierCount; i++){
                         fleet.add(new Ship("carrier"));
-                        enemyfleet.add(new Ship("carrier"));
                     }
                     for (int i=0; i<battleshipCount; i++){
                         fleet.add(new Ship("battleship"));
-                        enemyfleet.add(new Ship("battleship"));
                     }
                     for (int i=0; i<submarineCount; i++){
                         fleet.add(new Ship("submarine"));
-                        enemyfleet.add(new Ship("submarine"));
                     }
                     for (int i=0; i<destroyerCount; i++){
                         fleet.add(new Ship("destroyer"));
-                        enemyfleet.add(new Ship("destroyer"));
                     }
-                    singplayer.setFleet(fleet);
-                    singplayer.setFieldsize(fieldsize);
+                    serverPlayer.setFleet(fleet);
+                    serverPlayer.setFieldsize(fieldsize);
                     mainPanel.setGameState("setzen");
-                    mainPanel.changeScreen("battlefield");
+                    //mainPanel.changeScreen("battlefield");
                     portNumber = Integer.parseInt(port.getText());
-                    mainPanel.changeScreen("serverScreen", portNumber, fieldsize);
+                    mainPanel.changeScreen("serverScreen", portNumber, fieldsize, carrierCount, battleshipCount, submarineCount, destroyerCount);
                 }else{
                     JOptionPane.showMessageDialog(mainPanel, "Set your Field size!", "Warning", JOptionPane.INFORMATION_MESSAGE);
                 }
