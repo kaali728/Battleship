@@ -11,6 +11,6 @@ import java.io.IOException;
 
 public class Game {
     public static void main(String[] args) {
-        EventQueue.invokeLater(GameMainFrame::new);
+       new GameMainFrame();
     }
 }
