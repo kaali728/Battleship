@@ -8,7 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Board extends JPanel {
     int size=0;
@@ -107,7 +110,6 @@ public class Board extends JPanel {
             }
         }
 
-
         Box vBox = Box.createVerticalBox();
         vBox.setBackground(Color.white);
         {
@@ -126,6 +128,11 @@ public class Board extends JPanel {
             add(vBox);
         }
 
+    }
+
+    public List convert(){
+        List<List<Field>> list = Arrays.stream(button).map(Arrays::asList).collect(Collectors.toList());
+        return list;
     }
 
     public void setMyShip() {
