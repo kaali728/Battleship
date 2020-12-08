@@ -43,7 +43,7 @@ public class SpeichernUnterClass  extends JFrame {
             try{
                 path = choosePath.getSelectedFile().toString();
 
-                String playerFleet = "p:"+ player.getFleet() + "e:"+  enemy.getFleet();
+                String playerFleet = "p:"+ player.convert() + "e:"+  enemy.convert();
 
 
                 file =new File(path);
