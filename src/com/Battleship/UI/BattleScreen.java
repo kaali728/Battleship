@@ -39,7 +39,7 @@ public class BattleScreen extends Panel implements ActionListener {
         saveGame = new JButton("Save Game");
         enemyLabel = new JLabel("Enemy");
         playerLabel = new JLabel("Player");
-        speicher = new SpeichernUnterClass();
+
 
 
         playerBoard = new Board(this.mainPanel.getSingleplayer().getFieldsize(), this.mainPanel.getSingleplayer().getFleet(), this.mainPanel.getGameState(), true);
@@ -59,7 +59,7 @@ public class BattleScreen extends Panel implements ActionListener {
         saveGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(" Player: "+ playerBoard.getFleet() + "\n Enemy: " +  enemyBoard.getFleet());
+                speicher = new SpeichernUnterClass(playerBoard , enemyBoard);
                 speicher.saveAs(null);
             }
         });

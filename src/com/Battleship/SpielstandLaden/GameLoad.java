@@ -1,7 +1,5 @@
 package com.Battleship.SpielstandLaden;
 
-import com.Battleship.Main.Game;
-
 import java.io.*;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -9,7 +7,6 @@ import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class GameLoad {
-
     public void readFile(String path) {
         if (path == null) {
             path = System.getProperty("user.home");
