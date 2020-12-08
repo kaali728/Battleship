@@ -79,7 +79,7 @@ public class MainScreen extends JPanel {
 
 
         JLabel titleLable = new JLabel(" Battleship ");
-        titleLable.setForeground(new Color	(43,209,252));
+        titleLable.setForeground(new Color	(212, 214, 207));
         titleLable.setFont(titlefont);
         titleLable.setVerticalAlignment(SwingConstants.CENTER);
         titleLable.setHorizontalAlignment(SwingConstants.CENTER);
@@ -92,6 +92,7 @@ public class MainScreen extends JPanel {
         spielstandLaden.setMaximumSize(new Dimension(150,50));
         soundButton.setMaximumSize(new Dimension(150,50));
 
+        Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
 
 
 
@@ -99,13 +100,13 @@ public class MainScreen extends JPanel {
         singleplayer.setForeground(Color.WHITE);
         singleplayer.setFont(buttonfont);
         singleplayer.setFocusPainted(false);
-        singleplayer.setBorder(null);
+        singleplayer.setBorder(b);
 
         multiplayer.setBackground(Color.black);
         multiplayer.setForeground(Color.WHITE);
         multiplayer.setFont(buttonfont);
         multiplayer.setFocusPainted(false);
-        multiplayer.setBorder(null);
+        multiplayer.setBorder(b);
 
 
 
@@ -113,14 +114,14 @@ public class MainScreen extends JPanel {
         spielstandLaden.setForeground(Color.WHITE);
         spielstandLaden.setFont(buttonfont);
         spielstandLaden.setFocusPainted(false);
-        spielstandLaden.setBorder(null);
+        spielstandLaden.setBorder(b);
 
 
         soundButton.setBackground(Color.black);
         soundButton.setForeground(Color.WHITE);
         soundButton.setFont(buttonfont);
         soundButton.setFocusPainted(false);
-        soundButton.setBorder(null);
+        soundButton.setBorder(b);
 
 
 
@@ -166,7 +167,8 @@ public class MainScreen extends JPanel {
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                singleplayer.setBorder(null);
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                singleplayer.setBorder(b);
             }
         });
 
@@ -177,7 +179,8 @@ public class MainScreen extends JPanel {
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                multiplayer.setBorder(null);
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                multiplayer.setBorder(b);
             }
         });
 
@@ -188,7 +191,8 @@ public class MainScreen extends JPanel {
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                spielstandLaden.setBorder(null);
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                spielstandLaden.setBorder(b);
             }
         });
 
@@ -199,7 +203,8 @@ public class MainScreen extends JPanel {
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                soundButton.setBorder(null);
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                soundButton.setBorder(b);
             }
         });
 
