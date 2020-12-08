@@ -2,6 +2,7 @@ package com.Battleship.UI;
 
 import com.Battleship.Constants.Constants;
 import com.Battleship.Main.Game;
+import com.Battleship.Player.Player;
 import com.Battleship.Sound.Sound;
 import com.Battleship.Sound.SoundFactory;
 import com.Battleship.SpielstandLaden.GameLoad;
@@ -11,6 +12,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class MainScreen extends JPanel {
     JButton singleplayer;
@@ -224,6 +226,10 @@ public class MainScreen extends JPanel {
 
         }
         buttonPanel1.add(vBox);
+
+
+
+
         add(titlePanel);
         add(buttonPanel1);
     }

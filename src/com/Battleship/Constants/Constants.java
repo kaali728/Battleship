@@ -10,5 +10,6 @@ public class Constants {
     public static final int HEIGHT = 800;
 
     public static final String ICON = "assets/images/battleshipicon.png";
-    public static final String BACKGROUND = "assets/images/background.jpg";
+    public static final String BACKGROUND = "assets/images/background.JPG";
+
 }
