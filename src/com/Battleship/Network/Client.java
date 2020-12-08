@@ -35,8 +35,9 @@ public class Client {
                     // Wir ueberpruefen ob die Spielfeld groesse schon gesetzt ist,
                     // ist das nicht der fall nehmen wir die erste Nachricht des Servers
                     // was als Schluss die Groesse des Spielfeldes ausgibt.
-                    String str = bufferedReader.readLine();
-                    System.out.println("[Server]: " + str);
+
+                        String str = bufferedReader.readLine();
+                        System.out.println("[Server]: " + str);
 
                     // Netzwerknachrichten lesen und verarbeiten.
                     // Da die graphische Oberfläche von einem separaten Thread verwaltet

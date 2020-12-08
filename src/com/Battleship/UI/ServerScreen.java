@@ -1,9 +1,12 @@
 package com.Battleship.UI;
 
+import com.Battleship.Model.Ship;
 import com.Battleship.Model.Board;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,8 +18,19 @@ public class ServerScreen extends JPanel {
     private static JTextField chatInput;
     private static JScrollPane chatScroll;
     private int fieldsize;
+    int port;
+    int carrierCount, battleshipCount, submarineCount, destroyerCount;
+    GamePanel mainPanel;
+    Board postionBoard;
 
-    ServerScreen(int port, int fieldsize) {
+    ServerScreen(int port, int fieldsize, int carrierCount,int battleshipCount,int submarineCount,int destroyerCount, GamePanel mainPanel) {
+        this.port = port;
+        this.fieldsize = fieldsize;
+        this.carrierCount = carrierCount;
+        this.battleshipCount = battleshipCount;
+        this.submarineCount = submarineCount;
+        this.destroyerCount = destroyerCount;
+        this.mainPanel = mainPanel;
         this.fieldsize = fieldsize;
         new SwingWorker() {
             @Override
@@ -27,7 +41,37 @@ public class ServerScreen extends JPanel {
 
                     // Send message to client.
                     PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-                    printWriter.println("Welcome to Battleship the field size is selected to " + fieldsize);
+                    printWriter.println("size " + fieldsize + fieldsize);
+                    printWriter.println("CarrierCount " + carrierCount);
+                    printWriter.println("battleshipCount " + battleshipCount);
+                    printWriter.println("submarineCount " + submarineCount);
+                    printWriter.println("destroyerCount " + destroyerCount);
+                    int ca = 5;
+                    int bat = 4;
+                    int subma = 3;
+                    int des= 2;
+                    int sum = carrierCount + battleshipCount+ submarineCount + destroyerCount;
+
+
+                    ArrayList<Integer> anzahl = new ArrayList<>();
+
+                    for (int i = 0; i < carrierCount; i++) {
+                        anzahl.add(ca);
+                    }
+                    for (int i = 0; i < battleshipCount; i++) {
+                        anzahl.add(bat);
+                    }
+                    for (int i = 0; i < submarineCount; i++) {
+                        anzahl.add(subma);
+                    }
+                    for (int i = 0; i < destroyerCount; i++) {
+                        anzahl.add(des);
+                    }
+                    //ships 5 4 4 3 3 3 2 2 2 2
+
+                    String list = Arrays.toString(anzahl.toArray()).replace("[", "").replace("]", "");
+                    System.out.println("Ships "+list.replace(",", ""));
+                    printWriter.print("Ships "+list.replace(",", ""));
                     printWriter.flush();
 
                     // Get message from client.
@@ -87,6 +131,14 @@ public class ServerScreen extends JPanel {
     }
 
     public void initLayout() {
+        Server.carrierCount = carrierCount;
+
+        Server.battleshipCount = battleshipCount;
+
+        Server.submarineCount = submarineCount;
+
+        Server.destroyerCount = destroyerCount;
+
         button = new JButton("Server");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.addActionListener(
@@ -141,7 +193,9 @@ public class ServerScreen extends JPanel {
         Box hbox = Box.createHorizontalBox();
         {
             hbox.add(Box.createHorizontalStrut(10));
-            hbox.add(new Board(fieldsize));
+            ArrayList<Ship> fleet = this.mainPanel.getSingleplayer().getFleet();
+            postionBoard = new Board(fieldsize, fleet,this.mainPanel.getGameState());
+            hbox.add(postionBoard);
             hbox.add(Box.createHorizontalStrut(10));
         }
         add(hbox);

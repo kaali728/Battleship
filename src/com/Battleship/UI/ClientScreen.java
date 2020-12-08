@@ -1,11 +1,13 @@
 package com.Battleship.UI;
 
 import com.Battleship.Model.Board;
+import com.Battleship.Model.Ship;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ClientScreen extends JPanel {
     private static JButton button;
@@ -14,8 +16,14 @@ public class ClientScreen extends JPanel {
     private static JScrollPane chatScroll;
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
     public int fieldsize;
+    GamePanel mainPanel;
+    Board postionBoard;
 
-    ClientScreen(String address, Integer port) {
+
+    int carrierCount, battleshipCount, submarineCount, destroyerCount;
+
+    ClientScreen(String address, Integer port, GamePanel mainPanel) {
+        this.mainPanel = mainPanel;
         new SwingWorker() {
             @Override
             protected Object doInBackground() {
@@ -35,12 +43,33 @@ public class ClientScreen extends JPanel {
                     // Wir ueberpruefen ob die Spielfeld groesse schon gesetzt ist,
                     // ist das nicht der fall nehmen wir die erste Nachricht des Servers
                     // was als Schluss die Groesse des Spielfeldes ausgibt.
+
                     String str = bufferedReader.readLine();
                     String finalStr = "[Battleship]: " + str;
                     System.out.println("[Battleship]: " + str);
                     str = str.substring(str.length() - 2);
                     str = str.replaceAll("\\s", "");
                     fieldsize = Integer.parseInt(str);
+                    for (int i = 0; i <4 ; i++) {
+                        String str2 = bufferedReader.readLine();
+                        str2 = str2.substring(str2.length() - 2);
+                        str2 = str2.replaceAll("\\s","");
+                        //System.out.println("[Server]: " + str2);
+                        switch (i){
+                            case 0:
+                                carrierCount = Integer.parseInt(str2);
+                                break;
+                            case 1:
+                                battleshipCount = Integer.parseInt(str2);
+                                break;
+                            case 2:
+                                submarineCount = Integer.parseInt(str2);
+                                break;
+                            case 3:
+                                destroyerCount = Integer.parseInt(str2);
+                                break;
+                        }
+                    }
 
                     System.out.println("CONNECTION THREAD: " + Thread.currentThread().getName());
 
@@ -91,6 +120,30 @@ public class ClientScreen extends JPanel {
     }
 
     public void initLayout() {
+        System.out.println("LAYOUT THREAD: " + Thread.currentThread().getName());
+        System.out.println("FIELDSIZE " + fieldsize);
+        System.out.println("carrierCount " + carrierCount);
+        System.out.println("battleshipCount " + battleshipCount);
+        System.out.println("submarineCount " + submarineCount);
+        System.out.println("destroyerCount " + destroyerCount);
+
+        ArrayList<Ship> fleet = new ArrayList<>();
+        for (int i=0; i<carrierCount; i++){
+            fleet.add(new Ship("carrier"));
+        }
+        for (int i=0; i<battleshipCount; i++){
+            fleet.add(new Ship("battleship"));
+        }
+        for (int i=0; i<submarineCount; i++){
+            fleet.add(new Ship("submarine"));
+        }
+        for (int i=0; i<destroyerCount; i++){
+            fleet.add(new Ship("destroyer"));
+        }
+        this.mainPanel.getNetworkPlayer().setFleet(fleet);
+        this.mainPanel.getNetworkPlayer().setFieldsize(fieldsize);
+        mainPanel.setGameState("setzen");
+      
         button = new JButton("Client");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.addActionListener(
@@ -146,7 +199,9 @@ public class ClientScreen extends JPanel {
         Box hbox = Box.createHorizontalBox();
         {
             hbox.add(Box.createHorizontalStrut(10));
-            hbox.add(new Board(fieldsize));
+            ArrayList<Ship> fleet1 = this.mainPanel.getNetworkPlayer().getFleet();
+            postionBoard = new Board(fieldsize, fleet1,this.mainPanel.getGameState());
+            hbox.add(postionBoard);
             hbox.add(Box.createHorizontalStrut(10));
         }
         add(hbox);

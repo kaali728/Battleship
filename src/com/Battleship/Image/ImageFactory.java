@@ -14,6 +14,9 @@ public class ImageFactory {
             case BACKGROUND:
                 imageIcon = new ImageIcon(Constants.BACKGROUND);
                 break;
+            case SHIP:
+                imageIcon = new ImageIcon(Constants.SHIP);
+                break;
             default:
                 return null;
         }
