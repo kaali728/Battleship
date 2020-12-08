@@ -1,6 +1,8 @@
 package com.Battleship.UI;
 
 import com.Battleship.Constants.Constants;
+import com.Battleship.Image.Image;
+import com.Battleship.Image.ImageFactory;
 import com.Battleship.Main.Game;
 import com.Battleship.Player.Player;
 import com.Battleship.Sound.Sound;
@@ -23,8 +25,9 @@ public class MainScreen extends JPanel {
     private SoundFactory sound;
     boolean startSound = true;
     private ImageIcon background;
+    private ImageIcon ship;
     private GameLoad load;
-
+    private JLabel shiplabel;
 
     MainScreen(GamePanel gamePanel) {
         mainPanel = gamePanel;
@@ -41,7 +44,10 @@ public class MainScreen extends JPanel {
         sound.load(Sound.MAINSOUND);
         sound.play(SoundFactory.sound);
         load = new GameLoad();
+
         //this.background = ImageFactory.createImage(Image.BACKGROUND);
+        this.ship = ImageFactory.createImage(Image.SHIP);
+        shiplabel = new JLabel(ship);
 
     }
 
@@ -216,6 +222,7 @@ public class MainScreen extends JPanel {
         vBox.setAlignmentX(CENTER_ALIGNMENT);
         vBox.setAlignmentY(CENTER_ALIGNMENT);
         {
+
             vBox.add(singleplayer);
             vBox.add(Box.createVerticalStrut(20));
             vBox.add(multiplayer);
@@ -224,19 +231,26 @@ public class MainScreen extends JPanel {
             vBox.add(Box.createVerticalStrut(20));
             vBox.add(soundButton);
 
+
         }
         buttonPanel1.add(vBox);
 
+        JPanel shipPanel = new JPanel();
+        shipPanel.setBackground(Color.black);
+        shipPanel.setSize(Constants.WIDTH, Constants.HEIGHT);
+        shipPanel.setAlignmentX(CENTER_ALIGNMENT);
+        shipPanel.setAlignmentY(CENTER_ALIGNMENT);
 
-
+        shipPanel.add(shiplabel);
 
         add(titlePanel);
         add(buttonPanel1);
+        add(shipPanel);
     }
     // Für den Hintergrund auf einem JPanel muss man diese Funktion überschreiben.
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), null);
+        //g.drawImage(ship.getImage(), 0, 0, getWidth()/2, getHeight()/2, null);
     }
 }
