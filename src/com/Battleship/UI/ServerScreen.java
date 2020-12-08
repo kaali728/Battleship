@@ -56,9 +56,18 @@ public class ServerScreen extends JPanel {
                         if (line == null) break;
                         SwingUtilities.invokeLater(
                                 () -> {
-                                    button.setEnabled(true);
                                     String tmp = chat.getText();
-                                    chat.setText(tmp + "\n" + "[Enemy]: " + line);
+                                    // Pruefen ob es in der Nachricht um ein Spielereignis handelt
+                                    // oder es einfach nur eine Chat Nachricht ist.
+                                    if (line.contains("[Battleship]:")) {
+                                        // Ping Pong und Nachricht an den Gegner,
+                                        // dass er an der Reihe ist.
+                                        button.setEnabled(true);
+                                        chat.setText(tmp + "\n" + line);
+                                    } else {
+                                        // Chat Historie und aktuelle Nachricht vom Gegner.
+                                        chat.setText(tmp + "\n" + "[Enemy]: " + line);
+                                    }
                                 }
                         );
                     }
@@ -87,14 +96,14 @@ public class ServerScreen extends JPanel {
                 // und eine beliebige Nachricht an die andere "Seite" geschickt,
                 // damit diese ihren Knopf aktivieren kann.
                 (e) -> {
-                    System.out.println("Server clicked the button.");
                     button.setEnabled(false);
-//                    try {
-//                        out.write(String.format("%s%n", "message"));
-//                        out.flush();
-//                    } catch (IOException ex) {
-//                        System.out.println("write to socket failed");
-//                    }
+                    try {
+                        // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
+                        out.write(String.format("%s%n", "[Battleship]: It's your turn."));
+                        out.flush();
+                    } catch (IOException ex) {
+                        System.out.println("write to socket failed");
+                    }
                 }
         );
 
@@ -105,15 +114,17 @@ public class ServerScreen extends JPanel {
         chat.setEditable(false);
         chat.setBackground(Color.lightGray);
 
-        chatInput = new JTextField(1);
+        chatInput = new JTextField(70);
         chatInput.addActionListener(
                 (e) -> {
                     try {
-                        System.out.println("CHAT: " + chatInput.getText());
+                        // Schreibt die Chat Nachricht an den Gegner.
                         out.write(String.format("%s%n", chatInput.getText()));
                         out.flush();
+                        // Zeigt die Chat Historie und die aktuelle Nachricht an.
                         String tmp = chat.getText();
                         chat.setText(tmp + "\n" + "[You]: " + chatInput.getText());
+                        // Leert das Eingabefeld nach dem Senden.
                         chatInput.setText("");
                     } catch (IOException ex) {
                         System.out.println("write to socket failed");
@@ -125,11 +136,6 @@ public class ServerScreen extends JPanel {
 
         setBackground(Color.white);
         add(button);
-
-        Box vbox = Box.createVerticalBox();
-        vbox.add(Box.createVerticalStrut(100));
-        vbox.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(vbox);
 
         // Board
         Box hbox = Box.createHorizontalBox();
