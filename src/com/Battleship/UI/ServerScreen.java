@@ -13,6 +13,7 @@ public class ServerScreen extends JPanel {
     int port;
     int fieldsize;
     JButton button;
+    JButton ready;
     int carrierCount, battleshipCount, submarineCount, destroyerCount;
     GamePanel mainPanel;
     Board postionBoard;
@@ -47,6 +48,7 @@ public class ServerScreen extends JPanel {
 
 
         button = new JButton("Server");
+        ready = new JButton("Ready");
         Server.button = button;
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.addActionListener(
@@ -74,6 +76,7 @@ public class ServerScreen extends JPanel {
     public void initLayout() {
         setBackground(Color.white);
         add(button);
+        add(ready);
         Box vbox = Box.createVerticalBox();
         vbox.add(Box.createVerticalStrut(100));
         vbox.setAlignmentX(Component.CENTER_ALIGNMENT);

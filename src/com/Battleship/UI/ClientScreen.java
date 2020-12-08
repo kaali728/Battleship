@@ -5,12 +5,15 @@ import com.Battleship.Model.Ship;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class ClientScreen extends JPanel {
     private static JButton button;
+    JButton ready;
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
     public int fieldsize;
     GamePanel mainPanel;
@@ -44,26 +47,29 @@ public class ClientScreen extends JPanel {
                     String str = bufferedReader.readLine();
                     System.out.println("[Server]: " + str);
                     str = str.substring(str.length() - 2);
-                    str = str.replaceAll("\\s","");
-                    fieldsize = Integer.parseInt(str);
-                    for (int i = 0; i <4 ; i++) {
-                        String str2 = bufferedReader.readLine();
-                        str2 = str2.substring(str2.length() - 2);
-                        str2 = str2.replaceAll("\\s","");
-                        //System.out.println("[Server]: " + str2);
-                        switch (i){
-                            case 0:
-                                carrierCount = Integer.parseInt(str2);
-                                break;
-                            case 1:
-                                battleshipCount = Integer.parseInt(str2);
-                                break;
-                            case 2:
-                                submarineCount = Integer.parseInt(str2);
-                                break;
-                            case 3:
-                                destroyerCount = Integer.parseInt(str2);
-                                break;
+                    str = str.replaceAll("\\s", "");
+                    String[] groesse = str.split(" ");
+                    fieldsize = Integer.parseInt(groesse[0]);
+
+
+                    //str2 = ships 5 4 4 3 3 3 2 2 2 2
+                    String sas = "Ships ";
+                    String str2 = bufferedReader.readLine();
+                    //str2 = str2.substring(str2.length() - 2);
+                    str2 = str2.replaceAll(sas, "");
+                    String[] str3 = str2.split(" ");
+                    for (String s: str3) {
+                        if(Integer.parseInt(s) == 5){
+                            carrierCount++;
+                        }
+                        if(Integer.parseInt(s) == 4){
+                            battleshipCount++;
+                        }
+                        if(Integer.parseInt(s) == 3){
+                            submarineCount++;
+                        }
+                        if(Integer.parseInt(s) == 2){
+                            destroyerCount++;
                         }
                     }
 
@@ -108,16 +114,16 @@ public class ClientScreen extends JPanel {
         System.out.println("destroyerCount " + destroyerCount);
 
         ArrayList<Ship> fleet = new ArrayList<>();
-        for (int i=0; i<carrierCount; i++){
+        for (int i = 0; i < carrierCount; i++) {
             fleet.add(new Ship("carrier"));
         }
-        for (int i=0; i<battleshipCount; i++){
+        for (int i = 0; i < battleshipCount; i++) {
             fleet.add(new Ship("battleship"));
         }
-        for (int i=0; i<submarineCount; i++){
+        for (int i = 0; i < submarineCount; i++) {
             fleet.add(new Ship("submarine"));
         }
-        for (int i=0; i<destroyerCount; i++){
+        for (int i = 0; i < destroyerCount; i++) {
             fleet.add(new Ship("destroyer"));
         }
         this.mainPanel.getNetworkPlayer().setFleet(fleet);
@@ -140,10 +146,11 @@ public class ClientScreen extends JPanel {
 //        frame.add(Box.createGlue());
 
 
-
         // Horizontal zentrierten Knopf (JButton) hinzufügen.
         button = new JButton("Client");
+        ready = new JButton("ready");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ready.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.addActionListener(
                 // Wenn der Knopf gedrückt wird,
                 // erfolgt eine Kontrollausgabe auf System.out.
@@ -155,22 +162,30 @@ public class ClientScreen extends JPanel {
                     try {
                         out.write(String.format("%s%n", "message"));
                         out.flush();
-                    }
-                    catch (IOException ex) {
+                    } catch (IOException ex) {
                         System.out.println("write to socket failed");
                     }
                 }
         );
+
+        ready.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
         Box hbox = Box.createHorizontalBox();
         {
             hbox.add(Box.createHorizontalStrut(10));
             ArrayList<Ship> fleet1 = this.mainPanel.getNetworkPlayer().getFleet();
-            postionBoard = new Board(fieldsize, fleet1,this.mainPanel.getGameState());
+            postionBoard = new Board(fieldsize, fleet1, this.mainPanel.getGameState());
             hbox.add(postionBoard);
             hbox.add(Box.createHorizontalStrut(10));
         }
         add(hbox);
         add(button);
+        add(ready);
         updateUI();
         //frame.add(button);
         //playerBoard = new Board(this.mainPanel.getSingleplayer().getFieldsize(), this.mainPanel.getSingleplayer().getFleet(), this.mainPanel.getGameState(), true);
