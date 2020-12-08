@@ -7,6 +7,8 @@ import com.Battleship.Sound.SoundFactory;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class MainScreen extends JPanel {
     JButton singleplayer;
@@ -38,7 +40,23 @@ public class MainScreen extends JPanel {
     }
 
     void initLayout() {
-        Font  titlefont  = new Font(Font.SANS_SERIF,  Font.BOLD, 100);
+        Font  titlefont  = null;
+        try {
+            titlefont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/Fonts/Road_Rage.otf")).deriveFont(100f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(titlefont);
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+            titlefont  = new Font(Font.SANS_SERIF,  Font.BOLD, 100);
+        } catch (IOException e) {
+            e.printStackTrace();
+            titlefont  = new Font(Font.SANS_SERIF,  Font.BOLD, 100);
+
+        }
+
+
+
         Font  buttonfont  = new Font(Font.SANS_SERIF,  Font.BOLD, 25);
 
         JPanel titlePanel = new JPanel();
@@ -48,12 +66,11 @@ public class MainScreen extends JPanel {
 
 
 
-        JLabel titleLable = new JLabel("Battleship");
+        JLabel titleLable = new JLabel(" Battleship ");
         titleLable.setForeground(new Color	(43,209,252));
         titleLable.setFont(titlefont);
         titleLable.setVerticalAlignment(SwingConstants.CENTER);
         titleLable.setHorizontalAlignment(SwingConstants.CENTER);
-
         titlePanel.add(titleLable);
 
 
