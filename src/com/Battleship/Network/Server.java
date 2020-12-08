@@ -1,5 +1,7 @@
 package com.Battleship.Network;
 
+import com.Battleship.UI.ServerScreen;
+
 import javax.swing.*;
 import java.awt.*;
 import java.net.*;
@@ -12,8 +14,8 @@ public class Server {
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
     public static JButton button;    // Der o. g. Knopf.
     public static int fieldsize;
+    public static JTextArea chat;
     public static int carrierCount, battleshipCount, submarineCount, destroyerCount;
-
 
     private static ServerSocket serverSocket;
     private static Socket socket;
@@ -88,6 +90,7 @@ public class Server {
                     // (oder invokeAndWait) ausgeführt werden.
                     while (true) {
                         String line = bufferedReader.readLine();
+                        chat.setText(line);
                         if (line == null) break;
                         SwingUtilities.invokeLater(
                                 () -> button.setEnabled(true)
