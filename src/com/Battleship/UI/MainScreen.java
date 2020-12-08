@@ -1,8 +1,10 @@
 package com.Battleship.UI;
 
 import com.Battleship.Constants.Constants;
+import com.Battleship.Main.Game;
 import com.Battleship.Sound.Sound;
 import com.Battleship.Sound.SoundFactory;
+import com.Battleship.SpielstandLaden.GameLoad;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,6 +21,7 @@ public class MainScreen extends JPanel {
     private SoundFactory sound;
     boolean startSound = true;
     private ImageIcon background;
+    private GameLoad load;
 
 
     MainScreen(GamePanel gamePanel) {
@@ -35,6 +38,7 @@ public class MainScreen extends JPanel {
         sound = new SoundFactory();
         sound.load(Sound.MAINSOUND);
         sound.play(SoundFactory.sound);
+        load = new GameLoad();
         //this.background = ImageFactory.createImage(Image.BACKGROUND);
 
     }
@@ -128,6 +132,7 @@ public class MainScreen extends JPanel {
 
         spielstandLaden.addActionListener(
                 (e) -> {
+                    load.readFile(null);
                 }
         );
 

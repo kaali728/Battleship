@@ -15,17 +15,17 @@ public class SpeichernUnterClass  extends JFrame {
 
 
 
-    public boolean saveAs(String pfad) {
+    public boolean saveAs(String path) {
         JFileChooser choosePath;
         File file;
         FileWriter fw;
         BufferedWriter bw;
 
-        if (pfad == null) {
-            pfad = System.getProperty("user.home");
+        if (path == null) {
+            path = System.getProperty("user.home");
         }
 
-        choosePath = new JFileChooser(pfad);
+        choosePath = new JFileChooser(path);
         choosePath.setDialogType(JFileChooser.SAVE_DIALOG);
         FileNameExtensionFilter plainFilter = new FileNameExtensionFilter("txt", "txt");
         choosePath.removeChoosableFileFilter(choosePath.getAcceptAllFileFilter());
@@ -35,13 +35,13 @@ public class SpeichernUnterClass  extends JFrame {
 
         if (result == JFileChooser.APPROVE_OPTION) {
             try{
-                pfad = choosePath.getSelectedFile().toString();
+                path = choosePath.getSelectedFile().toString();
 
                 String ship = "Schiffe die in der Txt 4";
 
-                file =new File(pfad);
+                file =new File(path);
 
-                fw = new FileWriter(file+".txt");
+                fw = new FileWriter(file +".txt");
 
                 bw = new BufferedWriter(fw);
                                bw.write(ship);
