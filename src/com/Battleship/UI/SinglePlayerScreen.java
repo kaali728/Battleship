@@ -60,7 +60,6 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
         destroyerLabel = new JLabel();
         submarineslider = new JSlider(1,1);
         submarineLabel = new JLabel();
-        setBackground(Color.black);
         back = new JButton("Back");
         play = new JButton("Set fleet");
         size = new JLabel();
@@ -107,7 +106,7 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
         });
     }
     public void initlayout(){
-        setBackground(Color.white);
+        setBackground(Color.black);
         vbox = Box.createVerticalBox();
         {
             // paint the ticks and tarcks
