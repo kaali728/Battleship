@@ -83,7 +83,7 @@ public class ServerSetupScreen extends JPanel {
         size.setMinorTickSpacing(5);
         size.setMajorTickSpacing(25);
         sizeLabel.setText("size =" + size.getValue());
-        size.setValue(16);
+        //size.setValue(16);
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

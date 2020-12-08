@@ -2,6 +2,7 @@ package com.Battleship.UI;
 
 import com.Battleship.Model.Ship;
 import com.Battleship.Model.Board;
+import com.Battleship.Network.Server;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class ServerScreen extends JPanel {
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
@@ -131,14 +133,6 @@ public class ServerScreen extends JPanel {
     }
 
     public void initLayout() {
-        Server.carrierCount = carrierCount;
-
-        Server.battleshipCount = battleshipCount;
-
-        Server.submarineCount = submarineCount;
-
-        Server.destroyerCount = destroyerCount;
-
         button = new JButton("Server");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.addActionListener(
