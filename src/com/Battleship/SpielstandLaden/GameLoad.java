@@ -26,7 +26,8 @@ public class GameLoad {
             try {
                 FileReader fr = new FileReader(file);
                 BufferedReader br = new BufferedReader(fr);
-                txt.read(br, "Load ");
+                txt.read(br, "Load");
+                br.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
