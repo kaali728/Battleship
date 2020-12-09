@@ -393,6 +393,9 @@ public class Board extends JPanel {
     public Ship setShip(int row,int column){
         Random random= new Random();
         boolean hori = random.nextBoolean();
+        if(size == 6){
+            hori = true;
+        }
         if(carrierCount != 0){
             for (Ship s: fleet) {
                 if(s.getShipModel() == "carrier"  && s.getRow() == -1 && s.getRow() == -1){
@@ -727,5 +730,9 @@ public class Board extends JPanel {
 
     public Field[][] getButton() {
         return button;
+    }
+
+    public Field getonebutton(int row, int columns){
+        return button[row][columns];
     }
 }
