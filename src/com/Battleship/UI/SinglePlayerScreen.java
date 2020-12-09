@@ -5,6 +5,7 @@ import com.Battleship.Player.AIPlayer;
 import com.Battleship.Player.Player;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -60,8 +61,8 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
         destroyerLabel = new JLabel();
         submarineslider = new JSlider(1,1);
         submarineLabel = new JLabel();
-        back = new JButton("Back");
-        play = new JButton("Set fleet");
+        back = new JButton("BACK");
+        play = new JButton("SET FLEET >");
         size = new JLabel();
         play.addActionListener(new ActionListener() {
             @Override
@@ -107,6 +108,47 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
     }
     public void initlayout(){
         setBackground(Color.black);
+        size.setBackground(Color.black);
+        size.setForeground(Color.WHITE);
+        Font  buttonfont  = new Font(Font.SANS_SERIF,  Font.BOLD, 19);
+        Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+
+        play.setBackground(Color.black);
+        play.setForeground(Color.WHITE);
+        play.setFont(buttonfont);
+        play.setFocusPainted(false);
+        play.setMargin(new Insets(0, 0, 0, 0));
+        play.setBorder(b);
+        play.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                play.setBorder(b);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                play.setBorder(b);
+            }
+        });
+
+        back.setBackground(Color.black);
+        back.setForeground(Color.WHITE);
+        back.setFont(buttonfont);
+        back.setFocusPainted(false);
+        back.setMargin(new Insets(0, 0, 0, 0));
+        back.setBorder(b);
+        back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                back.setBorder(b);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                back.setBorder(b);
+            }
+        });
+
         vbox = Box.createVerticalBox();
         {
             // paint the ticks and tarcks
@@ -116,6 +158,8 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             fieldslider.addChangeListener(this::stateChanged);
             fieldslider.setMinorTickSpacing(5);
             fieldslider.setMajorTickSpacing(25);
+            fieldslider.setBackground(Color.black);
+            fieldslider.setForeground(Color.white);
             size.setText("size=" + fieldslider.getValue());
 
 
@@ -123,6 +167,8 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             carrierSlider.setPaintTicks(true);
             carrierSlider.setPaintLabels(true);
             carrierSlider.addChangeListener(this::stateChanged);
+            carrierSlider.setBackground(Color.black);
+            carrierSlider.setForeground(Color.white);
             carrierSlider.setMinorTickSpacing(1);
             carrierSlider.setMajorTickSpacing(1);
             carrierLabel.setText("Count of Carrier length 5= " + carrierSlider.getValue());
@@ -131,6 +177,8 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             battleshipSlider.setPaintTicks(true);
             battleshipSlider.setPaintLabels(true);
             battleshipSlider.addChangeListener(this::stateChanged);
+            battleshipSlider.setBackground(Color.black);
+            battleshipSlider.setForeground(Color.white);
             battleshipSlider.setMinorTickSpacing(1);
             battleshipSlider.setMajorTickSpacing(1);
             battleshipLabel.setText("Count of Battleship length 4= " + battleshipSlider.getValue());
@@ -139,6 +187,8 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             destroyerslider.setPaintTicks(true);
             destroyerslider.setPaintLabels(true);
             destroyerslider.addChangeListener(this::stateChanged);
+            destroyerslider.setBackground(Color.black);
+            destroyerslider.setForeground(Color.white);
             destroyerslider.setMinorTickSpacing(1);
             destroyerslider.setMajorTickSpacing(1);
             destroyerLabel.setText("Count of Destroyer length 2= " + destroyerslider.getValue());
@@ -148,22 +198,27 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             submarineslider.setPaintTicks(true);
             submarineslider.setPaintLabels(true);
             submarineslider.addChangeListener(this::stateChanged);
+            submarineslider.setBackground(Color.black);
+            submarineslider.setForeground(Color.white);
             submarineslider.setMinorTickSpacing(1);
             submarineslider.setMajorTickSpacing(1);
             submarineLabel.setText("Count of Submarine length 3= " + submarineslider.getValue());
 
-
-            vbox.add(fieldslider);
             vbox.add(size);
-
-
-            vbox.add(back);
-            vbox.add(play);
+            vbox.add(fieldslider);
+            Box hbox = Box.createHorizontalBox();
+            {
+                hbox.add(back);
+                hbox.add(Box.createHorizontalStrut(10));
+                hbox.add(play);
+            }
+            vbox.add(Box.createVerticalStrut(20));
+            vbox.add(hbox);
 
         }
         vbox.add(Box.createVerticalStrut(100));
-        vbox.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        vbox.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+        vbox.setAlignmentY(JPanel.CENTER_ALIGNMENT);
         add(vbox);
 
     }
@@ -182,8 +237,7 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             this.submarineslider.setMaximum(submarineCounterMax);
             this.destroyerslider.setMaximum(destroyerCounterMax);
             this.battleshipSlider.setMaximum(battleshipCounterMax);
-            size.setBackground(Color.black);
-            size.setForeground(Color.WHITE);
+
             carrierLabel.setBackground(Color.black);
             carrierLabel.setForeground(Color.WHITE);
             submarineLabel.setBackground(Color.black);
@@ -193,17 +247,20 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             destroyerLabel.setBackground(Color.black);
             destroyerLabel.setForeground(Color.WHITE);
 
-            vbox.add(carrierSlider);
             vbox.add(carrierLabel);
+            vbox.add(carrierSlider);
 
-            vbox.add(battleshipSlider);
+
             vbox.add(battleshipLabel);
+            vbox.add(battleshipSlider);
 
-            vbox.add(submarineslider);
+
             vbox.add(submarineLabel);
+            vbox.add(submarineslider);
 
-            vbox.add(destroyerslider);
             vbox.add(destroyerLabel);
+            vbox.add(destroyerslider);
+
 
         }
         if(e.getSource().equals(carrierSlider)){

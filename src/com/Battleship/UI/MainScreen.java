@@ -100,12 +100,14 @@ public class MainScreen extends JPanel {
         singleplayer.setForeground(Color.WHITE);
         singleplayer.setFont(buttonfont);
         singleplayer.setFocusPainted(false);
+        singleplayer.setMargin(new Insets(0, 0, 0, 0));
         singleplayer.setBorder(b);
 
         multiplayer.setBackground(Color.black);
         multiplayer.setForeground(Color.WHITE);
         multiplayer.setFont(buttonfont);
         multiplayer.setFocusPainted(false);
+        multiplayer.setMargin(new Insets(0, 0, 0, 0));
         multiplayer.setBorder(b);
 
 
@@ -114,6 +116,7 @@ public class MainScreen extends JPanel {
         spielstandLaden.setForeground(Color.WHITE);
         spielstandLaden.setFont(buttonfont);
         spielstandLaden.setFocusPainted(false);
+        spielstandLaden.setMargin(new Insets(0, 0, 0, 0));
         spielstandLaden.setBorder(b);
 
 
@@ -121,6 +124,7 @@ public class MainScreen extends JPanel {
         soundButton.setForeground(Color.WHITE);
         soundButton.setFont(buttonfont);
         soundButton.setFocusPainted(false);
+        soundButton.setMargin(new Insets(0, 0, 0, 0));
         soundButton.setBorder(b);
 
 

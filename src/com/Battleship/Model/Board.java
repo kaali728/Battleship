@@ -86,7 +86,7 @@ public class Board extends JPanel {
         setLayout(new GridBagLayout());
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(size, size));
-
+        buttonPanel.setBackground(Color.blue);
         for (rows = 0; rows < size; rows++) {
             for (columns = 0; columns < size; columns++) {
                 button[rows][columns] = new Field(rows,columns, gameState);
