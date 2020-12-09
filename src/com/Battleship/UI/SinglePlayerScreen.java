@@ -182,6 +182,17 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             this.submarineslider.setMaximum(submarineCounterMax);
             this.destroyerslider.setMaximum(destroyerCounterMax);
             this.battleshipSlider.setMaximum(battleshipCounterMax);
+            size.setBackground(Color.black);
+            size.setForeground(Color.WHITE);
+            carrierLabel.setBackground(Color.black);
+            carrierLabel.setForeground(Color.WHITE);
+            submarineLabel.setBackground(Color.black);
+            submarineLabel.setForeground(Color.WHITE);
+            battleshipLabel.setBackground(Color.black);
+            battleshipLabel.setForeground(Color.WHITE);
+            destroyerLabel.setBackground(Color.black);
+            destroyerLabel.setForeground(Color.WHITE);
+
             vbox.add(carrierSlider);
             vbox.add(carrierLabel);
 
