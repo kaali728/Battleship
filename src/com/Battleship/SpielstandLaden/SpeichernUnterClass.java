@@ -33,7 +33,7 @@ public class SpeichernUnterClass  extends JFrame {
 
         choosePath = new JFileChooser(path);
         choosePath.setDialogType(JFileChooser.SAVE_DIALOG);
-        FileNameExtensionFilter plainFilter = new FileNameExtensionFilter("txt", "txt");
+        //FileNameExtensionFilter plainFilter = new FileNameExtensionFilter("txt", "txt");
         choosePath.removeChoosableFileFilter(choosePath.getAcceptAllFileFilter());
         //choosePath.setFileFilter(plainFilter);
 
