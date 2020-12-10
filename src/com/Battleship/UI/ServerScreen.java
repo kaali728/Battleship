@@ -87,7 +87,6 @@ public class ServerScreen extends JPanel {
 
                     // Graphische Oberfläche aufbauen.
                     SwingUtilities.invokeLater(() -> {
-                                initLayout();
                                 chat.setText(finalStr);
                             }
                     );
@@ -130,6 +129,7 @@ public class ServerScreen extends JPanel {
                 return null;
             }
         }.execute();
+        initLayout();
     }
 
     public void initLayout() {
@@ -196,6 +196,6 @@ public class ServerScreen extends JPanel {
 
         add(chatScroll);
         add(chatInput);
-        updateUI();
+        repaint();
     }
 }

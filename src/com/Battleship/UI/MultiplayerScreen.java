@@ -9,6 +9,7 @@ public class MultiplayerScreen extends JPanel {
     GamePanel mainPanel;
     JButton client;
     JButton server;
+    JButton back;
 
     MultiplayerScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
@@ -19,6 +20,14 @@ public class MultiplayerScreen extends JPanel {
     public void initVar() {
         client = new JButton("Connect to a server");
         server = new JButton("Host game");
+        back = new JButton("Back");
+
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainPanel.changeScreen("main");
+            }
+        });
 
         client.addActionListener(new ActionListener() {
             @Override
@@ -42,5 +51,6 @@ public class MultiplayerScreen extends JPanel {
         vbox.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(vbox);
         add(server);
+        add(back);
     }
 }

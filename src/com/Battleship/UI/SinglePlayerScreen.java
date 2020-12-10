@@ -209,7 +209,7 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             Box hbox = Box.createHorizontalBox();
             {
                 hbox.add(back);
-                hbox.add(Box.createHorizontalStrut(10));
+                hbox.add(Box.createHorizontalStrut(100));
                 hbox.add(play);
             }
             vbox.add(Box.createVerticalStrut(20));
