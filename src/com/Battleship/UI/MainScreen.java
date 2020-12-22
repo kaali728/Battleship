@@ -217,7 +217,7 @@ public class MainScreen extends JPanel {
 
         JPanel buttonPanel1 =  new JPanel();
         buttonPanel1.setBackground(Color.black);
-        buttonPanel1.setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
+        buttonPanel1.setSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
 
 
 

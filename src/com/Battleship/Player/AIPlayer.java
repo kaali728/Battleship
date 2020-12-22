@@ -156,6 +156,7 @@ public class AIPlayer {
         }
     }
 
+
     public void addTousedCord(int row, int column) {
         int[] entry = {row, column};
         usedCord.put(hashCode(row, column), entry);

@@ -44,6 +44,8 @@ public class Board extends JPanel {
 
     private AIPlayer aiPlayer;
 
+    //0 player 1 ai
+    private boolean turn = true;
 
     private int allHealth;
 
@@ -105,7 +107,6 @@ public class Board extends JPanel {
                     }
                 });
                 buttonPanel.add(button[rows][columns]);
-
             }
         }
 
@@ -166,7 +167,7 @@ public class Board extends JPanel {
                 //System.out.println(fleet);
                 button[row][column].setText("<html><b color=white>💣</b></html>");
                 button[row][column].setBackground(new Color(0xE52100));
-                aiPlayer.Enemyshoot(playerBoardobj);
+                //aiPlayer.Enemyshoot(playerBoardobj);
                 button[row][column].setShot(true);
                 allHealth--;
                 if(isGameOver()){
@@ -200,6 +201,7 @@ public class Board extends JPanel {
                 if(f.getRow() == row && f.getColumn() == column && f.isMark()){
                     button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
                     button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
+                    //aiPlayer.Enemyshoot(playerBoardobj);
                     f.setShot(true);
                     allHealth--;
                     if(isGameOver()){
