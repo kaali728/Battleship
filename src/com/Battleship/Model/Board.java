@@ -127,7 +127,6 @@ public class Board extends JPanel {
         if(gameState.equals("setzen")){
             add(vBox);
         }
-
     }
 
     public List convert(){
@@ -201,9 +200,10 @@ public class Board extends JPanel {
                 if(f.getRow() == row && f.getColumn() == column && f.isMark()){
                     button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
                     button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
-                    //aiPlayer.Enemyshoot(playerBoardobj);
+                    //System.out.println(this);
                     f.setShot(true);
                     allHealth--;
+                    //aiPlayer.Enemyshoot(this);
                     if(isGameOver()){
                         JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
 

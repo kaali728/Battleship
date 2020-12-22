@@ -101,8 +101,9 @@ public class AIPlayer {
         }
     }
 
-    public void Enemyshoot(Board player) {
+    public boolean Enemyshoot(Board player) {
         this.playerBoard = player;
+        boolean isHit = false;
         if (nextHit.size() == 0) {
             Random random = new Random();
             while (true) {
@@ -111,16 +112,17 @@ public class AIPlayer {
                 if ((row + column) % 2 == 0) {
                     if (!isUsedCord(row, column)) {
                         addTousedCord(row, column);
-                        boolean isHit = player.shoot(row, column);
+                       isHit = player.shoot(row, column);
                         if (isHit) {
                             hitShipBehind(row, column);
+                            System.out.println(isHit);
+                            Enemyshoot(player);
                         }
-                        break;
+                         break;
                     }
                 }
             }
         } else {
-            boolean isHit = false;
             Map.Entry<Integer, int[]> entry = nextHit.entrySet().iterator().next();
             int key = entry.getKey();
             int[] value = entry.getValue();
@@ -140,6 +142,7 @@ public class AIPlayer {
                             }
                         }
                         hitShipBehind(nextRow, nextColumn, true);
+
                     } else {
                         //verti
                         for (Map.Entry<Integer, int[]> s : nextHitnext.entrySet()) {
@@ -150,10 +153,13 @@ public class AIPlayer {
                         }
                         hitShipBehind(nextRow, nextColumn, false);
                     }
+                    System.out.println(isHit);
+                    Enemyshoot(player);
                 }
             }
             nextHit.remove(key);
         }
+        return isHit;
     }
 
 
