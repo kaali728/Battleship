@@ -1,12 +1,14 @@
 package com.Battleship.Model;
 
 import com.Battleship.Player.AIPlayer;
+import com.Battleship.UI.GamePanel;
+import org.omg.CORBA.TIMEOUT;
 
+import javax.sound.sampled.EnumControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +26,7 @@ public class Board extends JPanel {
     int columns;
 
     private ArrayList<Ship> fleet;
+    private int delay = 1000; //milliseconds
 
     private int carrierCount;
     private int battleshipCount;
@@ -179,42 +182,60 @@ public class Board extends JPanel {
                 button[row][column].setBackground(new Color(0x0000B2));
                 button[row][column].setShot(true);
                 aiPlayer.Enemyshoot(playerBoardobj);
+                while (aiPlayer.isHit){
+                    //aiPlayer.gametrun= true;
+                    //aiPlayer.Enemyshoot(playerBoardobj);
+                    ActionListener taskPerformer = new ActionListener() {
+                        public void actionPerformed(ActionEvent evt) {
+                            aiPlayer.Enemyshoot(playerBoardobj);
+                        }
+                    };
+                    new Timer(delay, taskPerformer).start();
+                    //updateButton();
+                }
+                //aiPlayer.gametrun=false;
             }
         }
         return false;
     }
 
+    public void updateButton(){
+        for (int i = 0; i < button.length ; i++) {
+            for (int j = 0; j < button[i].length; j++) {
+                button[i][j].repaint();
+            }
+        }
+    }
     public boolean shoot(int row, int column){
         //schauen ob der person gewonnen hat oder nicht
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
         //cordianten von enemy schiffe
         //!playerboard shoot doppelt and that can be help and extra feature
-
-        if(playerBoard){
-            ArrayList<Field> posFields = getPosShip();
-            //System.out.println(posFields);
-            for (Field f: posFields) {
-                if(f.getRow() == row && f.getColumn() == column && !f.isShot() && !f.isMark()){
-                    f.setShot(true);
-                }
-                if(f.getRow() == row && f.getColumn() == column && f.isMark()){
-                    button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
-                    button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
-                    //System.out.println(this);
-                    f.setShot(true);
-                    allHealth--;
-                    //aiPlayer.Enemyshoot(this);
-                    if(isGameOver()){
-                        JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
-
-                        return false;
+            if(playerBoard) {
+                ArrayList<Field> posFields = getPosShip();
+                //System.out.println(posFields);
+                for (Field f : posFields) {
+                    if (f.getRow() == row && f.getColumn() == column && !f.isShot() && !f.isMark()) {
+                        f.setShot(true);
                     }
-                    return true;
+                    if (f.getRow() == row && f.getColumn() == column && f.isMark()) {
+                        button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
+                        button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
+                        //System.out.println(this);
+                        f.setShot(true);
+                        allHealth--;
+                        //aiPlayer.Enemyshoot(this);
+                        if (isGameOver()) {
+                            JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+
+                            return false;
+                        }
+                        return true;
+                    }
                 }
-            }
                 button[row][column].setText("<html><b color=white>X</b></html>");
                 button[row][column].setBackground(new Color(0x0000B2));
-        }
+            }
         return false;
     }
 

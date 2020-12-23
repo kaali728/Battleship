@@ -6,8 +6,11 @@ import com.Battleship.Model.Ship;
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class AIPlayer {
+    public boolean isHit = false;
+    public boolean gametrun = false;
     private int fieldsize;
     private ArrayList<Ship> fleet = new ArrayList<>();
     private Map<Integer, int[]> nextHit = new LinkedHashMap<>();
@@ -103,7 +106,6 @@ public class AIPlayer {
 
     public boolean Enemyshoot(Board player) {
         this.playerBoard = player;
-        boolean isHit = false;
         if (nextHit.size() == 0) {
             Random random = new Random();
             while (true) {
@@ -115,10 +117,10 @@ public class AIPlayer {
                        isHit = player.shoot(row, column);
                         if (isHit) {
                             hitShipBehind(row, column);
-                            System.out.println(isHit);
-                            Enemyshoot(player);
+//                            System.out.println(isHit);
+//                            Enemyshoot(player);
                         }
-                         break;
+                        break;
                     }
                 }
             }
@@ -129,6 +131,13 @@ public class AIPlayer {
             int nextRow = value[0];
             int nextColumn = value[1];
             if (!isUsedCord(nextRow, nextColumn)) {
+//                if(gametrun){
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
                 isHit = player.shoot(nextRow, nextColumn);
                 addTousedCord(nextRow, nextColumn);
                 if (isHit) {
@@ -142,7 +151,6 @@ public class AIPlayer {
                             }
                         }
                         hitShipBehind(nextRow, nextColumn, true);
-
                     } else {
                         //verti
                         for (Map.Entry<Integer, int[]> s : nextHitnext.entrySet()) {
@@ -153,8 +161,8 @@ public class AIPlayer {
                         }
                         hitShipBehind(nextRow, nextColumn, false);
                     }
-                    System.out.println(isHit);
-                    Enemyshoot(player);
+//                    System.out.println(isHit);
+//                    Enemyshoot(player);
                 }
             }
             nextHit.remove(key);
@@ -162,6 +170,13 @@ public class AIPlayer {
         return isHit;
     }
 
+//    private void sleep(){
+//        try {
+//            TimeUnit.MILLISECONDS.timedJoin(100);
+//        } catch (InterruptedException ie) {
+//            Thread.currentThread().interrupt();
+//        }
+//    }
 
     public void addTousedCord(int row, int column) {
         int[] entry = {row, column};
