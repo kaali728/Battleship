@@ -16,6 +16,7 @@ public class ClientScreen extends JPanel {
     private static JScrollPane chatScroll;
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
     public int fieldsize;
+    private String ships;
     GamePanel mainPanel;
     Board postionBoard;
 
@@ -32,8 +33,7 @@ public class ClientScreen extends JPanel {
 
                     // Send message to server.
                     PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-                    printWriter.println("Enemy has connected.");
-                    printWriter.flush();
+                    System.out.println("CLIENT LOG");
 
                     // Get message from server.
                     InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
@@ -43,41 +43,49 @@ public class ClientScreen extends JPanel {
                     // Wir ueberpruefen ob die Spielfeld groesse schon gesetzt ist,
                     // ist das nicht der fall nehmen wir die erste Nachricht des Servers
                     // was als Schluss die Groesse des Spielfeldes ausgibt.
-
                     String str = bufferedReader.readLine();
-                    String finalStr = "[Battleship]: " + str;
-                    System.out.println("[Battleship]: " + str);
                     str = str.substring(str.length() - 2);
                     str = str.replaceAll("\\s", "");
                     fieldsize = Integer.parseInt(str);
-                    for (int i = 0; i <4 ; i++) {
-                        String str2 = bufferedReader.readLine();
-                        str2 = str2.substring(str2.length() - 2);
-                        str2 = str2.replaceAll("\\s","");
-                        //System.out.println("[Server]: " + str2);
-                        switch (i){
-                            case 0:
-                                carrierCount = Integer.parseInt(str2);
-                                break;
-                            case 1:
-                                battleshipCount = Integer.parseInt(str2);
-                                break;
-                            case 2:
-                                submarineCount = Integer.parseInt(str2);
-                                break;
-                            case 3:
-                                destroyerCount = Integer.parseInt(str2);
-                                break;
-                        }
+                    System.out.println("CLIENT FIELDSIZE: " + fieldsize);
+
+                    if (fieldsize != 0) {
+                        printWriter.println("C: next");
+                        printWriter.flush();
+                        System.out.println("C: next");
                     }
 
-                    System.out.println("CONNECTION THREAD: " + Thread.currentThread().getName());
+                    // Next schicken damit wir die Schiffsgroesse bekommen
+                    // sofern wir die groesse der Schiffe bekommen haben
+//                    System.out.println(finalStr);
+//                    if (finalStr.equals("S: size " + fieldsize + " " + fieldsize)) {
+//                        printWriter.println("next");
+//                        printWriter.flush();
+//                    }
+//                    for (int i = 0; i < 4; i++) {
+//                        String str2 = bufferedReader.readLine();
+//                        str2 = str2.substring(str2.length() - 2);
+//                        str2 = str2.replaceAll("\\s", "");
+//                        switch (i) {
+//                            case 0:
+//                                carrierCount = Integer.parseInt(str2);
+//                                break;
+//                            case 1:
+//                                battleshipCount = Integer.parseInt(str2);
+//                                break;
+//                            case 2:
+//                                submarineCount = Integer.parseInt(str2);
+//                                break;
+//                            case 3:
+//                                destroyerCount = Integer.parseInt(str2);
+//                                break;
+//                        }
+//                    }
 
-                    SwingUtilities.invokeLater(() -> {
-                                initLayout();
-                                chat.setText(finalStr);
-                            }
-                    );
+//                    SwingUtilities.invokeLater(() -> {
+//                                initLayout();
+//                            }
+//                    );
 
                     // Netzwerknachrichten lesen und verarbeiten.
                     // Da die graphische Oberfläche von einem separaten Thread verwaltet
@@ -86,10 +94,60 @@ public class ClientScreen extends JPanel {
                     // (oder invokeAndWait) ausgeführt werden.
                     while (true) {
                         String line = bufferedReader.readLine();
+
                         if (line == null) break;
+
+                        // Protokoll
+                        if (line.equals("S: size " + fieldsize + " " + fieldsize)) {
+                            printWriter.println("C: next");
+                            printWriter.flush();
+                            System.out.println("C: next");
+                        }
+
+                        // Schiffe synchronisieren
+                        if (fieldsize != 0 && line.contains("ships")) {
+                            ships = line;
+                            printWriter.println("C: done");
+                            printWriter.flush();
+                            System.out.println("C: done");
+
+                            carrierCount = (int) ships.chars().filter(ch -> ch == '5').count();
+                            battleshipCount = (int) ships.chars().filter(ch -> ch == '4').count();
+                            submarineCount = (int) ships.chars().filter(ch -> ch == '3').count();
+                            destroyerCount = (int) ships.chars().filter(ch -> ch == '2').count();
+
+                            System.out.println(carrierCount);
+
+                            SwingUtilities.invokeLater(() -> {
+                                        initLayout();
+                                    }
+                            );
+                        }
+
+                        // Client ist bereit für die Schlacht
+                        if (fieldsize != 0 && carrierCount != 0 && battleshipCount != 0 && submarineCount != 0 && destroyerCount != 0 && line.equals("S: ready")) {
+                            printWriter.println("C: ready");
+                            printWriter.flush();
+                            System.out.println("C: ready");
+                        }
+
                         SwingUtilities.invokeLater(
                                 () -> {
                                     String tmp = chat.getText();
+
+                                    SwingUtilities.invokeLater(
+                                            () -> {
+                                                chat.setText(
+                                                        "S: size " + fieldsize + " " + fieldsize + "\n" +
+                                                                "C: next" + "\n" +
+                                                                ships + "\n" +
+                                                                "C: done" + "\n" +
+                                                                "S: ready" + "\n" +
+                                                                "C: ready"
+                                                );
+                                            }
+                                    );
+
                                     // Pruefen ob es in der Nachricht um ein Spielereignis handelt
                                     // oder es einfach nur eine Chat Nachricht ist.
                                     if (line.contains("[Battleship]:")) {
@@ -97,10 +155,10 @@ public class ClientScreen extends JPanel {
                                         // dass er an der Reihe ist.
                                         button.setEnabled(true);
                                         chat.setText(tmp + "\n" + line);
-                                    } else {
+                                    } /*else {
                                         // Chat Historie und aktuelle Nachricht vom Gegner.
                                         chat.setText(tmp + "\n" + "[Enemy]: " + line);
-                                    }
+                                    }*/
                                 }
                         );
                     }
@@ -120,30 +178,25 @@ public class ClientScreen extends JPanel {
     }
 
     public void initLayout() {
-        System.out.println("LAYOUT THREAD: " + Thread.currentThread().getName());
-        System.out.println("FIELDSIZE " + fieldsize);
-        System.out.println("carrierCount " + carrierCount);
-        System.out.println("battleshipCount " + battleshipCount);
-        System.out.println("submarineCount " + submarineCount);
-        System.out.println("destroyerCount " + destroyerCount);
+        System.out.println("LAYOUT" + carrierCount);
 
         ArrayList<Ship> fleet = new ArrayList<>();
-        for (int i=0; i<carrierCount; i++){
+        for (int i = 0; i < carrierCount; i++) {
             fleet.add(new Ship("carrier"));
         }
-        for (int i=0; i<battleshipCount; i++){
+        for (int i = 0; i < battleshipCount; i++) {
             fleet.add(new Ship("battleship"));
         }
-        for (int i=0; i<submarineCount; i++){
+        for (int i = 0; i < submarineCount; i++) {
             fleet.add(new Ship("submarine"));
         }
-        for (int i=0; i<destroyerCount; i++){
+        for (int i = 0; i < destroyerCount; i++) {
             fleet.add(new Ship("destroyer"));
         }
         this.mainPanel.getNetworkPlayer().setFleet(fleet);
         this.mainPanel.getNetworkPlayer().setFieldsize(fieldsize);
         mainPanel.setGameState("setzen");
-      
+
         button = new JButton("Client");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.addActionListener(
@@ -158,8 +211,7 @@ public class ClientScreen extends JPanel {
                         // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
                         out.write(String.format("%s%n", "[Battleship]: It's your turn."));
                         out.flush();
-                    }
-                    catch (IOException ex) {
+                    } catch (IOException ex) {
                         System.out.println("write to socket failed");
                     }
                 }
@@ -200,7 +252,7 @@ public class ClientScreen extends JPanel {
         {
             hbox.add(Box.createHorizontalStrut(10));
             ArrayList<Ship> fleet1 = this.mainPanel.getNetworkPlayer().getFleet();
-            postionBoard = new Board(fieldsize, fleet1,this.mainPanel.getGameState());
+            postionBoard = new Board(fieldsize, fleet1, this.mainPanel.getGameState());
             hbox.add(postionBoard);
             hbox.add(Box.createHorizontalStrut(10));
         }
