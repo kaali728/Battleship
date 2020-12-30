@@ -1,5 +1,7 @@
 package com.Battleship.SpielstandLaden;
 
+import com.google.gson.Gson;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -9,8 +11,10 @@ import java.io.FileReader;
 
 public class GameLoad {
     Border player = null;
+    GameObj loadedGame;
+    Gson gson = new Gson();
 
-    public void readFile(String path) {
+    public GameObj readFile(String path) {
         if (path == null) {
             path = System.getProperty("user.home");
         }
@@ -27,16 +31,12 @@ public class GameLoad {
             File file = choosePath.getSelectedFile();
             try {
                 FileReader fr = new FileReader(file);
-                BufferedReader br = new BufferedReader(fr);
-                String line;
-                while ((line = br.readLine()) != null) {
-                    System.out.println(line);
-                    //player.paintBorder();
-                }
-                br.close();
+                loadedGame = gson.fromJson(fr, GameObj.class);
+                System.out.println(loadedGame.size);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        return loadedGame;
     }
 }

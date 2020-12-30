@@ -66,7 +66,7 @@ public class AIPlayer {
 //            }
 //        }
 
-        if(fieldsize <= 6){
+        if(fieldsize <= 7){
             for (Ship s: fleet) {
                 if(s.getHealth() == 5){
 

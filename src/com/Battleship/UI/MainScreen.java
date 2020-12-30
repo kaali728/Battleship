@@ -8,6 +8,7 @@ import com.Battleship.Player.Player;
 import com.Battleship.Sound.Sound;
 import com.Battleship.Sound.SoundFactory;
 import com.Battleship.SpielstandLaden.GameLoad;
+import com.Battleship.SpielstandLaden.GameObj;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -145,7 +146,10 @@ public class MainScreen extends JPanel {
 
         spielstandLaden.addActionListener(
                 (e) -> {
-                    load.readFile(null);
+                    GameObj spielStand = load.readFile(null);
+                    System.out.println(spielStand.size);
+                    mainPanel.setGameState("battle");
+                    //change screen to battle
                 }
         );
 

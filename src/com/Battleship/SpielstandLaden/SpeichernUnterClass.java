@@ -9,6 +9,8 @@ import com.google.gson.GsonBuilder;
 import javax.swing.*;
 import java.io.FileWriter;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,15 +23,11 @@ public class SpeichernUnterClass  extends JFrame {
     private Field[][] button;
     private  ArrayList<Ship> fleet;
 
-    public SpeichernUnterClass(Board player, Board enemy) {
-        this.player = player;
-        this.enemy = enemy;
-    }
 
-    public SpeichernUnterClass(Field[][] button, ArrayList<Ship> fleet, Board enemyBoard) {
-        this.button= button;
+    public SpeichernUnterClass(Board playerBoard, ArrayList<Ship> fleet, Board enemyBoard) {
+        this.player = playerBoard;
         this.fleet= fleet;
-        this.enemy = enemy;
+        this.enemy = enemyBoard;
     }
 
     public boolean saveAs(String path) {
@@ -52,14 +50,21 @@ public class SpeichernUnterClass  extends JFrame {
 
                 Map<String, Object> map = new HashMap<>();
                 map.put("Player", this.player);
+                Field enemybutton[][] = enemy.getButton();
+                System.out.println(enemy);
+                for (int i = 0; i <enemybutton.length ; i++) {
+                    for (int j = 0; j <enemybutton[i].length ; j++) {
+                        System.out.println(enemybutton[i][j]);
+                    }
+                }
                 //map.put("Fleet", this.fleet);
                 //map.put("Enemy", this.enemy);
                 //System.out.println("läuft");
-                Writer writer = new FileWriter(path + ".json");
-
+                Writer writer = Files.newBufferedWriter(Paths.get(path+".json"));
+                GameObj data = new GameObj(this.player, this.enemy);
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 // convert map to JSON File
-                gson.toJson(map, writer);
+                gson.toJson(data, writer);
 
                 writer.close();
 

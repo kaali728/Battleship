@@ -178,14 +178,30 @@ public class Board extends JPanel {
                 button[row][column].setBackground(new Color(0x0000B2));
                 button[row][column].setShot(true);
                 aiPlayer.Enemyshoot(playerBoardobj);
+                Field enemybutton[][] = aiPlayer.getEnemyBoard().getButton();
                 new SwingWorker(){
                     @Override
                     protected Object doInBackground() throws Exception {
                         while (aiPlayer.isHit) {
                             broke=false;
+                            for (int i = 0; i <enemybutton.length ; i++) {
+                                for (int j = 0; j <enemybutton[i].length ; j++) {
+                                    if(!enemybutton[i][j].isShot()){
+                                        enemybutton[i][j].setBackground(Color.black);
+                                    }
+                                }
+                            }
                             Thread.sleep(600);
                             aiPlayer.Enemyshoot(playerBoardobj);
                         }
+                        for (int i = 0; i <enemybutton.length ; i++) {
+                            for (int j = 0; j <enemybutton[i].length ; j++) {
+                                if(!enemybutton[i][j].isShot()){
+                                    enemybutton[i][j].setBackground(Color.GRAY); //default Gray color is easily interchangable here
+                                }
+                            }
+                        }
+
                         broke = true;
                         return null;
                     }
@@ -739,10 +755,26 @@ public class Board extends JPanel {
     }
 
     public Field[][] getButton() {
-        return button;
+        return this.button;
     }
 
     public Field getonebutton(int row, int columns){
         return button[row][columns];
+    }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "size=" + size +
+                ", button=" + Arrays.toString(button) +
+                ", buttonPanel=" + buttonPanel +
+                ", rows=" + rows +
+                ", columns=" + columns +
+                ", fleet=" + fleet +
+                ", carrierCount=" + carrierCount +
+                ", battleshipCount=" + battleshipCount +
+                ", submarineCount=" + submarineCount +
+                ", destoryerCount=" + destoryerCount +
+                '}';
     }
 }

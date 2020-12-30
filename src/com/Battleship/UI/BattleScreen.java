@@ -39,29 +39,17 @@ public class BattleScreen extends Panel implements ActionListener {
         playerLabel = new JLabel("Player");
 
 
-
+        //if load game => brauchen wir keine neue board sonder nur playerboard = newBoard und wir geben button[][] und restliche sachen
         playerBoard = new Board(this.mainPanel.getSingleplayer().getFieldsize(), this.mainPanel.getSingleplayer().getFleet(), this.mainPanel.getGameState(), true);
         playerBoard.setMyShip();
+        //board.setshootet(load.playerboard); if isshot true => if is mark dann rot(if ship) if not
         enemyBoard = new Board(this.mainPanel.getEnemyPlayer().getFieldsize(), this.mainPanel.getEnemyPlayer().getFleet(), this.mainPanel.getGameState(), false, this.mainPanel.getEnemyPlayer(), playerBoard);
         this.mainPanel.getEnemyPlayer().setEnemyBoard(enemyBoard);
         this.mainPanel.getEnemyPlayer().setEnemyShip();
 
-        endGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainPanel.getEnemyPlayer().endGame();
-                mainPanel.setGameState("start");
-                mainPanel.changeScreen("main");
-            }
-        });
-        saveGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                save = new GameObj(playerBoard, enemyBoard);
-                speicher = new SpeichernUnterClass(playerBoard.button, playerBoard.getFleet(), enemyBoard);
-                speicher.saveAs(null);
-            }
-        });
+        endGame.addActionListener(this);
+        saveGame.addActionListener(this);
+
     }
 
     public void initlayout() {
@@ -107,6 +95,16 @@ public class BattleScreen extends Panel implements ActionListener {
                 soundButton.setText("Sound");
                 startSound = true;
             }
+        }
+        if(e.getSource() == saveGame){
+            //save = new GameObj(playerBoard, enemyBoard);
+            speicher = new SpeichernUnterClass(playerBoard, playerBoard.getFleet(), enemyBoard);
+            speicher.saveAs(null);
+        }
+        if(e.getSource() == endGame){
+            mainPanel.getEnemyPlayer().endGame();
+            mainPanel.setGameState("start");
+            mainPanel.changeScreen("main");
         }
     }
 }
