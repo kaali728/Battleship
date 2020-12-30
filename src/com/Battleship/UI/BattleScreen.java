@@ -1,17 +1,14 @@
 package com.Battleship.UI;
 
-import com.Battleship.SpielstandLaden.SpeichernUnterClass;
 import com.Battleship.Model.Board;
 import com.Battleship.Sound.SoundFactory;
+import com.Battleship.SpielstandLaden.GameObj;
+import com.Battleship.SpielstandLaden.SpeichernUnterClass;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class BattleScreen extends Panel implements ActionListener {
     GamePanel mainPanel;
@@ -25,6 +22,7 @@ public class BattleScreen extends Panel implements ActionListener {
     private SoundFactory sound;
     boolean startSound = true;
     SpeichernUnterClass speicher;
+    private GameObj save;
 
     BattleScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
@@ -59,7 +57,8 @@ public class BattleScreen extends Panel implements ActionListener {
         saveGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                speicher = new SpeichernUnterClass(playerBoard , enemyBoard);
+                save = new GameObj(playerBoard, enemyBoard);
+                speicher = new SpeichernUnterClass(playerBoard.button, playerBoard.getFleet(), enemyBoard);
                 speicher.saveAs(null);
             }
         });

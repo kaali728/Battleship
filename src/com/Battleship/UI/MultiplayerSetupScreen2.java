@@ -1,5 +1,4 @@
 package com.Battleship.UI;
-
 import com.Battleship.Player.Player;
 
 import javax.swing.*;

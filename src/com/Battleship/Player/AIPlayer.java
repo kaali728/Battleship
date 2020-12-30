@@ -4,9 +4,7 @@ import com.Battleship.Model.Board;
 import com.Battleship.Model.Field;
 import com.Battleship.Model.Ship;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class AIPlayer {
     public boolean isHit = false;
@@ -131,13 +129,6 @@ public class AIPlayer {
             int nextRow = value[0];
             int nextColumn = value[1];
             if (!isUsedCord(nextRow, nextColumn)) {
-//                if(gametrun){
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
                 isHit = player.shoot(nextRow, nextColumn);
                 addTousedCord(nextRow, nextColumn);
                 if (isHit) {

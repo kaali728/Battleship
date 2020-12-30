@@ -1,10 +1,7 @@
 package com.Battleship.Model;
 
 import com.Battleship.Player.AIPlayer;
-import com.Battleship.UI.GamePanel;
-import org.omg.CORBA.TIMEOUT;
 
-import javax.sound.sampled.EnumControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-
 public class Board extends JPanel {
     int size=0;
 
@@ -161,51 +157,42 @@ public class Board extends JPanel {
         //cordianten von enemy schiffe
         //System.out.println(allHealth);
 
-        if(!playerBoard){
-            if(button[row][column].isShot()){
+        if(!playerBoard) {
+            if (button[row][column].isShot()) {
                 return false;
             }
-            if(button[row][column].isMark()){
+            if (button[row][column].isMark()) {
                 //System.out.println(fleet);
                 button[row][column].setText("<html><b color=white>💣</b></html>");
                 button[row][column].setBackground(new Color(0xE52100));
                 //aiPlayer.Enemyshoot(playerBoardobj);
                 button[row][column].setShot(true);
                 allHealth--;
-                if(isGameOver()){
+                if (isGameOver()) {
                     JOptionPane.showMessageDialog(this, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
                     return false;
                 }
                 return true;
-            }else{
+            } else {
                 button[row][column].setText("<html><b color=white>X</b></html>");
                 button[row][column].setBackground(new Color(0x0000B2));
                 button[row][column].setShot(true);
                 aiPlayer.Enemyshoot(playerBoardobj);
-                while (aiPlayer.isHit){
-                    //aiPlayer.gametrun= true;
-                    //aiPlayer.Enemyshoot(playerBoardobj);
-                    ActionListener taskPerformer = new ActionListener() {
-                        public void actionPerformed(ActionEvent evt) {
+                new SwingWorker(){
+                    @Override
+                    protected Object doInBackground() throws Exception {
+                        while (aiPlayer.isHit) {
+                            Thread.sleep(1000);
                             aiPlayer.Enemyshoot(playerBoardobj);
                         }
-                    };
-                    new Timer(delay, taskPerformer).start();
-                    //updateButton();
-                }
-                //aiPlayer.gametrun=false;
+                        return null;
+                    }
+                }.execute();
             }
         }
         return false;
     }
 
-    public void updateButton(){
-        for (int i = 0; i < button.length ; i++) {
-            for (int j = 0; j < button[i].length; j++) {
-                button[i][j].repaint();
-            }
-        }
-    }
     public boolean shoot(int row, int column){
         //schauen ob der person gewonnen hat oder nicht
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover

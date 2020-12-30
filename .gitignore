@@ -2,3 +2,5 @@
 /.out/
 /Battleship.iml
 /out/
+
+*.json
