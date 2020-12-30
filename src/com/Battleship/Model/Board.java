@@ -114,7 +114,7 @@ public class Board extends JPanel {
             carrierText = new JLabel("Carrier" + carrierCount);
             battleshipText = new JLabel("Battleship" + battleshipCount);
             submarineText = new JLabel("Submarine" + submarineCount);
-            destroyerText = new JLabel("Destoryer" + destoryerCount);
+            destroyerText = new JLabel("Destroyer" + destoryerCount);
 
             vBox.add(carrierText);
             vBox.add(battleshipText);
