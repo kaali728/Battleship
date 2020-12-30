@@ -115,7 +115,7 @@ public class Board extends JPanel {
             carrierText = new JLabel("Carrier" + carrierCount);
             battleshipText = new JLabel("Battleship" + battleshipCount);
             submarineText = new JLabel("Submarine" + submarineCount);
-            destroyerText = new JLabel("Destoryer" + destoryerCount);
+            destroyerText = new JLabel("Destroyer" + destoryerCount);
 
             vBox.add(carrierText);
             vBox.add(battleshipText);
@@ -214,7 +214,6 @@ public class Board extends JPanel {
                         //aiPlayer.Enemyshoot(this);
                         if (isGameOver()) {
                             JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
-
                             return false;
                         }
                         return true;
