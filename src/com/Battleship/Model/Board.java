@@ -22,7 +22,6 @@ public class Board extends JPanel {
     int columns;
 
     private ArrayList<Ship> fleet;
-    private int delay = 1000; //milliseconds
 
     private int carrierCount;
     private int battleshipCount;
@@ -147,6 +146,7 @@ public class Board extends JPanel {
         }
     }
 
+    private boolean broke=true;
 
     public boolean shoot(ActionEvent e){
         String[] coordinate = e.getActionCommand().split(",");
@@ -157,7 +157,7 @@ public class Board extends JPanel {
         //cordianten von enemy schiffe
         //System.out.println(allHealth);
 
-        if(!playerBoard) {
+        if(!playerBoard && broke) {
             if (button[row][column].isShot()) {
                 return false;
             }
@@ -182,9 +182,11 @@ public class Board extends JPanel {
                     @Override
                     protected Object doInBackground() throws Exception {
                         while (aiPlayer.isHit) {
-                            Thread.sleep(1000);
+                            broke=false;
+                            Thread.sleep(600);
                             aiPlayer.Enemyshoot(playerBoardobj);
                         }
+                        broke = true;
                         return null;
                     }
                 }.execute();
@@ -214,7 +216,6 @@ public class Board extends JPanel {
                         //aiPlayer.Enemyshoot(this);
                         if (isGameOver()) {
                             JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
-
                             return false;
                         }
                         return true;

@@ -51,7 +51,7 @@ public class SpeichernUnterClass  extends JFrame {
                 path = choosePath.getSelectedFile().toString();
 
                 Map<String, Object> map = new HashMap<>();
-                map.put("Player", this.player.button);
+                map.put("Player", this.player);
                 //map.put("Fleet", this.fleet);
                 //map.put("Enemy", this.enemy);
                 //System.out.println("läuft");
