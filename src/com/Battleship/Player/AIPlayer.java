@@ -101,7 +101,7 @@ public class AIPlayer {
             }
         }
     }
-    public int health=0;
+    public int health;
     public int Health(int health){
         this.health= health;
         return this.health;

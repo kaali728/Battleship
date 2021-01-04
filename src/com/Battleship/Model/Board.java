@@ -104,6 +104,11 @@ public class Board extends JPanel {
                             setShip(e);
                         }
                         if(gameState == "battle"){
+                            if(counter<1){
+                                aiPlayer.Health(allHealthPlayer);
+                                counter++;
+                            }
+                            allHealthPlayer= aiPlayer.health;
                             if(!isGameOver()) {
                                 boolean success = shoot(e);
                             }
@@ -162,14 +167,7 @@ public class Board extends JPanel {
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
         //cordianten von enemy schiffe
         //System.out.println(allHealth);
-        if(counter<1){
-            aiPlayer.Health(allHealthPlayer);
-            counter++;
-        }
         if(!playerBoard && broke && !isGameOver()) {
-            if (button[row][column].isShot()) {
-                return false;
-            }
             if (button[row][column].isMark()) {
                 //System.out.println(fleet);
                 button[row][column].setText("<html><b color=white>💣</b></html>");
@@ -186,7 +184,6 @@ public class Board extends JPanel {
                 button[row][column].setText("<html><b color=white>X</b></html>");
                 button[row][column].setBackground(new Color(0x0000B2));
                 button[row][column].setShot(true);
-                allHealthPlayer= aiPlayer.health;
                 aiPlayer.Enemyshoot(playerBoardobj);
                 Field enemybutton[][] = aiPlayer.getEnemyBoard().getButton();
                 new SwingWorker(){
