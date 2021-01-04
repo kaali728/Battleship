@@ -5,6 +5,7 @@ import com.Battleship.Model.Field;
 import com.Battleship.Model.Ship;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
 import javax.swing.*;
 import java.io.FileWriter;
@@ -18,7 +19,9 @@ import java.util.Map;
 public class SpeichernUnterClass  extends JFrame {
 
     //kommt variable die von der spiel brett kommen
+    @Expose
     private Board player;
+    @Expose
     private Board enemy;
     private Field[][] button;
     private  ArrayList<Ship> fleet;
@@ -62,9 +65,10 @@ public class SpeichernUnterClass  extends JFrame {
                 //System.out.println("läuft");
                 Writer writer = Files.newBufferedWriter(Paths.get(path+".json"));
                 GameObj data = new GameObj(this.player, this.enemy);
+
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 // convert map to JSON File
-                gson.toJson(data, writer);
+                gson.toJson(player, writer);
 
                 writer.close();
 
