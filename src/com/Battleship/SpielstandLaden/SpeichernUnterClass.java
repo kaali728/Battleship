@@ -51,7 +51,7 @@ public class SpeichernUnterClass  extends JFrame {
                 Map<String, Object> map = new HashMap<>();
                 map.put("Player", this.player);
                 Field enemybutton[][] = enemy.getButton();
-                System.out.println(enemy);
+                System.out.println(enemy.getFleet());
                 for (int i = 0; i <enemybutton.length ; i++) {
                     for (int j = 0; j <enemybutton[i].length ; j++) {
                         System.out.println(enemybutton[i][j]);
