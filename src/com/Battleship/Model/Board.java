@@ -50,6 +50,7 @@ public class Board extends JPanel {
     private int allHealthPlayer = 0;
     private int allHealthEnemy = 0;
 
+    private int counter=0;
 
 
     public Board(int size, ArrayList<Ship> fleet, String GameState){
@@ -108,8 +109,8 @@ public class Board extends JPanel {
                                 aiPlayer.Health(allHealthPlayer);
                                 counter++;
                             }
-                            allHealthPlayer= aiPlayer.health;
-                            if(!isGameOver()) {
+                            allHealthPlayer = aiPlayer.health;
+                            if(!isGameOver() && allHealthPlayer>1) {
                                 boolean success = shoot(e);
                             }
                         }
@@ -157,7 +158,6 @@ public class Board extends JPanel {
         }
     }
 
-    private int counter=0;
 
     public boolean shoot(ActionEvent e){
         String[] coordinate = e.getActionCommand().split(",");
