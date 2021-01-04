@@ -101,6 +101,11 @@ public class AIPlayer {
             }
         }
     }
+    public int health=0;
+    public int Health(int health){
+        this.health= health;
+        return this.health;
+    }
 
     public boolean Enemyshoot(Board player) {
         this.playerBoard = player;
@@ -114,6 +119,7 @@ public class AIPlayer {
                         addTousedCord(row, column);
                        isHit = player.shoot(row, column);
                         if (isHit) {
+                            this.health--;
                             hitShipBehind(row, column);
 //                            System.out.println(isHit);
 //                            Enemyshoot(player);
@@ -132,6 +138,7 @@ public class AIPlayer {
                 isHit = player.shoot(nextRow, nextColumn);
                 addTousedCord(nextRow, nextColumn);
                 if (isHit) {
+                    this.health--;
                     int[] hited_entry = nextHitnext.get(hashCode(nextRow, nextColumn));
                     if (hited_entry[2] == 0) {
                         //hori
