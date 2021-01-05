@@ -44,6 +44,30 @@ public class AIPlayer {
         return enemyBoard;
     }
 
+    public void setUsedCord(Map<Integer, int[]> usedCord) {
+        this.usedCord = usedCord;
+    }
+
+    public Map<Integer, int[]> getUsedCord() {
+        return usedCord;
+    }
+
+    public void setNextHit(Map<Integer, int[]> nextHit) {
+        this.nextHit = nextHit;
+    }
+
+    public Map<Integer, int[]> getNextHit() {
+        return nextHit;
+    }
+
+    public void setNextHitnext(Map<Integer, int[]> nextHitnext) {
+        this.nextHitnext = nextHitnext;
+    }
+
+    public Map<Integer, int[]> getNextHitnext() {
+        return nextHitnext;
+    }
+
     public void setEnemyBoard(Board enemyBoard) {
         this.enemyBoard = enemyBoard;
     }

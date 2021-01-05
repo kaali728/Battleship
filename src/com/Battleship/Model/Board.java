@@ -42,7 +42,7 @@ public class Board extends JPanel {
     private boolean playerBoard = true;
     private Board playerBoardobj;
 
-    private AIPlayer aiPlayer;
+    public AIPlayer aiPlayer;
 
     //0 player 1 ai
     private boolean turn = true;

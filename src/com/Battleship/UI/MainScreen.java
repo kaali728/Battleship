@@ -152,21 +152,23 @@ public class MainScreen extends JPanel {
         spielstandLaden.addActionListener(
                 (e) -> {
                     GameObj spielStand = load.readFile(null);
-                    Field bt[][] = convertSaveField(spielStand.playerButton);
-                    Field enbt[][] = convertSaveField(spielStand.enemyButton);
-                    ArrayList<Ship> playerFleet = convertSaveShip(spielStand.playerFleet, bt);
-                    ArrayList<Ship> enemyFleet = convertSaveShip(spielStand.enemyFleet, enbt);
-                    this.mainPanel.getSingleplayer().setFieldsize(spielStand.size);
-                    this.mainPanel.getEnemyPlayer().setFieldsize(spielStand.size);
-                    this.mainPanel.getSingleplayer().setFleet(playerFleet);
-                    this.mainPanel.getEnemyPlayer().setFleet(enemyFleet);
-                    this.mainPanel.setGameState("battle");
-                    this.mainPanel.setGameload(true);
-                    this.mainPanel.setLoadedPlayerButton(bt);
-                    this.mainPanel.setLoadedEnemyButton(enbt);
-                    this.mainPanel.setLoadedPlayerHealth(spielStand.PlayerHealth);
-                    this.mainPanel.setLoadedEnemyHealth(spielStand.EnemyHealth);
-                    this.mainPanel.changeScreen("battle");
+                    if(spielStand != null){
+                        Field bt[][] = convertSaveField(spielStand.playerButton);
+                        Field enbt[][] = convertSaveField(spielStand.enemyButton);
+                        ArrayList<Ship> playerFleet = convertSaveShip(spielStand.playerFleet, bt);
+                        ArrayList<Ship> enemyFleet = convertSaveShip(spielStand.enemyFleet, enbt);
+                        this.mainPanel.getSingleplayer().setFieldsize(spielStand.size);
+                        this.mainPanel.getEnemyPlayer().setFieldsize(spielStand.size);
+                        this.mainPanel.getSingleplayer().setFleet(playerFleet);
+                        this.mainPanel.getEnemyPlayer().setFleet(enemyFleet);
+                        this.mainPanel.setGameState("battle");
+                        this.mainPanel.setGameload(true);
+                        this.mainPanel.setLoadedPlayerButton(bt);
+                        this.mainPanel.setLoadedEnemyButton(enbt);
+                        this.mainPanel.setLoadedPlayerHealth(spielStand.PlayerHealth);
+                        this.mainPanel.setLoadedEnemyHealth(spielStand.EnemyHealth);
+                        this.mainPanel.changeScreen("battle");
+                    }
                     //change screen to battle
                 }
         );

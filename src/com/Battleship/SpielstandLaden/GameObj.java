@@ -4,6 +4,9 @@ import com.Battleship.Model.*;
 import com.Battleship.Player.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class GameObj {
 
@@ -15,7 +18,9 @@ public class GameObj {
 
     public int EnemyHealth;
     public int PlayerHealth;
-
+    private Map<Integer, int[]> nextHit = new LinkedHashMap<>();
+    private Map<Integer, int[]> nextHitnext = new LinkedHashMap<>();
+    private Map<Integer, int[]> usedCord = new HashMap<>();
     public int size;
 
     public GameObj(Board playerBoard, Board enemyBoard){
@@ -34,6 +39,9 @@ public class GameObj {
         }
         EnemyHealth = enemyBoard.getAllHealthEnemy();
         PlayerHealth = enemyBoard.getAllHealthPlayer();
+        usedCord =  enemyBoard.aiPlayer.getUsedCord();
+        nextHit = enemyBoard.aiPlayer.getNextHit();
+        nextHitnext = enemyBoard.aiPlayer.getNextHitnext();
     }
 
 
