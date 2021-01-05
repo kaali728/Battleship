@@ -105,13 +105,25 @@ public class Board extends JPanel {
                             setShip(e);
                         }
                         if(gameState == "battle"){
-                            if(counter<1){
-                                aiPlayer.Health(allHealthPlayer);
-                                counter++;
-                            }
-                            allHealthPlayer = aiPlayer.health;
-                            if(!isGameOver() && allHealthPlayer>1) {
-                                boolean success = shoot(e);
+                            try {
+                                if(counter<1){
+                                    aiPlayer.Health(allHealthPlayer);
+                                    counter++;
+                                }
+                                allHealthPlayer = aiPlayer.health;
+                                if(!isGameOver()) {
+                                    boolean success = shoot(e);
+                                }
+                                if(allHealthPlayer == 1){
+                                    for (int i = 0; i < size ; i++) {
+                                        for (int j = 0; j <size ; j++) {
+                                            button[i][j].setShot(true);
+                                            button[i][j].setMark(true);
+                                        }
+                                    }
+                                    JOptionPane.showMessageDialog(aiPlayer.getPlayerBoard(), "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                            }catch (NullPointerException ex){
                             }
                         }
                     }
@@ -320,8 +332,15 @@ public class Board extends JPanel {
                         f.setShot(true);
                         this.allHealthPlayer--;
                         if (isGameOver()) {
-                            JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
-                            return false;
+                            if (isGameOver()) {
+                                for (int i = 0; i < size ; i++) {
+                                    for (int j = 0; j <size ; j++) {
+                                        button[i][j].setShot(true);
+                                        button[i][j].setMark(true);
+                                    }
+                                }
+                                return false;
+                            }
                         }
                         return true;
                     }
