@@ -159,6 +159,9 @@ public class MainScreen extends JPanel {
                         ArrayList<Ship> enemyFleet = convertSaveShip(spielStand.enemyFleet, enbt);
                         this.mainPanel.getSingleplayer().setFieldsize(spielStand.size);
                         this.mainPanel.getEnemyPlayer().setFieldsize(spielStand.size);
+                        this.mainPanel.getEnemyPlayer().setUsedCord(spielStand.usedCord);
+                        this.mainPanel.getEnemyPlayer().setNextHit(spielStand.nextHit);
+                        this.mainPanel.getEnemyPlayer().setNextHitnext(spielStand.nextHitnext);
                         this.mainPanel.getSingleplayer().setFleet(playerFleet);
                         this.mainPanel.getEnemyPlayer().setFleet(enemyFleet);
                         this.mainPanel.setGameState("battle");

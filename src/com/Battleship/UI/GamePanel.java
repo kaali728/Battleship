@@ -10,6 +10,9 @@ import com.Battleship.Sound.SoundFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class GamePanel extends JPanel {
     private CardLayout cl;
@@ -133,4 +136,5 @@ public class GamePanel extends JPanel {
     public void setLoadedEnemyHealth(int loadedEnemyHealth) {
         this.loadedEnemyHealth = loadedEnemyHealth;
     }
+
 }

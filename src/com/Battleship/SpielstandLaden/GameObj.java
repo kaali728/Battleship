@@ -18,9 +18,9 @@ public class GameObj {
 
     public int EnemyHealth;
     public int PlayerHealth;
-    private Map<Integer, int[]> nextHit = new LinkedHashMap<>();
-    private Map<Integer, int[]> nextHitnext = new LinkedHashMap<>();
-    private Map<Integer, int[]> usedCord = new HashMap<>();
+    public Map<Integer, int[]> nextHit = new LinkedHashMap<>();
+    public Map<Integer, int[]> nextHitnext = new LinkedHashMap<>();
+    public Map<Integer, int[]> usedCord = new HashMap<>();
     public int size;
 
     public GameObj(Board playerBoard, Board enemyBoard){
