@@ -126,9 +126,11 @@ public class ClientScreen extends JPanel {
 
                         // Client ist bereit für die Schlacht
                         if (fieldsize != 0 && carrierCount != 0 && battleshipCount != 0 && submarineCount != 0 && destroyerCount != 0 && line.equals("S: ready")) {
-                            printWriter.println("C: ready");
-                            printWriter.flush();
-                            System.out.println("C: ready");
+                            SwingUtilities.invokeLater(() -> {
+                                button.setEnabled(true);
+
+                                // Spielbrett
+                            });
                         }
 
                         SwingUtilities.invokeLater(
@@ -199,6 +201,7 @@ public class ClientScreen extends JPanel {
 
         button = new JButton("Client");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setEnabled(false);
         button.addActionListener(
                 // Wenn der Knopf gedrückt wird,
                 // erfolgt eine Kontrollausgabe auf System.out.
@@ -218,15 +221,16 @@ public class ClientScreen extends JPanel {
                         button.setEnabled(false);
                         try {
                             // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
-                            out.write(String.format("%s%n", "[Battleship]: It's your turn."));
+                            out.write(String.format("%s%n", "C: ready"));
+                            System.out.println("C: ready");
                             out.flush();
+                            button.setVisible(false);
                         } catch (IOException ex) {
                             System.out.println("write to socket failed");
                         }
                     }
                 }
         );
-        button.setEnabled(false);
 
         chat = new JTextArea(10, 70);
         chat.setEditable(false);

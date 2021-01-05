@@ -94,9 +94,15 @@ public class ServerScreen extends JPanel {
 
                         // Server ist bereit für die Schlacht
                         if (line.equals("C: done")) {
-                            printWriter.println("S: ready");
-                            printWriter.flush();
-                            System.out.println("S: ready");
+                            SwingUtilities.invokeLater(() -> {
+                                button.setEnabled(true);
+                            });
+                        }
+
+                        if (line.equals("C: ready")) {
+                            SwingUtilities.invokeLater(() -> {
+                                // Spielbrett
+                            });
                         }
 
                         SwingUtilities.invokeLater(
@@ -145,6 +151,7 @@ public class ServerScreen extends JPanel {
     public void initLayout() {
         button = new JButton("Ready");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setEnabled(false);
         button.addActionListener(
                 // Wenn der Knopf gedrückt wird,
                 // erfolgt eine Kontrollausgabe auf System.out.
@@ -164,8 +171,10 @@ public class ServerScreen extends JPanel {
                         button.setEnabled(false);
                         try {
                             // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
-                            out.write(String.format("%s%n", "[Battleship]: It's your turn."));
+                            out.write(String.format("%s%n", "S: ready"));
+                            System.out.println("S: ready");
                             out.flush();
+                            button.setVisible(false);
                         } catch (IOException ex) {
                             System.out.println("write to socket failed");
                         }
