@@ -162,34 +162,81 @@ public class Board extends JPanel {
     }
 
     public void setMyShip(Field buttonLoad[][]) {
-        for (int i = 0; i <buttonLoad.length ; i++) {
-            for (int j = 0; j <buttonLoad[i].length ; j++) {
-                button[i][j].setShot(buttonLoad[i][j].isShot());
-                button[i][j].setMark(buttonLoad[i][j].isMark());
-                if(!buttonLoad[i][j].isMark() && buttonLoad[i][j].isShot()){
-                    button[i][j].setText("<html><b color=white>X</b></html>");
-                    button[i][j].setBackground(new Color(0x0000B2));
+        if(playerBoard){
+            for (int i = 0; i <buttonLoad.length ; i++) {
+                for (int j = 0; j <buttonLoad[i].length ; j++) {
+                    button[i][j].setShot(buttonLoad[i][j].isShot());
+                    button[i][j].setMark(buttonLoad[i][j].isMark());
+                    if(!buttonLoad[i][j].isMark() && buttonLoad[i][j].isShot()){
+                        button[i][j].setText("<html><b color=white>X</b></html>");
+                        button[i][j].setBackground(new Color(0x0000B2));
+                    }
                 }
             }
-        }
-        for (Ship s: fleet) {
-            //System.out.println(s);
-            for (int l = 0; l<s.getShiplength(); l++){
-                //System.out.println(l);
-                //System.out.println(s.getRow()+ " "+ s.getColumn());
-                if(s.getHorizontal()){
-                    if(buttonLoad[s.getRow()][s.getColumn() + l].isMark() && buttonLoad[s.getRow()][s.getColumn() + l].isShot()){
-                        button[s.getRow()][s.getColumn() + l].setText("<html><b color=white>💣</b></html>");
-                        button[s.getRow()][s.getColumn() + l].setBackground(new Color(0xE52100));
-                        buttonLoad[s.getRow()][s.getColumn() + l].setMark(true);
+            for (Ship s: fleet) {
+                //System.out.println(s);
+                for (int l = 0; l<s.getShiplength(); l++){
+                    //System.out.println(l);
+                    //System.out.println(s.getRow()+ " "+ s.getColumn());
+                    //System.out.println(s.getHorizontal());
+                    if(s.getHorizontal()){
+                        if(buttonLoad[s.getRow()][s.getColumn() + l].isMark() && buttonLoad[s.getRow()][s.getColumn() + l].isShot()){
+                            button[s.getRow()][s.getColumn() + l].setText("<html><b color=white>💣</b></html>");
+                            button[s.getRow()][s.getColumn() + l].setBackground(new Color(0xE52100));
+                            buttonLoad[s.getRow()][s.getColumn() + l].setMark(true);
+                        }
+                        if(buttonLoad[s.getRow()][s.getColumn() + l].isMark() && !buttonLoad[s.getRow()][s.getColumn() + l].isShot()){
+                            button[s.getRow()][s.getColumn() + l].setBackground(s.getShipColor());
+                            button[s.getRow()][s.getColumn() + l].setMark(true);
+                        }
+                    }else{
+                        if( button[s.getRow() + l][s.getColumn()].isMark() &&  button[s.getRow() + l][s.getColumn()].isShot()){
+                            button[s.getRow() + l][s.getColumn()].setText("<html><b color=white>💣</b></html>");
+                            button[s.getRow() + l][s.getColumn()].setBackground(new Color(0xE52100));
+                            button[s.getRow() + l][s.getColumn()].setMark(true);
+                        }
+                        if( button[s.getRow() + l][s.getColumn()].isMark() && ! button[s.getRow() + l][s.getColumn()].isShot()){
+                            button[s.getRow() + l][s.getColumn()].setBackground(s.getShipColor());
+                            button[s.getRow() + l][s.getColumn()].setMark(true);
+                        }
                     }
-                    if(buttonLoad[s.getRow()][s.getColumn() + l].isMark() && !buttonLoad[s.getRow()][s.getColumn() + l].isShot()){
-                        button[s.getRow()][s.getColumn() + l].setBackground(s.getShipColor());
-                        button[s.getRow()][s.getColumn() + l].setMark(true);
+                }
+            }
+        }else{
+            for (int i = 0; i <buttonLoad.length ; i++) {
+                for (int j = 0; j <buttonLoad[i].length ; j++) {
+                    button[i][j].setShot(buttonLoad[i][j].isShot());
+                    button[i][j].setMark(buttonLoad[i][j].isMark());
+                    if(!buttonLoad[i][j].isMark() && buttonLoad[i][j].isShot()){
+                        button[i][j].setText("<html><b color=white>X</b></html>");
+                        button[i][j].setBackground(new Color(0x0000B2));
                     }
-                }else{
-                    button[s.getRow() + l][s.getColumn()].setBackground(s.getShipColor());
-                    button[s.getRow() + l][s.getColumn()].setMark(true);
+                }
+            }
+            for (Ship s: fleet) {
+                //System.out.println(s);
+                for (int l = 0; l<s.getShiplength(); l++){
+                    //System.out.println(l);
+                    //System.out.println(s.getRow()+ " "+ s.getColumn());
+                    if(s.getHorizontal()){
+                        if(buttonLoad[s.getRow()][s.getColumn() + l].isMark() && buttonLoad[s.getRow()][s.getColumn() + l].isShot()){
+                            button[s.getRow()][s.getColumn() + l].setText("<html><b color=white>💣</b></html>");
+                            button[s.getRow()][s.getColumn() + l].setBackground(new Color(0xE52100));
+                            buttonLoad[s.getRow()][s.getColumn() + l].setMark(true);
+                        }
+                        if(buttonLoad[s.getRow()][s.getColumn() + l].isMark() && !buttonLoad[s.getRow()][s.getColumn() + l].isShot()){
+                            button[s.getRow()][s.getColumn() + l].setMark(true);
+                        }
+                    }else{
+                        if( button[s.getRow() + l][s.getColumn()].isMark() &&  button[s.getRow() + l][s.getColumn()].isShot()){
+                            button[s.getRow() + l][s.getColumn()].setText("<html><b color=white>💣</b></html>");
+                            button[s.getRow() + l][s.getColumn()].setBackground(new Color(0xE52100));
+                            button[s.getRow() + l][s.getColumn()].setMark(true);
+                        }
+                        if( button[s.getRow() + l][s.getColumn()].isMark() && ! button[s.getRow() + l][s.getColumn()].isShot()){
+                            button[s.getRow() + l][s.getColumn()].setMark(true);
+                        }
+                    }
                 }
             }
         }
@@ -808,6 +855,22 @@ public class Board extends JPanel {
 
     public void setFleet(ArrayList<Ship> fleet) {
         this.fleet = fleet;
+    }
+
+    public int getAllHealthEnemy() {
+        return allHealthEnemy;
+    }
+
+    public int getAllHealthPlayer() {
+        return allHealthPlayer;
+    }
+
+    public void setAllHealthEnemy(int allHealthEnemy) {
+        this.allHealthEnemy = allHealthEnemy;
+    }
+
+    public void setAllHealthPlayer(int allHealthPlayer) {
+        this.allHealthPlayer = allHealthPlayer;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.Battleship.SpielstandLaden;
 
 import com.Battleship.Model.*;
+import com.Battleship.Player.Player;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,9 @@ public class GameObj {
 
     public ArrayList<SaveShip> playerFleet = new ArrayList<>();
     public ArrayList<SaveShip> enemyFleet = new ArrayList<>();
+
+    public int EnemyHealth;
+    public int PlayerHealth;
 
     public int size;
 
@@ -28,6 +32,8 @@ public class GameObj {
         for (Ship s: enemyBoard.getFleet()) {
             this.enemyFleet.add(new SaveShip(s));
         }
+        EnemyHealth = enemyBoard.getAllHealthEnemy();
+        PlayerHealth = enemyBoard.getAllHealthPlayer();
     }
 
 

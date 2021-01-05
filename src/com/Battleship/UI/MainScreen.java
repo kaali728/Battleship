@@ -152,9 +152,10 @@ public class MainScreen extends JPanel {
         spielstandLaden.addActionListener(
                 (e) -> {
                     GameObj spielStand = load.readFile(null);
-                    ArrayList<Ship> playerFleet = convertSaveShip(spielStand.playerFleet);
-                    ArrayList<Ship> enemyFleet = convertSaveShip(spielStand.enemyFleet);
                     Field bt[][] = convertSaveField(spielStand.playerButton);
+                    Field enbt[][] = convertSaveField(spielStand.enemyButton);
+                    ArrayList<Ship> playerFleet = convertSaveShip(spielStand.playerFleet, bt);
+                    ArrayList<Ship> enemyFleet = convertSaveShip(spielStand.enemyFleet, enbt);
                     this.mainPanel.getSingleplayer().setFieldsize(spielStand.size);
                     this.mainPanel.getEnemyPlayer().setFieldsize(spielStand.size);
                     this.mainPanel.getSingleplayer().setFleet(playerFleet);
@@ -162,6 +163,9 @@ public class MainScreen extends JPanel {
                     this.mainPanel.setGameState("battle");
                     this.mainPanel.setGameload(true);
                     this.mainPanel.setLoadedPlayerButton(bt);
+                    this.mainPanel.setLoadedEnemyButton(enbt);
+                    this.mainPanel.setLoadedPlayerHealth(spielStand.PlayerHealth);
+                    this.mainPanel.setLoadedEnemyHealth(spielStand.EnemyHealth);
                     this.mainPanel.changeScreen("battle");
                     //change screen to battle
                 }
@@ -280,16 +284,27 @@ public class MainScreen extends JPanel {
         super.paintComponent(g);
         //g.drawImage(ship.getImage(), 0, 0, getWidth()/2, getHeight()/2, null);
     }
-    private  ArrayList<Ship> convertSaveShip(ArrayList<SaveShip> saveShips){
+    private  ArrayList<Ship> convertSaveShip(ArrayList<SaveShip> saveShips, Field b[][]){
         ArrayList<Ship> retList = new ArrayList<>();
         for (SaveShip saveS:saveShips) {
             Ship ship = new Ship(saveS.getShipModel());
             ship.setRowColumn(saveS.getRow(), saveS.getColumn());
-            ship.setHorizontal(saveS.isHorizontal());
+            //ship.setHorizontal(saveS.isHorizontal());
+            if(saveS.getShipBoard().get(0).getColumn() !=  saveS.getShipBoard().get(saveS.getShipBoard().size() -1).getColumn()){
+                ship.setHorizontal(true);
+            }else{
+                ship.setHorizontal(false);
+            }
             for (SaveField f: saveS.getShipBoard()) {
                 Field newField = new Field(f.getRow(),f.getColumn(), "battle");
-                newField.setMark(f.isMark());
-                newField.setShot(f.isShot());
+                for (int i = 0; i <b.length ; i++) {
+                    for (int j = 0; j <b[i].length ; j++) {
+                        if(b[i][j].getRow() == newField.getRow() && b[i][j].getColumn() == newField.getColumn()){
+                            newField.setMark(b[i][j].isMark());
+                            newField.setShot(b[i][j].isShot());
+                        }
+                    }
+                }
                 ship.getShipBoard().add(newField);
             }
             retList.add(ship);

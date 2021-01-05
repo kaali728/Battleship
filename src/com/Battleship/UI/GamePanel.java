@@ -19,6 +19,10 @@ public class GamePanel extends JPanel {
     private SoundFactory sound;
     private boolean Gameload;
     private Field loadedPlayerButton[][];
+    private Field loadedEnemyButton[][];
+    private int loadedPlayerHealth;
+    private int loadedEnemyHealth;
+
 
     // start - singleplayer - multiplayer - setzen - battle
     private String gameState;
@@ -104,5 +108,29 @@ public class GamePanel extends JPanel {
 
     public void setLoadedPlayerButton(Field[][] loadedPlayerButton) {
         this.loadedPlayerButton = loadedPlayerButton;
+    }
+
+    public Field[][] getLoadedEnemyButton() {
+        return loadedEnemyButton;
+    }
+
+    public void setLoadedEnemyButton(Field[][] loadedEnemyButton) {
+        this.loadedEnemyButton = loadedEnemyButton;
+    }
+
+    public int getLoadedPlayerHealth() {
+        return loadedPlayerHealth;
+    }
+
+    public void setLoadedPlayerHealth(int loadedPlayerHealth) {
+        this.loadedPlayerHealth = loadedPlayerHealth;
+    }
+
+    public int getLoadedEnemyHealth() {
+        return loadedEnemyHealth;
+    }
+
+    public void setLoadedEnemyHealth(int loadedEnemyHealth) {
+        this.loadedEnemyHealth = loadedEnemyHealth;
     }
 }

@@ -41,14 +41,21 @@ public class BattleScreen extends Panel implements ActionListener {
 
         //if load game => brauchen wir keine neue board sonder nur playerboard = newBoard und wir geben button[][] und restliche sachen
         playerBoard = new Board(this.mainPanel.getSingleplayer().getFieldsize(), this.mainPanel.getSingleplayer().getFleet(), this.mainPanel.getGameState(), true);
-        playerBoard.setMyShip();
-        if(this.mainPanel.isGameload()){
-            playerBoard.setMyShip(this.mainPanel.getLoadedPlayerButton());
-        }
+
         //board.setshootet(load.playerboard); if isshot true => if is mark dann rot(if ship) if not
         enemyBoard = new Board(this.mainPanel.getEnemyPlayer().getFieldsize(), this.mainPanel.getEnemyPlayer().getFleet(), this.mainPanel.getGameState(), false, this.mainPanel.getEnemyPlayer(), playerBoard);
-        this.mainPanel.getEnemyPlayer().setEnemyBoard(enemyBoard);
-        if(!this.mainPanel.isGameload()){
+        if(this.mainPanel.isGameload()){
+            playerBoard.setMyShip(this.mainPanel.getLoadedPlayerButton());
+            enemyBoard.setMyShip(this.mainPanel.getLoadedEnemyButton());
+            playerBoard.setAllHealthEnemy(this.mainPanel.getLoadedEnemyHealth());
+            playerBoard.setAllHealthPlayer(this.mainPanel.getLoadedPlayerHealth());
+            enemyBoard.setAllHealthEnemy(this.mainPanel.getLoadedEnemyHealth());
+            enemyBoard.setAllHealthPlayer(this.mainPanel.getLoadedPlayerHealth());
+            this.mainPanel.getEnemyPlayer().setEnemyBoard(enemyBoard);
+
+        }else{
+            playerBoard.setMyShip();
+            this.mainPanel.getEnemyPlayer().setEnemyBoard(enemyBoard);
             this.mainPanel.getEnemyPlayer().setEnemyShip();
         }
         endGame.addActionListener(this);
