@@ -318,7 +318,7 @@ public class Board extends JPanel {
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
         //cordianten von enemy schiffe
         //!playerboard shoot doppelt and that can be help and extra feature
-            if(playerBoard && !isGameOver()) {
+            if(playerBoard && !isGameOver() && !button[row][column].isShot()) {
                 ArrayList<Field> posFields = getPosShip();
                 //System.out.println(posFields);
                 for (Field f : posFields) {
@@ -332,15 +332,14 @@ public class Board extends JPanel {
                         f.setShot(true);
                         this.allHealthPlayer--;
                         if (isGameOver()) {
-                            if (isGameOver()) {
-                                for (int i = 0; i < size ; i++) {
-                                    for (int j = 0; j <size ; j++) {
-                                        button[i][j].setShot(true);
-                                        button[i][j].setMark(true);
-                                    }
+                            for (int i = 0; i < size; i++) {
+                                for (int j = 0; j < size; j++) {
+                                    button[i][j].setShot(true);
+                                    button[i][j].setMark(true);
                                 }
-                                return false;
                             }
+                            return false;
+
                         }
                         return true;
                     }
