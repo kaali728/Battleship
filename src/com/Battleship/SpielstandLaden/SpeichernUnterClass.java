@@ -2,13 +2,12 @@ package com.Battleship.SpielstandLaden;
 
 import com.Battleship.Model.Board;
 import com.Battleship.Model.Field;
+import com.Battleship.Model.MyTypeAdaptor;
 import com.Battleship.Model.Ship;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
 
 import javax.swing.*;
-import java.io.FileWriter;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,17 +18,13 @@ import java.util.Map;
 public class SpeichernUnterClass  extends JFrame {
 
     //kommt variable die von der spiel brett kommen
-    @Expose
+
     private Board player;
-    @Expose
     private Board enemy;
-    private Field[][] button;
-    private  ArrayList<Ship> fleet;
 
 
-    public SpeichernUnterClass(Board playerBoard, ArrayList<Ship> fleet, Board enemyBoard) {
+    public SpeichernUnterClass(Board playerBoard, Board enemyBoard) {
         this.player = playerBoard;
-        this.fleet= fleet;
         this.enemy = enemyBoard;
     }
 
@@ -54,10 +49,10 @@ public class SpeichernUnterClass  extends JFrame {
                 Map<String, Object> map = new HashMap<>();
                 map.put("Player", this.player);
                 Field enemybutton[][] = enemy.getButton();
-                System.out.println(enemy.getFleet());
+                //System.out.println(enemy.getFleet());
                 for (int i = 0; i <enemybutton.length ; i++) {
                     for (int j = 0; j <enemybutton[i].length ; j++) {
-                        System.out.println(enemybutton[i][j]);
+                        //System.out.println(enemybutton[i][j]);
                     }
                 }
                 //map.put("Fleet", this.fleet);
@@ -67,8 +62,9 @@ public class SpeichernUnterClass  extends JFrame {
                 GameObj data = new GameObj(this.player, this.enemy);
 
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                //Gson gson = new GsonBuilder().registerTypeAdapter(Board.class, new MyTypeAdaptor<Board>()).create();
                 // convert map to JSON File
-                gson.toJson(player, writer);
+                gson.toJson(data, writer);
 
                 writer.close();
 

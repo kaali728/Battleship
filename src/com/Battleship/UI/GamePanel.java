@@ -1,6 +1,7 @@
 package com.Battleship.UI;
 
 import com.Battleship.Constants.Constants;
+import com.Battleship.Model.Field;
 import com.Battleship.Player.AIPlayer;
 import com.Battleship.Player.NetworkPlayer;
 import com.Battleship.Player.Player;
@@ -16,6 +17,8 @@ public class GamePanel extends JPanel {
     private AIPlayer EnemyPlayer = new AIPlayer();
     private NetworkPlayer NetworkPlayer = new NetworkPlayer();
     private SoundFactory sound;
+    private boolean Gameload;
+    private Field loadedPlayerButton[][];
 
     // start - singleplayer - multiplayer - setzen - battle
     private String gameState;
@@ -85,5 +88,21 @@ public class GamePanel extends JPanel {
 
     public SoundFactory getSound() {
         return sound;
+    }
+
+    public boolean isGameload() {
+        return Gameload;
+    }
+
+    public void setGameload(boolean gameload) {
+        Gameload = gameload;
+    }
+
+    public Field[][] getLoadedPlayerButton() {
+        return loadedPlayerButton;
+    }
+
+    public void setLoadedPlayerButton(Field[][] loadedPlayerButton) {
+        this.loadedPlayerButton = loadedPlayerButton;
     }
 }

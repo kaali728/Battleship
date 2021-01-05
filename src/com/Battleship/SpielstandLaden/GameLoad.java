@@ -32,7 +32,7 @@ public class GameLoad {
             try {
                 FileReader fr = new FileReader(file);
                 loadedGame = gson.fromJson(fr, GameObj.class);
-                System.out.println(loadedGame.size);
+                //System.out.println(loadedGame.size);
             } catch (Exception e) {
                 e.printStackTrace();
             }

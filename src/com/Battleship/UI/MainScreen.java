@@ -4,6 +4,10 @@ import com.Battleship.Constants.Constants;
 import com.Battleship.Image.Image;
 import com.Battleship.Image.ImageFactory;
 import com.Battleship.Main.Game;
+import com.Battleship.Model.Field;
+import com.Battleship.Model.SaveField;
+import com.Battleship.Model.SaveShip;
+import com.Battleship.Model.Ship;
 import com.Battleship.Player.Player;
 import com.Battleship.Sound.Sound;
 import com.Battleship.Sound.SoundFactory;
@@ -16,6 +20,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainScreen extends JPanel {
     JButton singleplayer;
@@ -147,8 +152,17 @@ public class MainScreen extends JPanel {
         spielstandLaden.addActionListener(
                 (e) -> {
                     GameObj spielStand = load.readFile(null);
-                    System.out.println(spielStand.size);
-                    mainPanel.setGameState("battle");
+                    ArrayList<Ship> playerFleet = convertSaveShip(spielStand.playerFleet);
+                    ArrayList<Ship> enemyFleet = convertSaveShip(spielStand.enemyFleet);
+                    Field bt[][] = convertSaveField(spielStand.playerButton);
+                    this.mainPanel.getSingleplayer().setFieldsize(spielStand.size);
+                    this.mainPanel.getEnemyPlayer().setFieldsize(spielStand.size);
+                    this.mainPanel.getSingleplayer().setFleet(playerFleet);
+                    this.mainPanel.getEnemyPlayer().setFleet(enemyFleet);
+                    this.mainPanel.setGameState("battle");
+                    this.mainPanel.setGameload(true);
+                    this.mainPanel.setLoadedPlayerButton(bt);
+                    this.mainPanel.changeScreen("battle");
                     //change screen to battle
                 }
         );
@@ -265,5 +279,32 @@ public class MainScreen extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         //g.drawImage(ship.getImage(), 0, 0, getWidth()/2, getHeight()/2, null);
+    }
+    private  ArrayList<Ship> convertSaveShip(ArrayList<SaveShip> saveShips){
+        ArrayList<Ship> retList = new ArrayList<>();
+        for (SaveShip saveS:saveShips) {
+            Ship ship = new Ship(saveS.getShipModel());
+            ship.setRowColumn(saveS.getRow(), saveS.getColumn());
+            ship.setHorizontal(saveS.isHorizontal());
+            for (SaveField f: saveS.getShipBoard()) {
+                Field newField = new Field(f.getRow(),f.getColumn(), "battle");
+                newField.setMark(f.isMark());
+                newField.setShot(f.isShot());
+                ship.getShipBoard().add(newField);
+            }
+            retList.add(ship);
+        }
+        return retList;
+    }
+    private Field[][] convertSaveField(SaveField bt[][]){
+        Field button[][] = new Field[bt.length][bt.length];
+        for (int i = 0; i <bt.length ; i++) {
+            for (int j = 0; j <bt[i].length ; j++) {
+                button[i][j] = new Field(bt[i][j].getRow(),bt[i][j].getColumn(), "battle");
+                button[i][j].setMark(bt[i][j].isMark());
+                button[i][j].setShot(bt[i][j].isShot());
+            }
+        }
+        return button;
     }
 }

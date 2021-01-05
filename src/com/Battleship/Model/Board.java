@@ -149,10 +149,47 @@ public class Board extends JPanel {
             //System.out.println(s);
             for (int l = 0; l<s.getShiplength(); l++){
                 //System.out.println(l);
+                //System.out.println(s.getRow()+ " "+ s.getColumn());
                 if(s.getHorizontal()){
                     button[s.getRow()][s.getColumn() + l].setBackground(s.getShipColor());
+                    button[s.getRow()][s.getColumn() + l].setMark(true);
                 }else{
                     button[s.getRow() + l][s.getColumn()].setBackground(s.getShipColor());
+                    button[s.getRow() + l][s.getColumn()].setMark(true);
+                }
+            }
+        }
+    }
+
+    public void setMyShip(Field buttonLoad[][]) {
+        for (int i = 0; i <buttonLoad.length ; i++) {
+            for (int j = 0; j <buttonLoad[i].length ; j++) {
+                button[i][j].setShot(buttonLoad[i][j].isShot());
+                button[i][j].setMark(buttonLoad[i][j].isMark());
+                if(!buttonLoad[i][j].isMark() && buttonLoad[i][j].isShot()){
+                    button[i][j].setText("<html><b color=white>X</b></html>");
+                    button[i][j].setBackground(new Color(0x0000B2));
+                }
+            }
+        }
+        for (Ship s: fleet) {
+            //System.out.println(s);
+            for (int l = 0; l<s.getShiplength(); l++){
+                //System.out.println(l);
+                //System.out.println(s.getRow()+ " "+ s.getColumn());
+                if(s.getHorizontal()){
+                    if(buttonLoad[s.getRow()][s.getColumn() + l].isMark() && buttonLoad[s.getRow()][s.getColumn() + l].isShot()){
+                        button[s.getRow()][s.getColumn() + l].setText("<html><b color=white>💣</b></html>");
+                        button[s.getRow()][s.getColumn() + l].setBackground(new Color(0xE52100));
+                        buttonLoad[s.getRow()][s.getColumn() + l].setMark(true);
+                    }
+                    if(buttonLoad[s.getRow()][s.getColumn() + l].isMark() && !buttonLoad[s.getRow()][s.getColumn() + l].isShot()){
+                        button[s.getRow()][s.getColumn() + l].setBackground(s.getShipColor());
+                        button[s.getRow()][s.getColumn() + l].setMark(true);
+                    }
+                }else{
+                    button[s.getRow() + l][s.getColumn()].setBackground(s.getShipColor());
+                    button[s.getRow() + l][s.getColumn()].setMark(true);
                 }
             }
         }
@@ -167,7 +204,7 @@ public class Board extends JPanel {
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
         //cordianten von enemy schiffe
         //System.out.println(allHealth);
-        if(!playerBoard && broke && !isGameOver()) {
+        if(!playerBoard && broke && !isGameOver() && !button[row][column].isShot()) {
             if (button[row][column].isMark()) {
                 //System.out.println(fleet);
                 button[row][column].setText("<html><b color=white>💣</b></html>");
@@ -232,6 +269,7 @@ public class Board extends JPanel {
                     if (f.getRow() == row && f.getColumn() == column && f.isMark()) {
                         button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
                         button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
+                        button[f.getRow()][f.getColumn()].setShot(true);
                         f.setShot(true);
                         this.allHealthPlayer--;
                         if (isGameOver()) {
@@ -243,6 +281,7 @@ public class Board extends JPanel {
                 }
                 button[row][column].setText("<html><b color=white>X</b></html>");
                 button[row][column].setBackground(new Color(0x0000B2));
+                button[row][column].setShot(true);
             }
         return false;
     }
@@ -287,7 +326,7 @@ public class Board extends JPanel {
         int column = Integer.parseInt(coordinate[1]);
         if(carrierCount != 0){
             for (Ship s: fleet) {
-                if(s.getShipModel() == "carrier"  && s.getRow() == -1 && s.getRow() == -1){
+                if(s.getShipModel() == "carrier" && s.getRow() == -1 && s.getColumn() == -1){
                     boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),horizontal);
                     boolean areaCheck = checkShipArea(row,column,s.getShiplength(),horizontal);
                     if(postionCheck && areaCheck){
@@ -319,7 +358,7 @@ public class Board extends JPanel {
         }else{
             if(battleshipCount != 0){
                 for (Ship s: fleet) {
-                    if(s.getShipModel() == "battleship"  && s.getRow() == -1 && s.getRow() == -1){
+                    if(s.getShipModel() == "battleship"  && s.getRow() == -1 && s.getColumn() == -1){
                         boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),horizontal);
                         boolean areaCheck = checkShipArea(row,column,s.getShiplength(),horizontal);
                         if(postionCheck && areaCheck) {
@@ -352,7 +391,7 @@ public class Board extends JPanel {
             }else{
                 if(submarineCount != 0){
                     for (Ship s: fleet) {
-                        if(s.getShipModel() == "submarine"  && s.getRow() == -1 && s.getRow() == -1){
+                        if(s.getShipModel() == "submarine"  && s.getRow() == -1 && s.getColumn() == -1){
                             boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),horizontal);
                             boolean areaCheck = checkShipArea(row,column,s.getShiplength(),horizontal);
                             if(postionCheck && areaCheck) {
@@ -385,7 +424,7 @@ public class Board extends JPanel {
                 }else{
                     if(destoryerCount != 0){
                         for (Ship s: fleet) {
-                            if(s.getShipModel() == "destroyer" && s.getRow() == -1 && s.getRow() == -1){
+                            if(s.getShipModel() == "destroyer" && s.getRow() == -1 && s.getColumn() == -1){
                                 boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),horizontal);
                                 boolean areaCheck = checkShipArea(row,column,s.getShiplength(),horizontal);
                                 if(postionCheck && areaCheck) {
@@ -424,12 +463,12 @@ public class Board extends JPanel {
     public Ship setShip(int row,int column){
         Random random= new Random();
         boolean hori = random.nextBoolean();
-        if(size == 6){
+        if(size <= 7){
             hori = true;
         }
         if(carrierCount != 0){
             for (Ship s: fleet) {
-                if(s.getShipModel() == "carrier"  && s.getRow() == -1 && s.getRow() == -1){
+                if(s.getShipModel() == "carrier"  && s.getRow() == -1 && s.getColumn() == -1){
                     boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),hori);
                     boolean areaCheck = checkShipArea(row,column,s.getShiplength(),hori);
                     if(postionCheck && areaCheck){
@@ -461,7 +500,7 @@ public class Board extends JPanel {
         }else{
             if(battleshipCount != 0){
                 for (Ship s: fleet) {
-                    if(s.getShipModel() == "battleship"  && s.getRow() == -1 && s.getRow() == -1){
+                    if(s.getShipModel() == "battleship"  && s.getRow() == -1 && s.getColumn() == -1){
                         boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),hori);
                         boolean areaCheck = checkShipArea(row,column,s.getShiplength(),hori);
                         if(postionCheck && areaCheck) {
@@ -494,7 +533,7 @@ public class Board extends JPanel {
             }else{
                 if(submarineCount != 0){
                     for (Ship s: fleet) {
-                        if(s.getShipModel() == "submarine"  && s.getRow() == -1 && s.getRow() == -1){
+                        if(s.getShipModel() == "submarine"  && s.getRow() == -1 && s.getColumn() == -1){
                             boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),hori);
                             boolean areaCheck = checkShipArea(row,column,s.getShiplength(),hori);
                             if(postionCheck && areaCheck) {
@@ -528,7 +567,7 @@ public class Board extends JPanel {
                 }else{
                     if(destoryerCount != 0){
                         for (Ship s: fleet) {
-                            if(s.getShipModel() == "destroyer" && s.getRow() == -1 && s.getRow() == -1){
+                            if(s.getShipModel() == "destroyer" && s.getRow() == -1 && s.getColumn() == -1){
                                 boolean postionCheck = checkBoardPostion(row,column,s.getShiplength(),hori);
                                 boolean areaCheck = checkShipArea(row,column,s.getShiplength(),hori);
                                 if(postionCheck && areaCheck) {
@@ -765,6 +804,10 @@ public class Board extends JPanel {
 
     public Field getonebutton(int row, int columns){
         return button[row][columns];
+    }
+
+    public void setFleet(ArrayList<Ship> fleet) {
+        this.fleet = fleet;
     }
 
     @Override

@@ -1,9 +1,6 @@
 package com.Battleship.SpielstandLaden;
 
-import com.Battleship.Model.Board;
-import com.Battleship.Model.Field;
-import com.Battleship.Model.SaveField;
-import com.Battleship.Model.Ship;
+import com.Battleship.Model.*;
 
 import java.util.ArrayList;
 
@@ -12,8 +9,8 @@ public class GameObj {
     public SaveField playerButton[][];
     public SaveField enemyButton[][];
 
-    public ArrayList<Ship> playerFleet;
-    public ArrayList<Ship> enemyFleet;
+    public ArrayList<SaveShip> playerFleet = new ArrayList<>();
+    public ArrayList<SaveShip> enemyFleet = new ArrayList<>();
 
     public int size;
 
@@ -24,8 +21,13 @@ public class GameObj {
 
         setSavedField(playerBoard.getButton(), 1);
         setSavedField(enemyBoard.getButton(), 2);
-        //this.playerFleet = playerBoard.getFleet();
-        //this.enemyFleet = enemyBoard.getFleet();
+        for (Ship s: playerBoard.getFleet()) {
+            this.playerFleet.add(new SaveShip(s));
+        }
+        //System.out.println("enemyBoard"+enemyBoard.getFleet());
+        for (Ship s: enemyBoard.getFleet()) {
+            this.enemyFleet.add(new SaveShip(s));
+        }
     }
 
 

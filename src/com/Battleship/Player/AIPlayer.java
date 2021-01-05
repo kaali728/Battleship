@@ -69,7 +69,6 @@ public class AIPlayer {
         if(fieldsize <= 7){
             for (Ship s: fleet) {
                 if(s.getHealth() == 5){
-
                     enemyBoard.setShip(0,0);
                 }
                 if(s.getHealth() == 4){
@@ -82,7 +81,6 @@ public class AIPlayer {
                     enemyBoard.setShip(5,4);
                 }
             }
-
         }else{
             for (Ship s : fleet) {
                 while (true) {
