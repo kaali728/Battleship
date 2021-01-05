@@ -72,6 +72,10 @@ public class AIPlayer {
         this.enemyBoard = enemyBoard;
     }
 
+    public Board getPlayerBoard() {
+        return playerBoard;
+    }
+
     public void setEnemyShip() {
         Random random = new Random();
         int counter = 10000;
