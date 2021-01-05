@@ -52,7 +52,12 @@ public class Board extends JPanel {
 
     private int counter=0;
 
-
+    public Board(int size, String GameState){
+        this.size=size;
+        this.gameState = GameState;
+        this.button = new Field[size][size];
+        initlayoutmulti();
+    }
     public Board(int size, ArrayList<Ship> fleet, String GameState){
         this.size=size;
         this.fleet = fleet;
@@ -84,6 +89,53 @@ public class Board extends JPanel {
         countShip();
         countHealth();
         initlayout();
+    }
+    public void initlayoutmulti(){
+        setSize(new Dimension(650,650));
+        setLayout(new GridBagLayout());
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(size, size));
+        for (rows = 0; rows < size; rows++) {
+            for (columns = 0; columns < size; columns++) {
+                button[rows][columns] = new Field(rows,columns, gameState);
+                button[rows][columns].setBackground(Color.GRAY); //default Gray color is easily interchangable here
+                button[rows][columns].setPreferredSize(new Dimension(650/size,650/size));
+                button[rows][columns].setActionCommand(button[rows][columns].getRow() + ","+ button[rows][columns].getColumn());
+                //wenn wir noch carrier haben (counter != 0) dann soll der carrier gesetzt werden
+                button[rows][columns].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if(gameState == "setzen"){
+                            setShip(e);
+                        }
+                        if(gameState == "battle"){
+                                if(!isGameOver()) {
+                                    boolean success = shoot(e);
+                                }
+                        }
+                    }
+                });
+                buttonPanel.add(button[rows][columns]);
+            }
+        }
+
+        Box vBox = Box.createVerticalBox();
+        vBox.setBackground(Color.white);
+        {
+            carrierText = new JLabel("Carrier" + carrierCount);
+            battleshipText = new JLabel("Battleship" + battleshipCount);
+            submarineText = new JLabel("Submarine" + submarineCount);
+            destroyerText = new JLabel("Destroyer" + destoryerCount);
+
+            vBox.add(carrierText);
+            vBox.add(battleshipText);
+            vBox.add(submarineText);
+            vBox.add(destroyerText);
+        }
+        add(buttonPanel);
+        if(gameState.equals("setzen")){
+            add(vBox);
+        }
     }
 
     public void initlayout(){

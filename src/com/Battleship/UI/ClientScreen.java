@@ -19,6 +19,7 @@ public class ClientScreen extends JPanel {
     private String ships;
     GamePanel mainPanel;
     Board postionBoard;
+    Board enemyBoard;
 
 
     int carrierCount, battleshipCount, submarineCount, destroyerCount;
@@ -128,8 +129,6 @@ public class ClientScreen extends JPanel {
                         if (fieldsize != 0 && carrierCount != 0 && battleshipCount != 0 && submarineCount != 0 && destroyerCount != 0 && line.equals("S: ready")) {
                             SwingUtilities.invokeLater(() -> {
                                 button.setEnabled(true);
-
-                                // Spielbrett
                             });
                         }
 
@@ -225,12 +224,20 @@ public class ClientScreen extends JPanel {
                             System.out.println("C: ready");
                             out.flush();
                             button.setVisible(false);
+                            // enemy Spielbrett
+                            mainPanel.setGameState("battle");
+                            enemyBoard.setVisible(true);
                         } catch (IOException ex) {
                             System.out.println("write to socket failed");
                         }
                     }
                 }
         );
+
+
+        enemyBoard = new Board(fieldsize,  this.mainPanel.getGameState());
+        enemyBoard.setVisible(false);
+
 
         chat = new JTextArea(10, 70);
         chat.setEditable(false);
@@ -269,6 +276,7 @@ public class ClientScreen extends JPanel {
             ArrayList<Ship> fleet1 = this.mainPanel.getNetworkPlayer().getFleet();
             postionBoard = new Board(fieldsize, fleet1, this.mainPanel.getGameState());
             hbox.add(postionBoard);
+            hbox.add(enemyBoard);
             hbox.add(Box.createHorizontalStrut(10));
         }
         add(hbox);

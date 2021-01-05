@@ -23,6 +23,7 @@ public class ServerScreen extends JPanel {
     int carrierCount, battleshipCount, submarineCount, destroyerCount;
     GamePanel mainPanel;
     Board postionBoard;
+    Board enemyBoard;
 
     ServerScreen(int port, int fieldsize, int carrierCount, int battleshipCount, int submarineCount, int destroyerCount, GamePanel mainPanel) {
         this.port = port;
@@ -102,6 +103,8 @@ public class ServerScreen extends JPanel {
                         if (line.equals("C: ready")) {
                             SwingUtilities.invokeLater(() -> {
                                 // Spielbrett
+                                mainPanel.setGameState("battle");
+                                enemyBoard.setVisible(true);
                             });
                         }
 
@@ -183,6 +186,8 @@ public class ServerScreen extends JPanel {
         );
 
 
+        enemyBoard = new Board(fieldsize,  this.mainPanel.getGameState());
+        enemyBoard.setVisible(false);
 
         chat = new JTextArea(10, 70);
         chat.setEditable(false);
@@ -218,6 +223,7 @@ public class ServerScreen extends JPanel {
             ArrayList<Ship> fleet = this.mainPanel.getSingleplayer().getFleet();
             postionBoard = new Board(fieldsize, fleet, this.mainPanel.getGameState());
             hbox.add(postionBoard);
+            hbox.add(enemyBoard);
             hbox.add(Box.createHorizontalStrut(10));
         }
         add(hbox);
