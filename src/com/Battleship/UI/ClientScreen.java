@@ -206,16 +206,27 @@ public class ClientScreen extends JPanel {
                 // und eine beliebige Nachricht an die andere "Seite" geschickt,
                 // damit diese ihren Knopf aktivieren kann.
                 (e) -> {
-                    button.setEnabled(false);
-                    try {
-                        // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
-                        out.write(String.format("%s%n", "[Battleship]: It's your turn."));
-                        out.flush();
-                    } catch (IOException ex) {
-                        System.out.println("write to socket failed");
+                    ArrayList<Ship> placedShips = this.mainPanel.getNetworkPlayer().getFleet();
+                    boolean allSet = true;
+                    for (Ship s: placedShips) {
+                        if(s.getColumn() == -1 || s.getRow() == -1){
+                            allSet = false;
+                            break;
+                        }
+                    }
+                    if(allSet){
+                        button.setEnabled(false);
+                        try {
+                            // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
+                            out.write(String.format("%s%n", "[Battleship]: It's your turn."));
+                            out.flush();
+                        } catch (IOException ex) {
+                            System.out.println("write to socket failed");
+                        }
                     }
                 }
         );
+        button.setEnabled(false);
 
         chat = new JTextArea(10, 70);
         chat.setEditable(false);
