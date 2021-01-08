@@ -109,18 +109,20 @@ public class ServerScreen extends JPanel {
                             });
                         }
 
+                        System.out.println("LINE " + line);
+
                         SwingUtilities.invokeLater(
                                 () -> {
                                     String tmp = chat.getText();
 
-                                    chat.setText(
-                                            "S: size " + fieldsize + " " + fieldsize + "\n" +
-                                                    "C: next" + "\n" +
-                                                    "S: ships " + list.replace(",", "") + "\n" +
-                                                    "C: done" + "\n" +
-                                                    "S: ready" + "\n" +
-                                                    "C: ready"
-                                    );
+//                                    chat.setText(
+//                                            "S: size " + fieldsize + " " + fieldsize + "\n" +
+//                                                    "C: next" + "\n" +
+//                                                    "S: ships " + list.replace(",", "") + "\n" +
+//                                                    "C: done" + "\n" +
+//                                                    "S: ready" + "\n" +
+//                                                    "C: ready"
+//                                    );
 
                                     // Pruefen ob es in der Nachricht um ein Spielereignis handelt
                                     // oder es einfach nur eine Chat Nachricht ist.
@@ -129,10 +131,10 @@ public class ServerScreen extends JPanel {
                                         // dass er an der Reihe ist.
                                         button.setEnabled(true);
                                         chat.setText(tmp + "\n" + line);
-                                    } /*else {
+                                    } else {
                                         // Chat Historie und aktuelle Nachricht vom Gegner.
-                                        chat.setText(tmp + "\n" + "[Enemy]: " + line);
-                                    }*/
+                                        chat.setText(tmp + "\n" + line);
+                                    }
                                 }
                         );
                     }
@@ -156,7 +158,7 @@ public class ServerScreen extends JPanel {
         button = new JButton("Ready");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setEnabled(false);
-        enemyBoard = new Board(fieldsize,  "battle",out);
+        enemyBoard = new Board(fieldsize, "battle", out, true);
         enemyBoard.setVisible(false);
         button.addActionListener(
                 // Wenn der Knopf gedrückt wird,
@@ -167,13 +169,13 @@ public class ServerScreen extends JPanel {
                 (e) -> {
                     ArrayList<Ship> placedShips = this.mainPanel.getSingleplayer().getFleet();
                     boolean allSet = true;
-                    for (Ship s: placedShips) {
-                        if(s.getColumn() == -1 || s.getRow() == -1){
+                    for (Ship s : placedShips) {
+                        if (s.getColumn() == -1 || s.getRow() == -1) {
                             allSet = false;
                             break;
                         }
                     }
-                    if(allSet){
+                    if (allSet) {
                         button.setEnabled(false);
                         try {
                             // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
@@ -197,7 +199,7 @@ public class ServerScreen extends JPanel {
                 (e) -> {
                     try {
                         // Schreibt die Chat Nachricht an den Gegner.
-                        out.write(String.format("%s%n", chatInput.getText()));
+                        out.write(String.format("%s%n", "[Enemy] " + chatInput.getText()));
                         out.flush();
                         // Zeigt die Chat Historie und die aktuelle Nachricht an.
                         String tmp = chat.getText();

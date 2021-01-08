@@ -330,12 +330,14 @@ public class Board extends JPanel {
 
     public void multiplayerShoot(){
         try{
-            if(client){
+            if(!client){
                 out.write(String.format("%s%n", "C: shot "+shootetRow+" "+shootetColumn));
-                System.out.println("C: shot "+shootetRow+" "+shootetColumn);
+                //System.out.println("C: shot "+shootetRow+" "+shootetColumn);
+                out.flush();
             }else{
                 out.write(String.format("%s%n", "S: shot "+shootetRow+" "+shootetColumn));
-                System.out.println("S: shot "+shootetRow+" "+shootetColumn);
+                //System.out.println("S: shot "+shootetRow+" "+shootetColumn);
+                out.flush();
             }
         }catch (Exception e){
             System.out.println(e);

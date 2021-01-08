@@ -132,22 +132,41 @@ public class ClientScreen extends JPanel {
                             });
                         }
 
+                        // Schuss vom Server verarbeiten.
+                        if (line.contains("shot")) {
+                            int row = Integer.parseInt(line.split(" ")[2]);
+                            int col = Integer.parseInt(line.split(" ")[3]);
+
+                            // Verarbeiten
+
+                            // Antwort
+//                            try {
+//                                // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
+//                                out.write(String.format("%s%n", "C: ready"));
+//                                System.out.println("C: ready");
+//                                out.flush();
+//                                button.setVisible(false);
+//                                // enemy Spielbrett
+//                                mainPanel.setGameState("battle");
+//                                enemyBoard.setVisible(true);
+//                            } catch (IOException ex) {
+//                                System.out.println("write to socket failed");
+//                            }
+                        }
+
                         SwingUtilities.invokeLater(
                                 () -> {
                                     String tmp = chat.getText();
 
-                                    SwingUtilities.invokeLater(
-                                            () -> {
-                                                chat.setText(
-                                                        "S: size " + fieldsize + " " + fieldsize + "\n" +
-                                                                "C: next" + "\n" +
-                                                                ships + "\n" +
-                                                                "C: done" + "\n" +
-                                                                "S: ready" + "\n" +
-                                                                "C: ready"
-                                                );
-                                            }
-                                    );
+//                                    chat.setText(
+//                                            "S: size " + fieldsize + " " + fieldsize + "\n" +
+//                                                    "C: next" + "\n" +
+//                                                    ships + "\n" +
+//                                                    "C: done" + "\n" +
+//                                                    "S: ready" + "\n" +
+//                                                    "C: ready"
+//                                    );
+
 
                                     // Pruefen ob es in der Nachricht um ein Spielereignis handelt
                                     // oder es einfach nur eine Chat Nachricht ist.
@@ -156,10 +175,10 @@ public class ClientScreen extends JPanel {
                                         // dass er an der Reihe ist.
                                         button.setEnabled(true);
                                         chat.setText(tmp + "\n" + line);
-                                    } /*else {
+                                    } else {
                                         // Chat Historie und aktuelle Nachricht vom Gegner.
-                                        chat.setText(tmp + "\n" + "[Enemy]: " + line);
-                                    }*/
+                                        chat.setText(tmp + "\n" + line);
+                                    }
                                 }
                         );
                     }
@@ -210,13 +229,13 @@ public class ClientScreen extends JPanel {
                 (e) -> {
                     ArrayList<Ship> placedShips = this.mainPanel.getNetworkPlayer().getFleet();
                     boolean allSet = true;
-                    for (Ship s: placedShips) {
-                        if(s.getColumn() == -1 || s.getRow() == -1){
+                    for (Ship s : placedShips) {
+                        if (s.getColumn() == -1 || s.getRow() == -1) {
                             allSet = false;
                             break;
                         }
                     }
-                    if(allSet){
+                    if (allSet) {
                         button.setEnabled(false);
                         try {
                             // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
@@ -235,7 +254,7 @@ public class ClientScreen extends JPanel {
         );
 
 
-        enemyBoard = new Board(fieldsize,  "battle", out, true);
+        enemyBoard = new Board(fieldsize, "battle", out);
         enemyBoard.setVisible(false);
 
 
@@ -248,7 +267,7 @@ public class ClientScreen extends JPanel {
                 (e) -> {
                     try {
                         // Schreibt die Chat Nachricht an den Gegner.
-                        out.write(String.format("%s%n", chatInput.getText()));
+                        out.write(String.format("%s%n", "[Enemy] " + chatInput.getText()));
                         out.flush();
                         // Zeigt die Chat Historie und die aktuelle Nachricht an.
                         String tmp = chat.getText();
