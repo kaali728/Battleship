@@ -235,7 +235,7 @@ public class ClientScreen extends JPanel {
         );
 
 
-        enemyBoard = new Board(fieldsize,  this.mainPanel.getGameState());
+        enemyBoard = new Board(fieldsize,  "battle");
         enemyBoard.setVisible(false);
 
 

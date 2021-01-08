@@ -177,6 +177,7 @@ public class ServerScreen extends JPanel {
                             out.write(String.format("%s%n", "S: ready"));
                             System.out.println("S: ready");
                             out.flush();
+                            this.mainPanel.setGameState("battle");
                             button.setVisible(false);
                         } catch (IOException ex) {
                             System.out.println("write to socket failed");
@@ -186,7 +187,7 @@ public class ServerScreen extends JPanel {
         );
 
 
-        enemyBoard = new Board(fieldsize,  this.mainPanel.getGameState());
+        enemyBoard = new Board(fieldsize,  "battle");
         enemyBoard.setVisible(false);
 
         chat = new JTextArea(10, 70);

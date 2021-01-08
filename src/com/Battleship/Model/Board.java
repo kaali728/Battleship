@@ -109,6 +109,10 @@ public class Board extends JPanel {
                             setShip(e);
                         }
                         if(gameState == "battle"){
+                            String[] coordinate = e.getActionCommand().split(",");
+                            int row = Integer.parseInt(coordinate[0]);
+                            int column = Integer.parseInt(coordinate[1]);
+                            System.out.println(row + " " + column);
                                 if(!isGameOver()) {
                                     boolean success = shoot(e);
                                 }
