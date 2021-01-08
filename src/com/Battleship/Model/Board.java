@@ -365,8 +365,6 @@ public class Board extends JPanel {
             if(shot == 1 || shot == 2){
                 button[shootetRow-1][shootetColumn-1].setText("<html><b color=white>💣</b></html>");
                 button[shootetRow-1][shootetColumn-1].setBackground(new Color(0xE52100));
-
-
             }else {
                 button[shootetRow-1][shootetColumn-1].setText("<html><b color=white>X</b></html>");
                 button[shootetRow-1][shootetColumn-1].setBackground(new Color(0x0000B2));
@@ -468,6 +466,16 @@ public class Board extends JPanel {
                     f.setShot(true);
                     this.allHealthPlayer--;
                     if (isGameOver()) {
+                        if(shotetShip.sunken()){
+                            for (Field feld: shotetShip.getShipBoard()) {
+                                button[feld.getRow()][feld.getColumn()].setText("<html><b color=white>💣</b></html>");
+                                button[feld.getRow()][feld.getColumn()].setBackground(new Color(0x380E05));
+                            }
+                            writeinOut(2);
+                        }else{
+                            button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
+                            button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
+                        }
                         for (int i = 0; i < size; i++) {
                             for (int j = 0; j < size; j++) {
                                 button[i][j].setShot(true);

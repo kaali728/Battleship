@@ -138,63 +138,66 @@ public class AIPlayer {
 
     public boolean Enemyshoot(Board player) {
         this.playerBoard = player;
-        if (nextHit.size() == 0) {
-            Random random = new Random();
-            while (true) {
-                int row = random.nextInt(fieldsize);
-                int column = random.nextInt(fieldsize);
-                if ((row + column) % 2 == 0) {
-                    if (!isUsedCord(row, column)) {
-                        addTousedCord(row, column);
-                       isHit = player.shoot(row, column);
-                        if (isHit) {
-                            this.health--;
-                            hitShipBehind(row, column);
+        if(player.isGameOver()){
+            if (nextHit.size() == 0) {
+                Random random = new Random();
+                while (true) {
+                    int row = random.nextInt(fieldsize);
+                    int column = random.nextInt(fieldsize);
+                    if ((row + column) % 2 == 0) {
+                        if (!isUsedCord(row, column)) {
+                            addTousedCord(row, column);
+                            isHit = player.shoot(row, column);
+                            if (isHit) {
+                                this.health--;
+                                hitShipBehind(row, column);
 //                            System.out.println(isHit);
 //                            Enemyshoot(player);
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
-            }
-        } else {
-            Map.Entry<Integer, int[]> entry = nextHit.entrySet().iterator().next();
-            int key = entry.getKey();
-            int[] value = entry.getValue();
-            int nextRow = value[0];
-            int nextColumn = value[1];
-            if (!isUsedCord(nextRow, nextColumn)) {
-                isHit = player.shoot(nextRow, nextColumn);
-                addTousedCord(nextRow, nextColumn);
-                if (isHit) {
-                    this.health--;
-                    int[] hited_entry = nextHitnext.get(hashCode(nextRow, nextColumn));
-                    if (hited_entry[2] == 0) {
-                        //hori
-                        for (Map.Entry<Integer, int[]> s : nextHitnext.entrySet()) {
-                            int[] value_2 = s.getValue();
-                            if (nextHit.get(s.getKey()) != null && value_2[2] == 1) {
-                                nextHit.remove(s.getKey());
+            } else {
+                Map.Entry<Integer, int[]> entry = nextHit.entrySet().iterator().next();
+                int key = entry.getKey();
+                int[] value = entry.getValue();
+                int nextRow = value[0];
+                int nextColumn = value[1];
+                if (!isUsedCord(nextRow, nextColumn)) {
+                    isHit = player.shoot(nextRow, nextColumn);
+                    addTousedCord(nextRow, nextColumn);
+                    if (isHit) {
+                        this.health--;
+                        int[] hited_entry = nextHitnext.get(hashCode(nextRow, nextColumn));
+                        if (hited_entry[2] == 0) {
+                            //hori
+                            for (Map.Entry<Integer, int[]> s : nextHitnext.entrySet()) {
+                                int[] value_2 = s.getValue();
+                                if (nextHit.get(s.getKey()) != null && value_2[2] == 1) {
+                                    nextHit.remove(s.getKey());
+                                }
                             }
-                        }
-                        hitShipBehind(nextRow, nextColumn, true);
-                    } else {
-                        //verti
-                        for (Map.Entry<Integer, int[]> s : nextHitnext.entrySet()) {
-                            int[] value_2 = s.getValue();
-                            if (nextHit.get(s.getKey()) != null && value_2[2] == 0) {
-                                nextHit.remove(s.getKey());
+                            hitShipBehind(nextRow, nextColumn, true);
+                        } else {
+                            //verti
+                            for (Map.Entry<Integer, int[]> s : nextHitnext.entrySet()) {
+                                int[] value_2 = s.getValue();
+                                if (nextHit.get(s.getKey()) != null && value_2[2] == 0) {
+                                    nextHit.remove(s.getKey());
+                                }
                             }
+                            hitShipBehind(nextRow, nextColumn, false);
                         }
-                        hitShipBehind(nextRow, nextColumn, false);
-                    }
 //                    System.out.println(isHit);
 //                    Enemyshoot(player);
+                    }
                 }
+                nextHit.remove(key);
             }
-            nextHit.remove(key);
+            return isHit;
         }
-        return isHit;
+        return false;
     }
 
 //    private void sleep(){
