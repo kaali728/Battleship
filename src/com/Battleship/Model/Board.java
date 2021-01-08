@@ -318,8 +318,20 @@ public class Board extends JPanel {
         if(!playerBoard && broke && !isGameOver() && !button[row][column].isShot()) {
             if (button[row][column].isMark()) {
                 //System.out.println(fleet);
-                button[row][column].setText("<html><b color=white>💣</b></html>");
-                button[row][column].setBackground(new Color(0xE52100));
+                Ship shotetShip = getShootetship(row,column);
+                if(!shotetShip.equals(null)){
+                    shotetShip.shot();
+                }
+                if (!shotetShip.equals(null) && shotetShip.sunken()){
+                    //System.out.println(shotetShip.sunken());
+                    for (Field f: shotetShip.getShipBoard()) {
+                        button[f.getRow()][f.getColumn()].setText("<html><b color=white>💣</b></html>");
+                        button[f.getRow()][f.getColumn()].setBackground(new Color(0x380E05));
+                    }
+                }else{
+                    button[row][column].setText("<html><b color=white>💣</b></html>");
+                    button[row][column].setBackground(new Color(0xE52100));
+                }
                 //aiPlayer.Enemyshoot(playerBoardobj);
                 button[row][column].setShot(true);
                 allHealthEnemy--;
@@ -378,8 +390,9 @@ public class Board extends JPanel {
                         f.setShot(true);
                     }
                     if (f.getRow() == row && f.getColumn() == column && f.isMark()) {
-                        button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
-                        button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
+                        Ship shotetShip = getShootetship(row, column);
+                        shotetShip.shot();
+
                         button[f.getRow()][f.getColumn()].setShot(true);
                         f.setShot(true);
                         this.allHealthPlayer--;
@@ -391,7 +404,16 @@ public class Board extends JPanel {
                                 }
                             }
                             return false;
-
+                        }
+                        if(shotetShip.sunken()){
+                            for (Field feld: shotetShip.getShipBoard()) {
+                                button[feld.getRow()][feld.getColumn()].setText("<html><b color=white>💣</b></html>");
+                                button[feld.getRow()][feld.getColumn()].setBackground(new Color(0x380E05));
+                            }
+                            return false;
+                        }else{
+                            button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
+                            button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
                         }
                         return true;
                     }
@@ -424,7 +446,18 @@ public class Board extends JPanel {
         return false;
     }
 
-
+    public Ship getShootetship(int row, int column){
+        Ship shotetShip = null;
+        for (Ship s: fleet) {
+            for (int i = 0; i < s.getShipBoard().size() ; i++) {
+                if (s.getShipBoard().get(i).getColumn() == column && s.getShipBoard().get(i).getRow() == row){
+                    shotetShip = s;
+                    break;
+                }
+            }
+        }
+        return shotetShip;
+    }
     public ArrayList<Field> getPosShip(){
         ArrayList<Field> fieldsShip = new ArrayList<>();
         for (Ship s: fleet) {

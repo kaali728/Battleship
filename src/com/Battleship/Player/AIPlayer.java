@@ -18,6 +18,8 @@ public class AIPlayer {
     private Board enemyBoard;
     private Board playerBoard;
 
+    private boolean sunkedShip = false;
+
     public AIPlayer() {
         fieldsize = 0;
     }
@@ -332,6 +334,12 @@ public class AIPlayer {
         return false;
     }
 
+    public void sunkedShip(){
+        sunkedShip = true;
+    }
+    public void notSunked(){
+        sunkedShip =false;
+    }
     public void endGame() {
         usedCord.clear();
     }
