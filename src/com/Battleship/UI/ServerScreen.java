@@ -106,7 +106,15 @@ public class ServerScreen extends JPanel {
                                 mainPanel.setGameState("battle");
                                 enemyBoard.setVisible(true);
                                 enemyBoard.setOut(out);
+                                postionBoard.setOut(out);
                             });
+                        }
+
+                        // Schuss vom client verarbeiten.
+                        if (line.contains("shot")) {
+                            int row = Integer.parseInt(line.split(" ")[2]) - 1;
+                            int col = Integer.parseInt(line.split(" ")[3]) - 1;
+                            boolean ans = postionBoard.multiplayershoot(row, col);
                         }
 
                         System.out.println("LINE " + line);

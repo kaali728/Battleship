@@ -332,15 +332,23 @@ public class Board extends JPanel {
         try{
             if(!client){
                 out.write(String.format("%s%n", "C: shot "+shootetRow+" "+shootetColumn));
-                //System.out.println("C: shot "+shootetRow+" "+shootetColumn);
                 out.flush();
             }else{
                 out.write(String.format("%s%n", "S: shot "+shootetRow+" "+shootetColumn));
-                //System.out.println("S: shot "+shootetRow+" "+shootetColumn);
                 out.flush();
             }
         }catch (Exception e){
             System.out.println(e);
+        }
+    }
+
+    public void mutliShoot(int row, int column, boolean shot){
+        if(shot){
+            button[row][column].setText("<html><b color=white>💣</b></html>");
+            button[row][column].setBackground(new Color(0x380E05));
+        }else {
+            button[row][column].setText("<html><b color=white>X</b></html>");
+            button[row][column].setBackground(new Color(0x0000B2));
         }
     }
 
@@ -414,6 +422,89 @@ public class Board extends JPanel {
         return false;
     }
 
+    public boolean multiplayershoot(int row, int column){
+        //schauen ob der person gewonnen hat oder nicht
+        //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
+        //cordianten von enemy schiffe
+        //!playerboard shoot doppelt and that can be help and extra feature
+        if(playerBoard && !isGameOver() && !button[row][column].isShot()) {
+            ArrayList<Field> posFields = getPosShip();
+            //System.out.println(posFields);
+            for (Field f : posFields) {
+                if (f.getRow() == row && f.getColumn() == column && !f.isShot() && !f.isMark()) {
+                    f.setShot(true);
+                }
+                if (f.getRow() == row && f.getColumn() == column && f.isMark()) {
+                    Ship shotetShip = getShootetship(row, column);
+                    shotetShip.shot();
+                    button[f.getRow()][f.getColumn()].setShot(true);
+                    f.setShot(true);
+                    this.allHealthPlayer--;
+                    if (isGameOver()) {
+                        for (int i = 0; i < size; i++) {
+                            for (int j = 0; j < size; j++) {
+                                button[i][j].setShot(true);
+                                button[i][j].setMark(true);
+                            }
+                        }
+                        return false;
+                    }
+                    if(shotetShip.sunken()){
+                        for (Field feld: shotetShip.getShipBoard()) {
+                            button[feld.getRow()][feld.getColumn()].setText("<html><b color=white>💣</b></html>");
+                            button[feld.getRow()][feld.getColumn()].setBackground(new Color(0x380E05));
+                        }
+                        try{
+                            if(!client){
+                                out.write(String.format("%s%n", "C: answer "+2));
+                                out.flush();
+                            }else{
+                                out.write(String.format("%s%n", "S: answer "+2));
+                                out.flush();
+                            }
+                        }catch (Exception e){
+                            System.out.println("ERROR: " + e);
+                        }
+                        return false;
+                    }else{
+                        button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
+                        button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
+                    }
+                    try{
+                        if(!client){
+                            out.write(String.format("%s%n", "C: answer "+1));
+                            System.out.println("C: answer "+1);
+                            out.flush();
+                        }else{
+                            out.write(String.format("%s%n", "S: answer "+1));
+                            System.out.println("S: answer "+1);
+                            out.flush();
+                        }
+                    }catch (Exception e){
+                        System.out.println("ERROR: " + e);
+                    }
+
+                    return true;
+                }
+            }
+            button[row][column].setText("<html><b color=white>X</b></html>");
+            button[row][column].setBackground(new Color(0x0000B2));
+            button[row][column].setShot(true);
+        }
+        try{
+            if(!client){
+                out.write(String.format("%s%n", "C: answer "+0));
+                out.flush();
+            }else{
+                out.write(String.format("%s%n", "S: answer "+0));
+                out.flush();
+            }
+        }catch (Exception e){
+            System.out.println("ERROR: " + e);
+        }
+        return false;
+    }
+
     public boolean shoot(int row, int column){
         //schauen ob der person gewonnen hat oder nicht
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
@@ -429,7 +520,6 @@ public class Board extends JPanel {
                     if (f.getRow() == row && f.getColumn() == column && f.isMark()) {
                         Ship shotetShip = getShootetship(row, column);
                         shotetShip.shot();
-
                         button[f.getRow()][f.getColumn()].setShot(true);
                         f.setShot(true);
                         this.allHealthPlayer--;

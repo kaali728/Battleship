@@ -129,30 +129,18 @@ public class ClientScreen extends JPanel {
                         if (fieldsize != 0 && carrierCount != 0 && battleshipCount != 0 && submarineCount != 0 && destroyerCount != 0 && line.equals("S: ready")) {
                             SwingUtilities.invokeLater(() -> {
                                 button.setEnabled(true);
+                                postionBoard.setOut(out);
                             });
                         }
 
                         // Schuss vom Server verarbeiten.
                         if (line.contains("shot")) {
-                            int row = Integer.parseInt(line.split(" ")[2]);
-                            int col = Integer.parseInt(line.split(" ")[3]);
-
-                            // Verarbeiten
-
-                            // Antwort
-//                            try {
-//                                // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
-//                                out.write(String.format("%s%n", "C: ready"));
-//                                System.out.println("C: ready");
-//                                out.flush();
-//                                button.setVisible(false);
-//                                // enemy Spielbrett
-//                                mainPanel.setGameState("battle");
-//                                enemyBoard.setVisible(true);
-//                            } catch (IOException ex) {
-//                                System.out.println("write to socket failed");
-//                            }
+                            int row = Integer.parseInt(line.split(" ")[2]) - 1;
+                            int col = Integer.parseInt(line.split(" ")[3]) - 1;
+                            boolean ans = postionBoard.multiplayershoot(row,col);
                         }
+
+                        System.out.println("LINE "+ line);
 
                         SwingUtilities.invokeLater(
                                 () -> {
