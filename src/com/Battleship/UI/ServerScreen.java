@@ -87,7 +87,7 @@ public class ServerScreen extends JPanel {
                         if (line == null) break;
 
                         // Protokoll
-                        if (line.equals("C: next")) {
+                        if (line.equals("C: next") && !mainPanel.getGameState().equals("battle")) {
                             printWriter.println("S: ships " + list.replace(",", ""));
                             printWriter.flush();
                             System.out.println("S: ships " + list.replace(",", ""));
@@ -120,20 +120,21 @@ public class ServerScreen extends JPanel {
                         if (line.contains("answer")) {
                             int ans = Integer.parseInt(line.split(" ")[2]);
                             enemyBoard.multiShoot(ans);
+
+                            // Man darf erst bei Wasser wieder schießen.
+                            if (ans == 0) {
+                                printWriter.println("S: next");
+                                printWriter.flush();
+                            }
+                        }
+
+                        if (line.contains("next") && mainPanel.getGameState().equals("battle")) {
+                            enemyBoard.multiEnableBtns(true);
                         }
 
                         SwingUtilities.invokeLater(
                                 () -> {
                                     String tmp = chat.getText();
-
-//                                    chat.setText(
-//                                            "S: size " + fieldsize + " " + fieldsize + "\n" +
-//                                                    "C: next" + "\n" +
-//                                                    "S: ships " + list.replace(",", "") + "\n" +
-//                                                    "C: done" + "\n" +
-//                                                    "S: ready" + "\n" +
-//                                                    "C: ready"
-//                                    );
 
                                     // Pruefen ob es in der Nachricht um ein Spielereignis handelt
                                     // oder es einfach nur eine Chat Nachricht ist.

@@ -56,38 +56,6 @@ public class ClientScreen extends JPanel {
                         System.out.println("C: next");
                     }
 
-                    // Next schicken damit wir die Schiffsgroesse bekommen
-                    // sofern wir die groesse der Schiffe bekommen haben
-//                    System.out.println(finalStr);
-//                    if (finalStr.equals("S: size " + fieldsize + " " + fieldsize)) {
-//                        printWriter.println("next");
-//                        printWriter.flush();
-//                    }
-//                    for (int i = 0; i < 4; i++) {
-//                        String str2 = bufferedReader.readLine();
-//                        str2 = str2.substring(str2.length() - 2);
-//                        str2 = str2.replaceAll("\\s", "");
-//                        switch (i) {
-//                            case 0:
-//                                carrierCount = Integer.parseInt(str2);
-//                                break;
-//                            case 1:
-//                                battleshipCount = Integer.parseInt(str2);
-//                                break;
-//                            case 2:
-//                                submarineCount = Integer.parseInt(str2);
-//                                break;
-//                            case 3:
-//                                destroyerCount = Integer.parseInt(str2);
-//                                break;
-//                        }
-//                    }
-
-//                    SwingUtilities.invokeLater(() -> {
-//                                initLayout();
-//                            }
-//                    );
-
                     // Netzwerknachrichten lesen und verarbeiten.
                     // Da die graphische Oberfläche von einem separaten Thread verwaltet
                     // wird, kann man hier unabhängig davon auf Nachrichten warten.
@@ -131,6 +99,7 @@ public class ClientScreen extends JPanel {
                                 button.setEnabled(true);
                                 postionBoard.setOut(out);
                                 postionBoard.setClient(true);
+                                enemyBoard.multiEnableBtns(false);
                             });
                         }
 
@@ -144,21 +113,21 @@ public class ClientScreen extends JPanel {
                         if (line.contains("answer")) {
                             int ans = Integer.parseInt(line.split(" ")[2]);
                             enemyBoard.multiShoot(ans);
+
+                            // Man darf erst bei Wasser wieder schießen.
+                            if (ans == 0) {
+                                printWriter.println("C: next");
+                                printWriter.flush();
+                            }
+                        }
+
+                        if (line.contains("next")) {
+                            enemyBoard.multiEnableBtns(true);
                         }
 
                         SwingUtilities.invokeLater(
                                 () -> {
                                     String tmp = chat.getText();
-
-//                                    chat.setText(
-//                                            "S: size " + fieldsize + " " + fieldsize + "\n" +
-//                                                    "C: next" + "\n" +
-//                                                    ships + "\n" +
-//                                                    "C: done" + "\n" +
-//                                                    "S: ready" + "\n" +
-//                                                    "C: ready"
-//                                    );
-
 
                                     // Pruefen ob es in der Nachricht um ein Spielereignis handelt
                                     // oder es einfach nur eine Chat Nachricht ist.
