@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,12 +51,27 @@ public class Board extends JPanel {
     private int allHealthPlayer = 0;
     private int allHealthEnemy = 0;
 
-    private int counter=0;
+    public int shootetRow = -1;
+    public int shootetColumn = -1;
 
-    public Board(int size, String GameState){
+    private int counter=0;
+    private boolean client = false;
+
+    private Writer out;
+
+    public Board(int size, String GameState, Writer out){
         this.size=size;
         this.gameState = GameState;
         this.button = new Field[size][size];
+        this.out = out;
+        initlayoutmulti();
+    }
+    public Board(int size, String GameState, Writer out, boolean client){
+        this.size=size;
+        this.gameState = GameState;
+        this.button = new Field[size][size];
+        this.out = out;
+        this.client = client;
         initlayoutmulti();
     }
     public Board(int size, ArrayList<Ship> fleet, String GameState){
@@ -110,12 +126,9 @@ public class Board extends JPanel {
                         }
                         if(gameState == "battle"){
                             String[] coordinate = e.getActionCommand().split(",");
-                            int row = Integer.parseInt(coordinate[0]);
-                            int column = Integer.parseInt(coordinate[1]);
-                            System.out.println(row + " " + column);
-                                if(!isGameOver()) {
-                                    boolean success = shoot(e);
-                                }
+                            shootetRow = Integer.parseInt(coordinate[0]) + 1;
+                            shootetColumn = Integer.parseInt(coordinate[1]) + 1;
+                            multiplayerShoot();
                         }
                     }
                 });
@@ -310,6 +323,24 @@ public class Board extends JPanel {
         }
     }
 
+
+    public void setOut(Writer out) {
+        this.out = out;
+    }
+
+    public void multiplayerShoot(){
+        try{
+            if(client){
+                out.write(String.format("%s%n", "C: shot "+shootetRow+" "+shootetColumn));
+                System.out.println("C: shot "+shootetRow+" "+shootetColumn);
+            }else{
+                out.write(String.format("%s%n", "S: shot "+shootetRow+" "+shootetColumn));
+                System.out.println("S: shot "+shootetRow+" "+shootetColumn);
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
 
     public boolean shoot(ActionEvent e){
         String[] coordinate = e.getActionCommand().split(",");

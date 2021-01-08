@@ -105,6 +105,7 @@ public class ServerScreen extends JPanel {
                                 // Spielbrett
                                 mainPanel.setGameState("battle");
                                 enemyBoard.setVisible(true);
+                                enemyBoard.setOut(out);
                             });
                         }
 
@@ -155,6 +156,8 @@ public class ServerScreen extends JPanel {
         button = new JButton("Ready");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setEnabled(false);
+        enemyBoard = new Board(fieldsize,  "battle",out);
+        enemyBoard.setVisible(false);
         button.addActionListener(
                 // Wenn der Knopf gedrückt wird,
                 // erfolgt eine Kontrollausgabe auf System.out.
@@ -185,11 +188,6 @@ public class ServerScreen extends JPanel {
                     }
                 }
         );
-
-
-        enemyBoard = new Board(fieldsize,  "battle");
-        enemyBoard.setVisible(false);
-
         chat = new JTextArea(10, 70);
         chat.setEditable(false);
         chat.setBackground(Color.lightGray);
