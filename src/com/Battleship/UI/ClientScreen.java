@@ -130,6 +130,7 @@ public class ClientScreen extends JPanel {
                             SwingUtilities.invokeLater(() -> {
                                 button.setEnabled(true);
                                 postionBoard.setOut(out);
+                                postionBoard.setClient(true);
                             });
                         }
 
@@ -140,7 +141,10 @@ public class ClientScreen extends JPanel {
                             boolean ans = postionBoard.multiplayershoot(row,col);
                         }
 
-                        System.out.println("LINE "+ line);
+                        if (line.contains("answer")) {
+                            int ans = Integer.parseInt(line.split(" ")[2]);
+                            enemyBoard.multiShoot(ans);
+                        }
 
                         SwingUtilities.invokeLater(
                                 () -> {
@@ -242,7 +246,7 @@ public class ClientScreen extends JPanel {
         );
 
 
-        enemyBoard = new Board(fieldsize, "battle", out);
+        enemyBoard = new Board(fieldsize, "battle", out, true);
         enemyBoard.setVisible(false);
 
 

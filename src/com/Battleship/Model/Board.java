@@ -7,10 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 public class Board extends JPanel {
     int size=0;
@@ -58,6 +56,8 @@ public class Board extends JPanel {
     private boolean client = false;
 
     private Writer out;
+    private Map<Integer, int[]> usedCord = new HashMap<>();
+
 
     public Board(int size, String GameState, Writer out){
         this.size=size;
@@ -330,7 +330,7 @@ public class Board extends JPanel {
 
     public void multiplayerShoot(){
         try{
-            if(!client){
+            if(client){
                 out.write(String.format("%s%n", "C: shot "+shootetRow+" "+shootetColumn));
                 out.flush();
             }else{
@@ -342,14 +342,41 @@ public class Board extends JPanel {
         }
     }
 
-    public void mutliShoot(int row, int column, boolean shot){
-        if(shot){
-            button[row][column].setText("<html><b color=white>💣</b></html>");
-            button[row][column].setBackground(new Color(0x380E05));
-        }else {
-            button[row][column].setText("<html><b color=white>X</b></html>");
-            button[row][column].setBackground(new Color(0x0000B2));
+    public void addTousedCord(int row, int column) {
+        int[] entry = {row, column};
+        usedCord.put(hashCode(row, column), entry);
+    }
+    public boolean isUsedCord(int row, int column) {
+        for (Map.Entry<Integer, int[]> entry : usedCord.entrySet()) {
+            Integer key = entry.getKey();
+            int[] value = entry.getValue();
+            if (key == hashCode(row, column) && value[0] == row && value[1] == column) {
+                return true;
+            }
         }
+        return false;
+    }
+    public int hashCode(int x, int y) {
+        return x * 31 + y;
+    }
+
+    public void multiShoot(int shot){
+        if(!isUsedCord(shootetRow-1, shootetColumn-1)){
+            if(shot == 1 || shot == 2){
+                button[shootetRow-1][shootetColumn-1].setText("<html><b color=white>💣</b></html>");
+                button[shootetRow-1][shootetColumn-1].setBackground(new Color(0xE52100));
+
+
+            }else {
+                button[shootetRow-1][shootetColumn-1].setText("<html><b color=white>X</b></html>");
+                button[shootetRow-1][shootetColumn-1].setBackground(new Color(0x0000B2));
+            }
+            addTousedCord(shootetRow-1, shootetColumn-1);
+        }
+    }
+
+    public void setClient(boolean client) {
+        this.client = client;
     }
 
     public boolean shoot(ActionEvent e){
@@ -454,36 +481,13 @@ public class Board extends JPanel {
                             button[feld.getRow()][feld.getColumn()].setText("<html><b color=white>💣</b></html>");
                             button[feld.getRow()][feld.getColumn()].setBackground(new Color(0x380E05));
                         }
-                        try{
-                            if(!client){
-                                out.write(String.format("%s%n", "C: answer "+2));
-                                out.flush();
-                            }else{
-                                out.write(String.format("%s%n", "S: answer "+2));
-                                out.flush();
-                            }
-                        }catch (Exception e){
-                            System.out.println("ERROR: " + e);
-                        }
+                        writeinOut(2);
                         return false;
                     }else{
                         button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
                         button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
                     }
-                    try{
-                        if(!client){
-                            out.write(String.format("%s%n", "C: answer "+1));
-                            System.out.println("C: answer "+1);
-                            out.flush();
-                        }else{
-                            out.write(String.format("%s%n", "S: answer "+1));
-                            System.out.println("S: answer "+1);
-                            out.flush();
-                        }
-                    }catch (Exception e){
-                        System.out.println("ERROR: " + e);
-                    }
-
+                    writeinOut(1);
                     return true;
                 }
             }
@@ -491,18 +495,22 @@ public class Board extends JPanel {
             button[row][column].setBackground(new Color(0x0000B2));
             button[row][column].setShot(true);
         }
+        writeinOut(0);
+        return false;
+    }
+
+    public void writeinOut(int ans){
         try{
-            if(!client){
-                out.write(String.format("%s%n", "C: answer "+0));
+            if(client){
+                out.write(String.format("%s%n", "C: answer "+ans));
                 out.flush();
             }else{
-                out.write(String.format("%s%n", "S: answer "+0));
+                out.write(String.format("%s%n", "S: answer "+ans));
                 out.flush();
             }
         }catch (Exception e){
             System.out.println("ERROR: " + e);
         }
-        return false;
     }
 
     public boolean shoot(int row, int column){
@@ -524,6 +532,15 @@ public class Board extends JPanel {
                         f.setShot(true);
                         this.allHealthPlayer--;
                         if (isGameOver()) {
+                            if(shotetShip.sunken()){
+                                for (Field feld: shotetShip.getShipBoard()) {
+                                    button[feld.getRow()][feld.getColumn()].setText("<html><b color=white>💣</b></html>");
+                                    button[feld.getRow()][feld.getColumn()].setBackground(new Color(0x380E05));
+                                }
+                            }else{
+                                button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
+                                button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
+                            }
                             for (int i = 0; i < size; i++) {
                                 for (int j = 0; j < size; j++) {
                                     button[i][j].setShot(true);

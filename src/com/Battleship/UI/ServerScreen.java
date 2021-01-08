@@ -117,7 +117,10 @@ public class ServerScreen extends JPanel {
                             boolean ans = postionBoard.multiplayershoot(row, col);
                         }
 
-                        System.out.println("LINE " + line);
+                        if (line.contains("answer")) {
+                            int ans = Integer.parseInt(line.split(" ")[2]);
+                            enemyBoard.multiShoot(ans);
+                        }
 
                         SwingUtilities.invokeLater(
                                 () -> {
@@ -166,7 +169,7 @@ public class ServerScreen extends JPanel {
         button = new JButton("Ready");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setEnabled(false);
-        enemyBoard = new Board(fieldsize, "battle", out, true);
+        enemyBoard = new Board(fieldsize, "battle", out);
         enemyBoard.setVisible(false);
         button.addActionListener(
                 // Wenn der Knopf gedrückt wird,
