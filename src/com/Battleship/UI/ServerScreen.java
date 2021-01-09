@@ -5,6 +5,8 @@ import com.Battleship.Model.Board;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.io.*;
@@ -21,9 +23,11 @@ public class ServerScreen extends JPanel {
     private int fieldsize;
     int port;
     int carrierCount, battleshipCount, submarineCount, destroyerCount;
+    JButton vertical;
     GamePanel mainPanel;
     Board postionBoard;
     Board enemyBoard;
+
 
     ServerScreen(int port, int fieldsize, int carrierCount, int battleshipCount, int submarineCount, int destroyerCount, GamePanel mainPanel) {
         this.port = port;
@@ -175,6 +179,7 @@ public class ServerScreen extends JPanel {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setEnabled(false);
         enemyBoard = new Board(fieldsize, "battle", out);
+        vertical = new JButton("vertical");
         enemyBoard.setVisible(false);
         button.addActionListener(
                 // Wenn der Knopf gedrückt wird,
@@ -200,6 +205,7 @@ public class ServerScreen extends JPanel {
                             out.flush();
                             this.mainPanel.setGameState("battle");
                             button.setVisible(false);
+                            vertical.setVisible(false);
                         } catch (IOException ex) {
                             System.out.println("write to socket failed");
                         }
@@ -232,7 +238,7 @@ public class ServerScreen extends JPanel {
 
         setBackground(Color.white);
         add(button);
-
+        add(vertical);
         // Board
         Box hbox = Box.createHorizontalBox();
         {
@@ -244,6 +250,21 @@ public class ServerScreen extends JPanel {
             hbox.add(Box.createHorizontalStrut(10));
         }
         add(hbox);
+
+        vertical.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(postionBoard != null) {
+                    if (postionBoard.isHorizontal()) {
+                        vertical.setText("horizontal");
+                        postionBoard.setHorizontal(!postionBoard.isHorizontal());
+                    } else {
+                        vertical.setText("vertical");
+                        postionBoard.setHorizontal(!postionBoard.isHorizontal());
+                    }
+                }
+            }
+        });
 
         add(chatScroll);
         add(chatInput);
