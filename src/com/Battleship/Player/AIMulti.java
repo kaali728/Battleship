@@ -6,9 +6,8 @@ import com.Battleship.Model.Ship;
 
 import java.util.*;
 
-public class AIPlayer {
+public class AIMulti {
     public boolean isHit = false;
-    public boolean gametrun = false;
     private int fieldsize;
     private ArrayList<Ship> fleet = new ArrayList<>();
     private Map<Integer, int[]> nextHit = new LinkedHashMap<>();
@@ -20,7 +19,7 @@ public class AIPlayer {
 
     private boolean sunkedShip = false;
 
-    public AIPlayer() {
+    public AIMulti() {
         fieldsize = 0;
     }
 
@@ -81,21 +80,6 @@ public class AIPlayer {
     public void setEnemyShip() {
         Random random = new Random();
         int counter = 10000;
-
-//        for (Ship sj: fleet) {
-//            if(sj.getRow() != -1 && sj.getColumn() != -1){
-//                enemyBoard.getonebutton(sj.getRow(), sj.getColumn()).setMark(false);
-//                if(!sj.getHorizontal()){
-//                    enemyBoard.getonebutton(sj.getRow() + 1, sj.getColumn()).setMark(false);
-//                }else{
-//                    enemyBoard.getonebutton(sj.getRow(), sj.getColumn() +1).setMark(false);
-//                }
-//
-//                sj.setRow(-1);
-//                sj.setColumn(-1);
-//            }
-//        }
-
         if(fieldsize <= 7){
             for (Ship s: fleet) {
                 if(s.getHealth() == 5){
@@ -117,11 +101,6 @@ public class AIPlayer {
                     int row = random.nextInt(fieldsize - 1);
                     int column = random.nextInt(fieldsize - 1);
                     Ship shipret = enemyBoard.setShip(row, column);
-                    //counter--;
-                    //System.out.println(counter);
-//                    if(counter<= 0){
-//                        setEnemyShip();
-//                    }
                     if (shipret != null) {
                         break;
                     }
@@ -144,8 +123,6 @@ public class AIPlayer {
                             isHit = player.shoot(row, column);
                             if (isHit) {
                                 hitShipBehind(row, column);
-//                            System.out.println(isHit);
-//                            Enemyshoot(player);
                             }
                             break;
                         }
@@ -181,8 +158,6 @@ public class AIPlayer {
                             }
                             hitShipBehind(nextRow, nextColumn, false);
                         }
-//                    System.out.println(isHit);
-//                    Enemyshoot(player);
                     }
                 }
                 nextHit.remove(key);
@@ -191,14 +166,6 @@ public class AIPlayer {
         }
         return false;
     }
-
-//    private void sleep(){
-//        try {
-//            TimeUnit.MILLISECONDS.timedJoin(100);
-//        } catch (InterruptedException ie) {
-//            Thread.currentThread().interrupt();
-//        }
-//    }
 
     public void addTousedCord(int row, int column) {
         int[] entry = {row, column};

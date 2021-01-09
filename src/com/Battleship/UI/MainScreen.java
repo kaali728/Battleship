@@ -17,6 +17,8 @@ import com.Battleship.SpielstandLaden.GameObj;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 public class MainScreen extends JPanel {
     JButton singleplayer;
     JButton multiplayer;
+    JButton aiVSai;
     JButton spielstandLaden;
     JButton soundButton;
     GamePanel mainPanel;
@@ -44,6 +47,7 @@ public class MainScreen extends JPanel {
     void initVars() {
         singleplayer = new JButton("Singleplayer");
         multiplayer = new JButton("Multiplayer");
+        aiVSai = new JButton("AI vs Ai");
         spielstandLaden = new JButton("Load Game");
         soundButton = new JButton("Sound");
         sound = new SoundFactory();
@@ -95,6 +99,7 @@ public class MainScreen extends JPanel {
 
         singleplayer.setMaximumSize(new Dimension(150,50));
         multiplayer.setMaximumSize(new Dimension(150,50));
+        aiVSai.setMaximumSize(new Dimension(150,50));
         spielstandLaden.setMaximumSize(new Dimension(150,50));
         soundButton.setMaximumSize(new Dimension(150,50));
 
@@ -116,7 +121,12 @@ public class MainScreen extends JPanel {
         multiplayer.setMargin(new Insets(0, 0, 0, 0));
         multiplayer.setBorder(b);
 
-
+        aiVSai.setBackground(Color.black);
+        aiVSai.setForeground(Color.WHITE);
+        aiVSai.setFont(buttonfont);
+        aiVSai.setFocusPainted(false);
+        aiVSai.setMargin(new Insets(0, 0, 0, 0));
+        aiVSai.setBorder(b);
 
         spielstandLaden.setBackground(Color.black);
         spielstandLaden.setForeground(Color.WHITE);
@@ -215,6 +225,18 @@ public class MainScreen extends JPanel {
             }
         });
 
+        aiVSai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                aiVSai.setBorder(b);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                aiVSai.setBorder(b);
+            }
+        });
+
         spielstandLaden.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
@@ -248,8 +270,6 @@ public class MainScreen extends JPanel {
 
 
 
-
-
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
         Box vBox = Box.createVerticalBox();
@@ -262,6 +282,8 @@ public class MainScreen extends JPanel {
             vBox.add(singleplayer);
             vBox.add(Box.createVerticalStrut(20));
             vBox.add(multiplayer);
+            vBox.add(Box.createVerticalStrut(20));
+            vBox.add(aiVSai);
             vBox.add(Box.createVerticalStrut(20));
             vBox.add(spielstandLaden);
             vBox.add(Box.createVerticalStrut(20));

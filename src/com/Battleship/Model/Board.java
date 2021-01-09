@@ -178,25 +178,8 @@ public class Board extends JPanel {
                             setShip(e);
                         }
                         if (gameState == "battle") {
-                            try {
-                                if (counter < 1) {
-                                    aiPlayer.Health(allHealthPlayer);
-                                    counter++;
-                                }
-                                allHealthPlayer = aiPlayer.health;
-                                if (!isGameOver()) {
-                                    boolean success = shoot(e);
-                                }
-                                if (allHealthPlayer == 1) {
-                                    for (int i = 0; i < size; i++) {
-                                        for (int j = 0; j < size; j++) {
-                                            button[i][j].setShot(true);
-                                            button[i][j].setMark(true);
-                                        }
-                                    }
-                                    JOptionPane.showMessageDialog(aiPlayer.getPlayerBoard(), "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
-                                }
-                            } catch (NullPointerException ex) {
+                            if (!isGameOver()) {
+                                boolean success = shoot(e);
                             }
                         }
                     }
@@ -391,7 +374,7 @@ public class Board extends JPanel {
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
         //cordianten von enemy schiffe
         //System.out.println(allHealth);
-        if (!playerBoard && broke && !isGameOver() && !button[row][column].isShot()) {
+        if (!playerBoard && broke && !button[row][column].isShot()) {
             if (button[row][column].isMark()) {
                 //System.out.println(fleet);
                 Ship shotetShip = getShootetship(row, column);
@@ -412,7 +395,7 @@ public class Board extends JPanel {
                 button[row][column].setShot(true);
                 allHealthEnemy--;
                 if (isGameOver()) {
-                    JOptionPane.showMessageDialog(this, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
                     return false;
                 }
                 return true;
@@ -538,7 +521,7 @@ public class Board extends JPanel {
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
         //cordianten von enemy schiffe
         //!playerboard shoot doppelt and that can be help and extra feature
-        if (playerBoard && !isGameOver() && !button[row][column].isShot()) {
+        if (playerBoard && !button[row][column].isShot()) {
             ArrayList<Field> posFields = getPosShip();
             //System.out.println(posFields);
             for (Field f : posFields) {
@@ -561,12 +544,7 @@ public class Board extends JPanel {
                             button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
                             button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
                         }
-                        for (int i = 0; i < size; i++) {
-                            for (int j = 0; j < size; j++) {
-                                button[i][j].setShot(true);
-                                button[i][j].setMark(true);
-                            }
-                        }
+                        JOptionPane.showMessageDialog(this, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
                         return false;
                     }
                     if (shotetShip.sunken()) {
@@ -597,9 +575,6 @@ public class Board extends JPanel {
         allHealthEnemy = allHealthPlayer;
     }
 
-//    public int getAllHealth() {
-//        return allHealth;
-//    }
 
     public boolean isGameOver() {
         if (allHealthPlayer == 0 || allHealthEnemy == 0) {
