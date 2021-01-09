@@ -1,5 +1,6 @@
 package com.Battleship.UI;
 
+import com.Battleship.AIvsAI.*;
 import com.Battleship.Constants.Constants;
 import com.Battleship.Model.Field;
 import com.Battleship.Player.AIPlayer;
@@ -10,9 +11,6 @@ import com.Battleship.Sound.SoundFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class GamePanel extends JPanel {
     private CardLayout cl;
@@ -43,6 +41,9 @@ public class GamePanel extends JPanel {
         add(new SinglePlayerScreen(this), "singleplayer");
 
         add(new MultiplayerScreen(this), "multiplayer");
+        add(new AIScreen(this), "aimulti");
+        add(new AIServerSetup(this), "aiserversetup");
+        add(new AIClientSetup(this), "aiclientsetup");
         add(new ServerSetupScreen(this), "serverSetupScreen");
         add(new ClientSetupScreen(this), "clientSetupScreen");
 
@@ -68,6 +69,16 @@ public class GamePanel extends JPanel {
 
     public void changeScreen(String s, String address, int port) {
         add(new ClientScreen(address, port, this), "clientScreen");
+        cl.show(this, s);
+    }
+
+    public void aichangeScreen(String s, int aiport, int aifieldsize,  int aicarrierCount,int  aibattleshipCount,int  aisubmarineCount,int aidestroyerCount, AIPlayer aiPlayer ) {
+        add(new AIServerScreen(aiport, aifieldsize, aicarrierCount, aibattleshipCount, aisubmarineCount, aidestroyerCount, this, aiPlayer), "aiserverscreen");
+        cl.show(this, s);
+    }
+
+    public void aichangeScreen(String s, String aiaddress, int aiport, AIPlayer aiPlayer) {
+        add(new AIClientScreen(aiaddress, aiport, this, aiPlayer), "aiclientscreen");
         cl.show(this, s);
     }
 

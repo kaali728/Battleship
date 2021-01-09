@@ -895,6 +895,150 @@ public class Board extends JPanel {
         return null;
     }
 
+    public Ship aisetShip(int row, int column) {
+        Random random = new Random();
+        boolean hori = random.nextBoolean();
+        if (size <= 7) {
+            hori = true;
+        }
+        if (carrierCount != 0) {
+            for (Ship s : fleet) {
+                if (s.getShipModel() == "carrier" && s.getRow() == -1 && s.getColumn() == -1) {
+                    boolean postionCheck = checkBoardPostion(row, column, s.getShiplength(), hori);
+                    boolean areaCheck = checkShipArea(row, column, s.getShiplength(), hori);
+                    if (postionCheck && areaCheck) {
+                        s.setRowColumn(row, column);
+                        if (hori) {
+                            s.setHorizontal(true);
+                        } else {
+                            s.setHorizontal(false);
+                        }
+                        ArrayList<Field> pos = new ArrayList<>();
+                        for (int i = 0; i < s.getShiplength(); i++) {
+                            if (!hori) {
+                                button[row + i][column].setBackground(s.getShipColor());
+                                pos.add(button[row + i][column]);
+                                makeMark(row + i, column);
+                            } else {
+                                button[row][column + i].setBackground(s.getShipColor());
+                                pos.add(button[row][column + i]);
+                                makeMark(row, column + i);
+                            }
+                        }
+                        carrierCount--;
+                        carrierText = new JLabel("Carrier" + carrierCount);
+                        s.setShipBoard(pos);
+                        return s;
+                    }
+                }
+            }
+        } else {
+            if (battleshipCount != 0) {
+                for (Ship s : fleet) {
+                    if (s.getShipModel() == "battleship" && s.getRow() == -1 && s.getColumn() == -1) {
+                        boolean postionCheck = checkBoardPostion(row, column, s.getShiplength(), hori);
+                        boolean areaCheck = checkShipArea(row, column, s.getShiplength(), hori);
+                        if (postionCheck && areaCheck) {
+                            s.setRowColumn(row, column);
+                            if (hori) {
+                                s.setHorizontal(true);
+                            } else {
+                                s.setHorizontal(false);
+                            }
+                            ArrayList<Field> pos = new ArrayList<>();
+
+                            for (int i = 0; i < s.getShiplength(); i++) {
+                                if (!hori) {
+                                    button[row + i][column].setBackground(s.getShipColor());
+                                    pos.add(button[row + i][column]);
+                                    makeMark(row + i, column);
+                                } else {
+                                    button[row][column + i].setBackground(s.getShipColor());
+                                    pos.add(button[row][column + i]);
+                                    makeMark(row, column + i);
+                                }
+                            }
+                            battleshipCount--;
+                            battleshipText = new JLabel("Battleship" + battleshipCount);
+                            s.setShipBoard(pos);
+                            return s;
+                        }
+                    }
+                }
+            } else {
+                if (submarineCount != 0) {
+                    for (Ship s : fleet) {
+                        if (s.getShipModel() == "submarine" && s.getRow() == -1 && s.getColumn() == -1) {
+                            boolean postionCheck = checkBoardPostion(row, column, s.getShiplength(), hori);
+                            boolean areaCheck = checkShipArea(row, column, s.getShiplength(), hori);
+                            if (postionCheck && areaCheck) {
+                                s.setRowColumn(row, column);
+                                if (hori) {
+                                    s.setHorizontal(true);
+                                } else {
+                                    s.setHorizontal(false);
+                                }
+                                ArrayList<Field> pos = new ArrayList<>();
+
+                                for (int i = 0; i < s.getShiplength(); i++) {
+                                    if (!hori) {
+                                        button[row + i][column].setBackground(s.getShipColor());
+                                        pos.add(button[row + i][column]);
+                                        makeMark(row + i, column);
+                                    } else {
+                                        button[row][column + i].setBackground(s.getShipColor());
+                                        pos.add(button[row][column + i]);
+                                        makeMark(row, column + i);
+                                    }
+                                }
+                                submarineCount--;
+                                submarineText = new JLabel("Submarine" + submarineCount);
+                                s.setShipBoard(pos);
+
+                                return s;
+                            }
+                        }
+                    }
+                } else {
+                    if (destoryerCount != 0) {
+                        for (Ship s : fleet) {
+                            if (s.getShipModel() == "destroyer" && s.getRow() == -1 && s.getColumn() == -1) {
+                                boolean postionCheck = checkBoardPostion(row, column, s.getShiplength(), hori);
+                                boolean areaCheck = checkShipArea(row, column, s.getShiplength(), hori);
+                                if (postionCheck && areaCheck) {
+                                    s.setRowColumn(row, column);
+                                    if (hori) {
+                                        s.setHorizontal(true);
+                                    } else {
+                                        s.setHorizontal(false);
+                                    }
+                                    ArrayList<Field> pos = new ArrayList<>();
+
+                                    for (int i = 0; i < s.getShiplength(); i++) {
+                                        if (!hori) {
+                                            button[row + i][column].setBackground(s.getShipColor());
+                                            pos.add(button[row + i][column]);
+                                            makeMark(row + i, column);
+                                        } else {
+                                            button[row][column + i].setBackground(s.getShipColor());
+                                            pos.add(button[row][column + i]);
+                                            makeMark(row, column + i);
+                                        }
+                                    }
+                                    destoryerCount--;
+                                    destroyerText = new JLabel("Destoryer" + destoryerCount);
+                                    s.setShipBoard(pos);
+                                    return s;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public boolean checkBoardPostion(int row, int column, int length, boolean horizontal) {
         int diffRow = rows - (row + 1);
         int diffCol = columns - (column + 1);

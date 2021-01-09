@@ -47,7 +47,7 @@ public class MainScreen extends JPanel {
     void initVars() {
         singleplayer = new JButton("Singleplayer");
         multiplayer = new JButton("Multiplayer");
-        aiVSai = new JButton("AI vs Ai");
+        aiVSai = new JButton("AI vs AI");
         spielstandLaden = new JButton("Load Game");
         soundButton = new JButton("Sound");
         sound = new SoundFactory();
@@ -156,6 +156,13 @@ public class MainScreen extends JPanel {
                     mainPanel.setSound(sound);
                     mainPanel.setGameState("singleplayer");
                     mainPanel.changeScreen("singleplayer");
+                }
+        );
+
+        aiVSai.addActionListener(
+                (e) -> {
+                    mainPanel.setGameState("aimulti");
+                    mainPanel.changeScreen("aimulti");
                 }
         );
 

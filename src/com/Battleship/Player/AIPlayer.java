@@ -78,7 +78,7 @@ public class AIPlayer {
         return playerBoard;
     }
 
-    public void setEnemyShip() {
+    public boolean setEnemyShip() {
         Random random = new Random();
         int counter = 10000;
 
@@ -127,7 +127,43 @@ public class AIPlayer {
                     }
                 }
             }
+            return true;
         }
+        return false;
+    }
+
+    public boolean aisetEnemyShip() {
+        Random random = new Random();
+
+        if(fieldsize <= 7){
+            for (Ship s: fleet) {
+                if(s.getHealth() == 5){
+                    enemyBoard.aisetShip(0,0);
+                }
+                if(s.getHealth() == 4){
+                    enemyBoard.aisetShip(2,0);
+                }
+                if(s.getHealth() == 3){
+                    enemyBoard.aisetShip(4,0);
+                }
+                if(s.getHealth() == 2){
+                    enemyBoard.aisetShip(5,4);
+                }
+            }
+        }else{
+            for (Ship s : fleet) {
+                while (true) {
+                    int row = random.nextInt(fieldsize - 1);
+                    int column = random.nextInt(fieldsize - 1);
+                    Ship shipret = enemyBoard.aisetShip(row, column);
+                    if (shipret != null) {
+                        break;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     public boolean Enemyshoot(Board player) {
