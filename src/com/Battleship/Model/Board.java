@@ -552,7 +552,7 @@ public class Board extends JPanel {
                             button[feld.getRow()][feld.getColumn()].setText("<html><b color=white>💣</b></html>");
                             button[feld.getRow()][feld.getColumn()].setBackground(new Color(0x380E05));
                         }
-                        return false;
+                        //return false;
                     } else {
                         button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
                         button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
