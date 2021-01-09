@@ -111,10 +111,7 @@ public class ClientScreen extends JPanel {
                         if (line.contains("shot")) {
                             int row = Integer.parseInt(line.split(" ")[2]) - 1;
                             int col = Integer.parseInt(line.split(" ")[3]) - 1;
-                            System.out.println(enemyBoard.isUsedCord(row, col));
-                            if(!enemyBoard.isUsedCord(row, col)){
-                                postionBoard.multiplayershoot(row, col);
-                            }
+                            postionBoard.multiplayershoot(row, col);
                         }
 
                         if (line.contains("answer")) {
