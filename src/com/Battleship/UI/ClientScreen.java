@@ -107,7 +107,10 @@ public class ClientScreen extends JPanel {
                         if (line.contains("shot")) {
                             int row = Integer.parseInt(line.split(" ")[2]) - 1;
                             int col = Integer.parseInt(line.split(" ")[3]) - 1;
-                            boolean ans = postionBoard.multiplayershoot(row,col);
+                            System.out.println(enemyBoard.isUsedCord(row, col));
+                            if(!enemyBoard.isUsedCord(row, col)){
+                                postionBoard.multiplayershoot(row, col);
+                            }
                         }
 
                         if (line.contains("answer")) {
@@ -116,6 +119,7 @@ public class ClientScreen extends JPanel {
 
                             // Man darf erst bei Wasser wieder schießen.
                             if (ans == 0) {
+                                enemyBoard.multiEnableBtns(false);
                                 printWriter.println("C: next");
                                 printWriter.flush();
                             }

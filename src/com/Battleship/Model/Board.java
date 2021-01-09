@@ -317,12 +317,14 @@ public class Board extends JPanel {
 
     public void multiplayerShoot() {
         try {
-            if (client) {
-                out.write(String.format("%s%n", "C: shot " + shootetRow + " " + shootetColumn));
-                out.flush();
-            } else {
-                out.write(String.format("%s%n", "S: shot " + shootetRow + " " + shootetColumn));
-                out.flush();
+            if (!isUsedCord(shootetRow - 1, shootetColumn - 1)) {
+                if (client) {
+                    out.write(String.format("%s%n", "C: shot " + shootetRow + " " + shootetColumn));
+                    out.flush();
+                } else {
+                    out.write(String.format("%s%n", "S: shot " + shootetRow + " " + shootetColumn));
+                    out.flush();
+                }
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -491,8 +493,8 @@ public class Board extends JPanel {
             button[row][column].setText("<html><b color=white>X</b></html>");
             button[row][column].setBackground(new Color(0x0000B2));
             button[row][column].setShot(true);
+            writeinOut(0);
         }
-        writeinOut(0);
         return false;
     }
 
@@ -500,6 +502,7 @@ public class Board extends JPanel {
      * 0 = Wasser
      * 1 = Treffer
      * 2 = Schiff ist zerstört
+     *
      * @param ans
      */
     public void writeinOut(int ans) {
@@ -1137,5 +1140,9 @@ public class Board extends JPanel {
                 button[i][j].setEnabled(turn);
             }
         }
+    }
+
+    public Map<Integer, int[]> getUsedCord() {
+        return usedCord;
     }
 }
