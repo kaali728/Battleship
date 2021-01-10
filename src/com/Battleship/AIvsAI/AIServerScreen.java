@@ -99,14 +99,10 @@ public class AIServerScreen extends JPanel {
 
                         // Server ist bereit für die Schlacht
                         if (line.equals("C: done")) {
-                            SwingUtilities.invokeLater(() -> {
-//                                postionBoard.multiEnableBtns(true);
-                                finish = aiPlayer.aisetEnemyShip();
-//                                postionBoard.multiEnableBtns(false);
-                            });
+                            finish = aiPlayer.aisetEnemyShip();
                         }
 
-                        if (line.equals("C: ready")) {
+                        if (line.equals("C: ready") ) {
                             SwingUtilities.invokeLater(() -> {
                                 // Spielbrett
                                 mainPanel.setGameState("battle");
@@ -121,6 +117,7 @@ public class AIServerScreen extends JPanel {
                             int row = Integer.parseInt(line.split(" ")[2]) - 1;
                             int col = Integer.parseInt(line.split(" ")[3]) - 1;
                             boolean ans = postionBoard.multiplayershoot(row, col);
+
                         }
 
                         if (line.contains("answer")) {
@@ -183,7 +180,7 @@ public class AIServerScreen extends JPanel {
             aiPlayer.setEnemyBoard(postionBoard);
             aiPlayer.setFleet( fleet);
             postionBoard.multiEnableBtns(false);
-            enemyBoard.multiEnableBtns(false);
+//            enemyBoard.multiEnableBtns(false);
             hbox.add(postionBoard);
             hbox.add(enemyBoard);
             hbox.add(Box.createHorizontalStrut(10));

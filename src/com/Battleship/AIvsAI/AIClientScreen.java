@@ -14,25 +14,26 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class AIClientScreen extends JPanel {
+    private static JButton button;
     private static JTextArea chat;
     private static JTextField chatInput;
     private static JScrollPane chatScroll;
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
     public int fieldsize;
-    private AIPlayer aiPlayer;
-    boolean finish;
     private String ships;
     GamePanel mainPanel;
     Board postionBoard;
     Board enemyBoard;
+    AIPlayer aiPlayer;
+    boolean finish;
 
 
 
     int carrierCount, battleshipCount, submarineCount, destroyerCount;
 
     public AIClientScreen(String address, Integer port, GamePanel mainPanel, AIPlayer aiPlayer) {
-        this.mainPanel = mainPanel;
         this.aiPlayer= aiPlayer;
+        this.mainPanel = mainPanel;
         new SwingWorker() {
             @Override
             protected Object doInBackground() {
@@ -92,6 +93,7 @@ public class AIClientScreen extends JPanel {
                             submarineCount = (int) ships.chars().filter(ch -> ch == '3').count();
                             destroyerCount = (int) ships.chars().filter(ch -> ch == '2').count();
 
+
                             System.out.println(carrierCount);
 
                             SwingUtilities.invokeLater(() -> {
@@ -101,8 +103,9 @@ public class AIClientScreen extends JPanel {
                         }
 
                         // Client ist bereit für die Schlacht
-                        if (fieldsize != 0 && carrierCount != 0 && battleshipCount != 0 && submarineCount != 0 && destroyerCount != 0 && line.equals("S: ready")) {
+                        if (line.equals("S: ready")) {
                             SwingUtilities.invokeLater(() -> {
+                                button.setEnabled(true);
                                 postionBoard.setOut(out);
                                 postionBoard.setClient(true);
                                 enemyBoard.multiEnableBtns(false);
@@ -141,6 +144,7 @@ public class AIClientScreen extends JPanel {
                                     if (line.contains("[Battleship]:")) {
                                         // Ping Pong und Nachricht an den Gegner,
                                         // dass er an der Reihe ist.
+                                        button.setEnabled(true);
                                         chat.setText(tmp + "\n" + line);
                                     } else {
                                         // Chat Historie und aktuelle Nachricht vom Gegner.
@@ -165,32 +169,6 @@ public class AIClientScreen extends JPanel {
     }
 
     public void initLayout() {
-
-        enemyBoard = new Board(fieldsize, "battle", out);
-
-        Box vbox = Box.createVerticalBox();
-        vbox.add(Box.createVerticalStrut(100));
-        vbox.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(vbox);
-
-        Box hbox = Box.createHorizontalBox();
-        {
-            hbox.add(Box.createHorizontalStrut(10));
-            ArrayList<Ship> fleet = this.mainPanel.getSingleplayer().getFleet();
-            postionBoard = new Board(fieldsize, fleet, this.mainPanel.getGameState());
-            aiPlayer.setFieldsize(fieldsize);
-            aiPlayer.setEnemyBoard(postionBoard);
-            aiPlayer.setFleet( fleet);
-            postionBoard.multiEnableBtns(false);
-            enemyBoard.multiEnableBtns(false);
-            hbox.add(postionBoard);
-            hbox.add(enemyBoard);
-            hbox.add(Box.createHorizontalStrut(10));
-        }
-
-        setBackground(Color.white);
-        add(hbox);
-
         System.out.println("LAYOUT" + carrierCount);
 
         ArrayList<Ship> fleet = new ArrayList<>();
@@ -210,21 +188,50 @@ public class AIClientScreen extends JPanel {
         this.mainPanel.getNetworkPlayer().setFieldsize(fieldsize);
         mainPanel.setGameState("setzen");
 
-        // Wenn der Knopf gedrückt wird,
-        // erfolgt eine Kontrollausgabe auf System.out.
-        // Anschließend wird der Knopf deaktiviert
-        // und eine beliebige Nachricht an die andere "Seite" geschickt,
-        // damit diese ihren Knopf aktivieren kann.
-        if (finish) {
-            try {
-                // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
-                out.write(String.format("%s%n", "S: ready"));
-                System.out.println("S: ready");
-                out.flush();
-                this.mainPanel.setGameState("battle");
-            } catch (IOException ex) {
-                System.out.println("write to socket failed");
-            }
+        button = new JButton("Client");
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setEnabled(false);
+        button.addActionListener(
+                // Wenn der Knopf gedrückt wird,
+                // erfolgt eine Kontrollausgabe auf System.out.
+                // Anschließend wird der Knopf deaktiviert
+                // und eine beliebige Nachricht an die andere "Seite" geschickt,
+                // damit diese ihren Knopf aktivieren kann.
+                (e) -> {
+
+                    if (finish) {
+                        try {
+                            // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
+                            out.write(String.format("%s%n", "C: ready"));
+                            System.out.println("C: ready");
+                            out.flush();
+                            button.setVisible(false);
+                            // enemy Spielbrett
+                            mainPanel.setGameState("battle");
+                            enemyBoard.setVisible(true);
+                        } catch (IOException ex) {
+                            System.out.println("write to socket failed");
+                        }
+                    }
+                }
+        );
+
+
+        enemyBoard = new Board(fieldsize, "battle", out, true);
+
+        Box hbox = Box.createHorizontalBox();
+        {
+            hbox.add(Box.createHorizontalStrut(10));
+            ArrayList<Ship> fleet1 = this.mainPanel.getNetworkPlayer().getFleet();
+            postionBoard = new Board(fieldsize, fleet1, this.mainPanel.getGameState());
+            aiPlayer.setFieldsize(fieldsize);
+            aiPlayer.setEnemyBoard(postionBoard);
+            aiPlayer.setFleet( fleet);
+            finish = aiPlayer.aisetEnemyShip();
+            postionBoard.multiEnableBtns(false);
+            hbox.add(postionBoard);
+            hbox.add(enemyBoard);
+            hbox.add(Box.createHorizontalStrut(10));
         }
 
 
@@ -252,6 +259,15 @@ public class AIClientScreen extends JPanel {
 
         chatScroll = new JScrollPane(chat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+        setBackground(Color.white);
+        add(button);
+
+        Box vbox = Box.createVerticalBox();
+        vbox.add(Box.createVerticalStrut(100));
+        vbox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(vbox);
+
+        add(hbox);
 
         add(chatScroll);
         add(chatInput);
