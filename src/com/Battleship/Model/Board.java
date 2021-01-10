@@ -478,6 +478,7 @@ public class Board extends JPanel {
                                 button[i][j].setMark(true);
                             }
                         }
+                        JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
                         return false;
                     }
                     if (shotetShip.sunken()) {

@@ -23,6 +23,7 @@ public class ClientScreen extends JPanel {
     Board postionBoard;
     Board enemyBoard;
     JButton vertical;
+    boolean gameOver = false;
 
 
 
