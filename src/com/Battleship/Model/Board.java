@@ -67,12 +67,31 @@ public class Board extends JPanel {
         initlayoutmulti();
     }
 
+    public Board(int size, String GameState, Writer out, AIPlayer aiPlayer) {
+        this.size = size;
+        this.gameState = GameState;
+        this.button = new Field[size][size];
+        this.out = out;
+        this.aiPlayer = aiPlayer;
+        initlayoutmulti();
+    }
+
     public Board(int size, String GameState, Writer out, boolean client) {
         this.size = size;
         this.gameState = GameState;
         this.button = new Field[size][size];
         this.out = out;
         this.client = client;
+        initlayoutmulti();
+    }
+
+    public Board(int size, String GameState, Writer out, boolean client, AIPlayer aiPlayer) {
+        this.size = size;
+        this.gameState = GameState;
+        this.button = new Field[size][size];
+        this.out = out;
+        this.client = client;
+        this.aiPlayer= aiPlayer;
         initlayoutmulti();
     }
 
@@ -331,6 +350,20 @@ public class Board extends JPanel {
         }
     }
 
+    public void aimultiplayerShoot(int row, int column) {
+        try {
+            if (client) {
+                out.write(String.format("%s%n", "C: shot " + row + " " + column));
+                out.flush();
+            } else {
+                out.write(String.format("%s%n", "S: shot " + row + " " + column));
+                out.flush();
+            }
+        }catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     public void addTousedCord(int row, int column) {
         int[] entry = {row, column};
         usedCord.put(hashCode(row, column), entry);
@@ -368,6 +401,25 @@ public class Board extends JPanel {
             addTousedCord(shootetRow - 1, shootetColumn - 1);
         }
     }
+
+    public void aimultiShoot(int shot) {
+        if (shot == 1 || shot == 2) {
+            if (shot == 2) {
+                button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>💣</b></html>");
+                button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0x380E05));
+            } else {
+                button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>💣</b></html>");
+                button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0xE52100));
+            }
+        } else {
+            button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>X</b></html>");
+            button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0x0000B2));
+        }
+        addTousedCord(shootetRow - 1, shootetColumn - 1);
+        aiPlayer.analyseAIvsAI(shot);
+        aiPlayer.AIvsAInextShoot();
+    }
+
 
     public void setClient(boolean client) {
         this.client = client;
@@ -444,6 +496,66 @@ public class Board extends JPanel {
     }
 
     public boolean multiplayershoot(int row, int column) {
+        //schauen ob der person gewonnen hat oder nicht
+        //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
+        //cordianten von enemy schiffe
+        //!playerboard shoot doppelt and that can be help and extra feature
+        if (playerBoard && !isGameOver() && !button[row][column].isShot()) {
+            ArrayList<Field> posFields = getPosShip();
+            //System.out.println(posFields);
+            for (Field f : posFields) {
+                if (f.getRow() == row && f.getColumn() == column && !f.isShot() && !f.isMark()) {
+                    f.setShot(true);
+                }
+                if (f.getRow() == row && f.getColumn() == column && f.isMark()) {
+                    Ship shotetShip = getShootetship(row, column);
+                    shotetShip.shot();
+                    button[f.getRow()][f.getColumn()].setShot(true);
+                    f.setShot(true);
+                    this.allHealthPlayer--;
+                    if (isGameOver()) {
+                        if (shotetShip.sunken()) {
+                            for (Field feld : shotetShip.getShipBoard()) {
+                                button[feld.getRow()][feld.getColumn()].setText("<html><b color=white>💣</b></html>");
+                                button[feld.getRow()][feld.getColumn()].setBackground(new Color(0x380E05));
+                            }
+                            writeinOut(2);
+                        } else {
+                            button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
+                            button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
+                        }
+                        for (int i = 0; i < size; i++) {
+                            for (int j = 0; j < size; j++) {
+                                button[i][j].setShot(true);
+                                button[i][j].setMark(true);
+                            }
+                        }
+                        return false;
+                    }
+                    if (shotetShip.sunken()) {
+                        for (Field feld : shotetShip.getShipBoard()) {
+                            button[feld.getRow()][feld.getColumn()].setText("<html><b color=white>💣</b></html>");
+                            button[feld.getRow()][feld.getColumn()].setBackground(new Color(0x380E05));
+                        }
+                        writeinOut(2);
+                        return false;
+                    } else {
+                        button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
+                        button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
+                    }
+                    writeinOut(1);
+                    return true;
+                }
+            }
+            button[row][column].setText("<html><b color=white>X</b></html>");
+            button[row][column].setBackground(new Color(0x0000B2));
+            button[row][column].setShot(true);
+            writeinOut(0);
+        }
+        return false;
+    }
+
+    public boolean aimultiplayershoot(int row, int column) {
         //schauen ob der person gewonnen hat oder nicht
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
         //cordianten von enemy schiffe

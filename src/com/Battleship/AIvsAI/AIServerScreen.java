@@ -120,6 +120,7 @@ public class AIServerScreen extends JPanel {
                                 enemyBoard.setVisible(true);
                                 enemyBoard.setOut(out);
                                 postionBoard.setOut(out);
+                                aiPlayer.AIvsAIShot(enemyBoard);
                             });
                         }
 
@@ -127,23 +128,27 @@ public class AIServerScreen extends JPanel {
                         if (line.contains("shot")) {
                             int row = Integer.parseInt(line.split(" ")[2]) - 1;
                             int col = Integer.parseInt(line.split(" ")[3]) - 1;
-                            boolean ans = postionBoard.multiplayershoot(row, col);
+                            postionBoard.multiplayershoot(row, col);
 
                         }
 
                         if (line.contains("answer")) {
                             int ans = Integer.parseInt(line.split(" ")[2]);
-                            enemyBoard.multiShoot(ans);
+                            enemyBoard.aimultiShoot(ans);
+
 
                             // Man darf erst bei Wasser wieder schießen.
                             if (ans == 0) {
                                 printWriter.println("S: next");
                                 printWriter.flush();
+                            }else{
+                                aiPlayer.AIvsAIShot(enemyBoard);
                             }
                         }
 
                         if (line.contains("next") && mainPanel.getGameState().equals("battle")) {
                             enemyBoard.multiEnableBtns(true);
+                            aiPlayer.AIvsAIShot(enemyBoard);
                         }
 
                         SwingUtilities.invokeLater(
@@ -180,7 +185,7 @@ public class AIServerScreen extends JPanel {
     }
 
     public void initLayout() {
-        enemyBoard = new Board(fieldsize, "battle", out);
+        enemyBoard = new Board(fieldsize, "battle", out, aiPlayer);
         // Board
         Box hbox = Box.createHorizontalBox();
         {
@@ -189,8 +194,8 @@ public class AIServerScreen extends JPanel {
             postionBoard = new Board(fieldsize, fleet, this.mainPanel.getGameState());
             aiPlayer.setFieldsize(fieldsize);
             aiPlayer.setEnemyBoard(postionBoard);
-            aiPlayer.setFleet( fleet);
-            postionBoard.multiEnableBtns(false);
+            aiPlayer.setFleet(fleet);
+//            postionBoard.multiEnableBtns(false);
 //            enemyBoard.multiEnableBtns(false);
             hbox.add(postionBoard);
             hbox.add(enemyBoard);

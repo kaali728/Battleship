@@ -116,21 +116,25 @@ public class AIClientScreen extends JPanel {
                             int col = Integer.parseInt(line.split(" ")[3]) - 1;
                             postionBoard.multiplayershoot(row, col);
                         }
+                        System.out.println(line);
 
                         if (line.contains("answer")) {
                             int ans = Integer.parseInt(line.split(" ")[2]);
-                            enemyBoard.multiShoot(ans);
+                            enemyBoard.aimultiShoot(ans);
 
                             // Man darf erst bei Wasser wieder schießen.
                             if (ans == 0) {
                                 enemyBoard.multiEnableBtns(false);
                                 printWriter.println("C: next");
                                 printWriter.flush();
+                            }else{
+                                aiPlayer.AIvsAIShot(enemyBoard);
                             }
                         }
 
                         if (line.contains("next")) {
                             enemyBoard.multiEnableBtns(true);
+                             aiPlayer.AIvsAIShot(enemyBoard);
                         }
 
                         SwingUtilities.invokeLater(
@@ -187,7 +191,7 @@ public class AIClientScreen extends JPanel {
 
 
 
-        enemyBoard = new Board(fieldsize, "battle", out, true);
+        enemyBoard = new Board(fieldsize, "battle", out, true, aiPlayer);
 
         Box hbox = Box.createHorizontalBox();
         {
@@ -210,7 +214,8 @@ public class AIClientScreen extends JPanel {
                     System.out.println("write to socket failed" + e);
                 }
             }
-            postionBoard.multiEnableBtns(false);
+//            postionBoard.multiEnableBtns(false);
+//            enemyBoard.multiEnableBtns(false);
             mainPanel.setGameState("battle");
             enemyBoard.setVisible(true);
             hbox.add(postionBoard);
