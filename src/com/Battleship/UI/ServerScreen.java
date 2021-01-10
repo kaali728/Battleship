@@ -29,8 +29,7 @@ public class ServerScreen extends JPanel {
     GamePanel mainPanel;
     Board postionBoard;
     Board enemyBoard;
-    private Map<Integer, int[]> redShoot = new HashMap<>();
-
+    boolean gameOver = false;
 
 
     ServerScreen(int port, int fieldsize, int carrierCount, int battleshipCount, int submarineCount, int destroyerCount, GamePanel mainPanel) {
@@ -173,28 +172,6 @@ public class ServerScreen extends JPanel {
             }
         }.execute();
         initLayout();
-    }
-
-    public void addTousedCord(int row, int column) {
-        int[] entry = {row, column};
-        redShoot.put(hashCode(row, column), entry);
-    }
-
-    public boolean isUsedCord(int row, int column) {
-        for (Map.Entry<Integer, int[]> entry : redShoot.entrySet()) {
-            Integer key = entry.getKey();
-            int[] value = entry.getValue();
-            if (key == hashCode(row, column) && value[0] == row && value[1] == column) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-
-    public int hashCode(int x, int y) {
-        return x * 31 + y;
     }
 
     public void initLayout() {
