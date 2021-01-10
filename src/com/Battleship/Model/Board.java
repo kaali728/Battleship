@@ -354,8 +354,13 @@ public class Board extends JPanel {
     public void multiShoot(int shot) {
         if (!isUsedCord(shootetRow - 1, shootetColumn - 1)) {
             if (shot == 1 || shot == 2) {
-                button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>💣</b></html>");
-                button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0xE52100));
+                if(shot == 2){
+                    button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>💣</b></html>");
+                    button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0x380E05));
+                }else{
+                    button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>💣</b></html>");
+                    button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0xE52100));
+                }
             } else {
                 button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>X</b></html>");
                 button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0x0000B2));
