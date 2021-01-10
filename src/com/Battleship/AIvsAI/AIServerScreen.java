@@ -100,6 +100,17 @@ public class AIServerScreen extends JPanel {
                         // Server ist bereit für die Schlacht
                         if (line.equals("C: done")) {
                             finish = aiPlayer.aisetEnemyShip();
+                            if (finish) {
+                                try {
+                                    // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
+                                    printWriter.write(String.format("%s%n", "S: ready"));
+                                    System.out.println("S: ready");
+                                    printWriter.flush();
+                                    mainPanel.setGameState("battle");
+                                } catch (Exception e) {
+                                    System.out.println("write to socket failed" + e);
+                                }
+                            }
                         }
 
                         if (line.equals("C: ready") ) {
@@ -186,17 +197,7 @@ public class AIServerScreen extends JPanel {
             hbox.add(Box.createHorizontalStrut(10));
         }
 
-        if (finish) {
-            try {
-                // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
-                out.write(String.format("%s%n", "S: ready"));
-                System.out.println("S: ready");
-                out.flush();
-                this.mainPanel.setGameState("battle");
-            } catch (IOException ex) {
-                System.out.println("write to socket failed");
-            }
-        }
+
 
         chat = new JTextArea(10, 70);
         chat.setEditable(false);

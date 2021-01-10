@@ -14,7 +14,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class AIClientScreen extends JPanel {
-    private static JButton button;
     private static JTextArea chat;
     private static JTextField chatInput;
     private static JScrollPane chatScroll;
@@ -105,7 +104,6 @@ public class AIClientScreen extends JPanel {
                         // Client ist bereit für die Schlacht
                         if (line.equals("S: ready")) {
                             SwingUtilities.invokeLater(() -> {
-                                button.setEnabled(true);
                                 postionBoard.setOut(out);
                                 postionBoard.setClient(true);
                                 enemyBoard.multiEnableBtns(false);
@@ -144,7 +142,6 @@ public class AIClientScreen extends JPanel {
                                     if (line.contains("[Battleship]:")) {
                                         // Ping Pong und Nachricht an den Gegner,
                                         // dass er an der Reihe ist.
-                                        button.setEnabled(true);
                                         chat.setText(tmp + "\n" + line);
                                     } else {
                                         // Chat Historie und aktuelle Nachricht vom Gegner.
@@ -188,33 +185,6 @@ public class AIClientScreen extends JPanel {
         this.mainPanel.getNetworkPlayer().setFieldsize(fieldsize);
         mainPanel.setGameState("setzen");
 
-        button = new JButton("Client");
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setEnabled(false);
-        button.addActionListener(
-                // Wenn der Knopf gedrückt wird,
-                // erfolgt eine Kontrollausgabe auf System.out.
-                // Anschließend wird der Knopf deaktiviert
-                // und eine beliebige Nachricht an die andere "Seite" geschickt,
-                // damit diese ihren Knopf aktivieren kann.
-                (e) -> {
-
-                    if (finish) {
-                        try {
-                            // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
-                            out.write(String.format("%s%n", "C: ready"));
-                            System.out.println("C: ready");
-                            out.flush();
-                            button.setVisible(false);
-                            // enemy Spielbrett
-                            mainPanel.setGameState("battle");
-                            enemyBoard.setVisible(true);
-                        } catch (IOException ex) {
-                            System.out.println("write to socket failed");
-                        }
-                    }
-                }
-        );
 
 
         enemyBoard = new Board(fieldsize, "battle", out, true);
@@ -228,7 +198,21 @@ public class AIClientScreen extends JPanel {
             aiPlayer.setEnemyBoard(postionBoard);
             aiPlayer.setFleet( fleet);
             finish = aiPlayer.aisetEnemyShip();
+            System.out.println(finish);
+            if (finish) {
+                try {
+                    // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
+                    out.write(String.format("%s%n", "C: ready"));
+                    System.out.println("C: ready");
+                    out.flush();
+                    mainPanel.setGameState("battle");
+                } catch (Exception e) {
+                    System.out.println("write to socket failed" + e);
+                }
+            }
             postionBoard.multiEnableBtns(false);
+            mainPanel.setGameState("battle");
+            enemyBoard.setVisible(true);
             hbox.add(postionBoard);
             hbox.add(enemyBoard);
             hbox.add(Box.createHorizontalStrut(10));
@@ -260,7 +244,6 @@ public class AIClientScreen extends JPanel {
         chatScroll = new JScrollPane(chat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         setBackground(Color.white);
-        add(button);
 
         Box vbox = Box.createVerticalBox();
         vbox.add(Box.createVerticalStrut(100));
