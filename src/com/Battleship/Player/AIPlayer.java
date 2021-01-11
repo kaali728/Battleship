@@ -231,7 +231,14 @@ public class AIPlayer {
     }
 
 
-    public boolean AIvsAInextShoot() {
+    public boolean AIvsAInextShoot(int ans) {
+        if(ans == 1 || ans == 2){
+            isHit=true;
+            hitShipBehind(nextRowShoot, nextColumnShoot);
+        }else{
+            isHit= false;
+        }
+        addTousedCord(nextRowShoot, nextColumnShoot);
         if (nextHit.size() == 0) {
             Random random = new Random();
             while (true) {
@@ -239,7 +246,7 @@ public class AIPlayer {
                 int column = random.nextInt(fieldsize);
                 if ((row + column) % 2 == 0) {
                     if (!isUsedCord(row, column)) {
-                        addTousedCord(row, column);
+                        //addTousedCord(row, column);
                         nextRowShoot = row;
                         nextColumnShoot = column;
                         if (isHit) {
@@ -279,7 +286,7 @@ public class AIPlayer {
                         }
                         hitShipBehind(nextRow, nextColumn, false);
                     }
-                    addTousedCord(nextRow, nextColumn);
+                    //addTousedCord(nextRow, nextColumn);
 //                    System.out.println(isHit);
 //                    Enemyshoot(player);
                 }
@@ -298,19 +305,12 @@ public class AIPlayer {
 //        }
 //    }
 
-    public boolean analyseAIvsAI(int ans){
-        if(ans == 1 || ans == 2){
-            isHit=true;
-        }else{
-            isHit= false;
-        }
-        return isHit;
-    }
 
     public void AIvsAIShot(Board player){
-        System.out.println("Row "+nextRowShoot);
-        System.out.println("Column "+nextColumnShoot);
-        player.aimultiplayerShoot(nextRowShoot+1, nextColumnShoot+1);
+        if(nextRowShoot == 0 && nextColumnShoot == 0 ){
+            addTousedCord(0, 0);
+        }
+        player.aimultiplayerShoot(nextRowShoot, nextColumnShoot);
     }
 
     public void addTousedCord(int row, int column) {
@@ -450,5 +450,13 @@ public class AIPlayer {
     }
     public void endGame() {
         usedCord.clear();
+    }
+
+    public int getNextColumnShoot() {
+        return nextColumnShoot;
+    }
+
+    public int getNextRowShoot() {
+        return nextRowShoot;
     }
 }

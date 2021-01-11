@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -102,11 +103,11 @@ public class AIClientScreen extends JPanel {
                         }
 
                         // Client ist bereit für die Schlacht
-                        if (line.equals("S: ready")) {
-                            SwingUtilities.invokeLater(() -> {
+                        if (fieldsize != 0 && carrierCount != 0 && battleshipCount != 0 && submarineCount != 0 && destroyerCount != 0 && line.equals("S: ready")) {
+                            SwingUtilities.invokeAndWait(() -> {
                                 postionBoard.setOut(out);
+                                enemyBoard.setOut(out);
                                 postionBoard.setClient(true);
-                                enemyBoard.multiEnableBtns(false);
                             });
                         }
 
@@ -161,7 +162,7 @@ public class AIClientScreen extends JPanel {
                     socket.shutdownOutput();
                     System.out.println("Connection closed.");
                     System.exit(0);
-                } catch (IOException e) {
+                } catch (IOException | InterruptedException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
                 return null;
@@ -200,7 +201,7 @@ public class AIClientScreen extends JPanel {
             postionBoard = new Board(fieldsize, fleet1, this.mainPanel.getGameState());
             aiPlayer.setFieldsize(fieldsize);
             aiPlayer.setEnemyBoard(postionBoard);
-            aiPlayer.setFleet( fleet);
+            aiPlayer.setFleet(fleet);
             finish = aiPlayer.aisetEnemyShip();
             System.out.println(finish);
             if (finish) {
@@ -209,13 +210,14 @@ public class AIClientScreen extends JPanel {
                     out.write(String.format("%s%n", "C: ready"));
                     System.out.println("C: ready");
                     out.flush();
+                    enemyBoard.setOut(out);
                     mainPanel.setGameState("battle");
                 } catch (Exception e) {
                     System.out.println("write to socket failed" + e);
                 }
             }
-//            postionBoard.multiEnableBtns(false);
-//            enemyBoard.multiEnableBtns(false);
+            postionBoard.multiEnableBtns(false);
+            enemyBoard.multiEnableBtns(false);
             mainPanel.setGameState("battle");
             enemyBoard.setVisible(true);
             hbox.add(postionBoard);

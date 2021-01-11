@@ -113,13 +113,12 @@ public class AIServerScreen extends JPanel {
                             }
                         }
 
-                        if (line.equals("C: ready") ) {
+                        if (line.equals("C: ready")) {
                             SwingUtilities.invokeLater(() -> {
-                                // Spielbrett
                                 mainPanel.setGameState("battle");
-                                enemyBoard.setVisible(true);
                                 enemyBoard.setOut(out);
                                 postionBoard.setOut(out);
+                                enemyBoard.setVisible(true);
                                 aiPlayer.AIvsAIShot(enemyBoard);
                             });
                         }
@@ -195,8 +194,8 @@ public class AIServerScreen extends JPanel {
             aiPlayer.setFieldsize(fieldsize);
             aiPlayer.setEnemyBoard(postionBoard);
             aiPlayer.setFleet(fleet);
-//            postionBoard.multiEnableBtns(false);
-//            enemyBoard.multiEnableBtns(false);
+            postionBoard.multiEnableBtns(false);
+            enemyBoard.multiEnableBtns(false);
             hbox.add(postionBoard);
             hbox.add(enemyBoard);
             hbox.add(Box.createHorizontalStrut(10));

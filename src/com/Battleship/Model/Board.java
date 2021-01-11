@@ -331,6 +331,7 @@ public class Board extends JPanel {
 
 
     public void setOut(Writer out) {
+        System.out.println(client + " " + out);
         this.out = out;
     }
 
@@ -352,6 +353,8 @@ public class Board extends JPanel {
 
     public void aimultiplayerShoot(int row, int column) {
         try {
+            row++;
+            column++;
             if (client) {
                 out.write(String.format("%s%n", "C: shot " + row + " " + column));
                 out.flush();
@@ -403,21 +406,21 @@ public class Board extends JPanel {
     }
 
     public void aimultiShoot(int shot) {
+        shootetRow = aiPlayer.getNextRowShoot();
+        shootetColumn = aiPlayer.getNextColumnShoot();
         if (shot == 1 || shot == 2) {
             if (shot == 2) {
-                button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>💣</b></html>");
-                button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0x380E05));
+                button[shootetRow][shootetColumn].setText("<html><b color=white>💣</b></html>");
+                button[shootetRow][shootetColumn].setBackground(new Color(0x380E05));
             } else {
-                button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>💣</b></html>");
-                button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0xE52100));
+                button[shootetRow][shootetColumn].setText("<html><b color=white>💣</b></html>");
+                button[shootetRow][shootetColumn].setBackground(new Color(0xE52100));
             }
         } else {
-            button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>X</b></html>");
-            button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0x0000B2));
+            button[shootetRow][shootetColumn].setText("<html><b color=white>X</b></html>");
+            button[shootetRow][shootetColumn].setBackground(new Color(0x0000B2));
         }
-        addTousedCord(shootetRow - 1, shootetColumn - 1);
-        aiPlayer.analyseAIvsAI(shot);
-        aiPlayer.AIvsAInextShoot();
+        aiPlayer.AIvsAInextShoot(shot);
     }
 
 
@@ -531,66 +534,6 @@ public class Board extends JPanel {
                             }
                         }
                         JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
-                        return false;
-                    }
-                    if (shotetShip.sunken()) {
-                        for (Field feld : shotetShip.getShipBoard()) {
-                            button[feld.getRow()][feld.getColumn()].setText("<html><b color=white>💣</b></html>");
-                            button[feld.getRow()][feld.getColumn()].setBackground(new Color(0x380E05));
-                        }
-                        writeinOut(2);
-                        return false;
-                    } else {
-                        button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
-                        button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
-                    }
-                    writeinOut(1);
-                    return true;
-                }
-            }
-            button[row][column].setText("<html><b color=white>X</b></html>");
-            button[row][column].setBackground(new Color(0x0000B2));
-            button[row][column].setShot(true);
-            writeinOut(0);
-        }
-        return false;
-    }
-
-    public boolean aimultiplayershoot(int row, int column) {
-        //schauen ob der person gewonnen hat oder nicht
-        //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
-        //cordianten von enemy schiffe
-        //!playerboard shoot doppelt and that can be help and extra feature
-        if (playerBoard && !isGameOver() && !button[row][column].isShot()) {
-            ArrayList<Field> posFields = getPosShip();
-            //System.out.println(posFields);
-            for (Field f : posFields) {
-                if (f.getRow() == row && f.getColumn() == column && !f.isShot() && !f.isMark()) {
-                    f.setShot(true);
-                }
-                if (f.getRow() == row && f.getColumn() == column && f.isMark()) {
-                    Ship shotetShip = getShootetship(row, column);
-                    shotetShip.shot();
-                    button[f.getRow()][f.getColumn()].setShot(true);
-                    f.setShot(true);
-                    this.allHealthPlayer--;
-                    if (isGameOver()) {
-                        if (shotetShip.sunken()) {
-                            for (Field feld : shotetShip.getShipBoard()) {
-                                button[feld.getRow()][feld.getColumn()].setText("<html><b color=white>💣</b></html>");
-                                button[feld.getRow()][feld.getColumn()].setBackground(new Color(0x380E05));
-                            }
-                            writeinOut(2);
-                        } else {
-                            button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
-                            button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
-                        }
-                        for (int i = 0; i < size; i++) {
-                            for (int j = 0; j < size; j++) {
-                                button[i][j].setShot(true);
-                                button[i][j].setMark(true);
-                            }
-                        }
                         return false;
                     }
                     if (shotetShip.sunken()) {
