@@ -2,6 +2,7 @@ package com.Battleship.AIvsAI;
 
 import com.Battleship.Model.Board;
 import com.Battleship.Model.Ship;
+import com.Battleship.Player.AINetworkPlayer;
 import com.Battleship.Player.AIPlayer;
 import com.Battleship.UI.GamePanel;
 
@@ -24,14 +25,14 @@ public class AIClientScreen extends JPanel {
     GamePanel mainPanel;
     Board postionBoard;
     Board enemyBoard;
-    AIPlayer aiPlayer;
+    AINetworkPlayer aiPlayer;
     boolean finish;
 
 
 
     int carrierCount, battleshipCount, submarineCount, destroyerCount;
 
-    public AIClientScreen(String address, Integer port, GamePanel mainPanel, AIPlayer aiPlayer) {
+    public AIClientScreen(String address, Integer port, GamePanel mainPanel, AINetworkPlayer aiPlayer) {
         this.aiPlayer= aiPlayer;
         this.mainPanel = mainPanel;
         new SwingWorker() {
@@ -125,7 +126,6 @@ public class AIClientScreen extends JPanel {
 
                             // Man darf erst bei Wasser wieder schießen.
                             if (ans == 0) {
-                                enemyBoard.multiEnableBtns(false);
                                 printWriter.println("C: next");
                                 printWriter.flush();
                             }else{
@@ -134,7 +134,6 @@ public class AIClientScreen extends JPanel {
                         }
 
                         if (line.contains("next")) {
-                            enemyBoard.multiEnableBtns(true);
                              aiPlayer.AIvsAIShot(enemyBoard);
                         }
 

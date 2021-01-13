@@ -1,5 +1,6 @@
 package com.Battleship.Model;
 
+import com.Battleship.Player.AINetworkPlayer;
 import com.Battleship.Player.AIPlayer;
 
 import javax.swing.*;
@@ -43,6 +44,7 @@ public class Board extends JPanel {
     private Board playerBoardobj;
 
     public AIPlayer aiPlayer;
+    public AINetworkPlayer aiOnline;
 
     //0 player 1 ai
     private boolean turn = true;
@@ -67,12 +69,12 @@ public class Board extends JPanel {
         initlayoutmulti();
     }
 
-    public Board(int size, String GameState, Writer out, AIPlayer aiPlayer) {
+    public Board(int size, String GameState, Writer out, AINetworkPlayer aiPlayer) {
         this.size = size;
         this.gameState = GameState;
         this.button = new Field[size][size];
         this.out = out;
-        this.aiPlayer = aiPlayer;
+        this.aiOnline = aiPlayer;
         initlayoutmulti();
     }
 
@@ -85,13 +87,13 @@ public class Board extends JPanel {
         initlayoutmulti();
     }
 
-    public Board(int size, String GameState, Writer out, boolean client, AIPlayer aiPlayer) {
+    public Board(int size, String GameState, Writer out, boolean client, AINetworkPlayer aiPlayer) {
         this.size = size;
         this.gameState = GameState;
         this.button = new Field[size][size];
         this.out = out;
         this.client = client;
-        this.aiPlayer= aiPlayer;
+        this.aiOnline = aiPlayer;
         initlayoutmulti();
     }
 
@@ -406,8 +408,8 @@ public class Board extends JPanel {
     }
 
     public void aimultiShoot(int shot) {
-        shootetRow = aiPlayer.getNextRowShoot();
-        shootetColumn = aiPlayer.getNextColumnShoot();
+        shootetRow = aiOnline.getNextRowShoot();
+        shootetColumn = aiOnline.getNextColumnShoot();
         if (shot == 1 || shot == 2) {
             if (shot == 2) {
                 button[shootetRow][shootetColumn].setText("<html><b color=white>💣</b></html>");
@@ -420,7 +422,7 @@ public class Board extends JPanel {
             button[shootetRow][shootetColumn].setText("<html><b color=white>X</b></html>");
             button[shootetRow][shootetColumn].setBackground(new Color(0x0000B2));
         }
-        aiPlayer.AIvsAInextShoot(shot);
+        aiOnline.AIvsAInextShoot(shot);
     }
 
 

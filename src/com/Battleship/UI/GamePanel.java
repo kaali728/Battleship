@@ -3,6 +3,7 @@ package com.Battleship.UI;
 import com.Battleship.AIvsAI.*;
 import com.Battleship.Constants.Constants;
 import com.Battleship.Model.Field;
+import com.Battleship.Player.AINetworkPlayer;
 import com.Battleship.Player.AIPlayer;
 import com.Battleship.Player.NetworkPlayer;
 import com.Battleship.Player.Player;
@@ -16,6 +17,7 @@ public class GamePanel extends JPanel {
     private CardLayout cl;
     private Player Singleplayer = new Player();
     private AIPlayer EnemyPlayer = new AIPlayer();
+    private AINetworkPlayer AiOnline = new AINetworkPlayer();
     private NetworkPlayer NetworkPlayer = new NetworkPlayer();
     private SoundFactory sound;
     private boolean Gameload;
@@ -72,12 +74,12 @@ public class GamePanel extends JPanel {
         cl.show(this, s);
     }
 
-    public void aichangeScreen(String s, int aiport, int aifieldsize,  int aicarrierCount,int  aibattleshipCount,int  aisubmarineCount,int aidestroyerCount, AIPlayer aiPlayer ) {
+    public void aichangeScreen(String s, int aiport, int aifieldsize,  int aicarrierCount,int  aibattleshipCount,int  aisubmarineCount,int aidestroyerCount, AINetworkPlayer aiPlayer ) {
         add(new AIServerScreen(aiport, aifieldsize, aicarrierCount, aibattleshipCount, aisubmarineCount, aidestroyerCount, this, aiPlayer), "aiserverscreen");
         cl.show(this, s);
     }
 
-    public void aichangeScreen(String s, String aiaddress, int aiport, AIPlayer aiPlayer) {
+    public void aichangeScreen(String s, String aiaddress, int aiport, AINetworkPlayer aiPlayer) {
         add(new AIClientScreen(aiaddress, aiport, this, aiPlayer), "aiclientscreen");
         cl.show(this, s);
     }
@@ -148,4 +150,11 @@ public class GamePanel extends JPanel {
         this.loadedEnemyHealth = loadedEnemyHealth;
     }
 
+    public AINetworkPlayer getAiOnline() {
+        return AiOnline;
+    }
+
+    public void setAiOnline(AINetworkPlayer aiOnline) {
+        AiOnline = aiOnline;
+    }
 }

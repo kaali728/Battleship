@@ -1,5 +1,6 @@
 package com.Battleship.AIvsAI;
 
+import com.Battleship.Player.AINetworkPlayer;
 import com.Battleship.Player.AIPlayer;
 import com.Battleship.UI.GamePanel;
 
@@ -15,7 +16,7 @@ public class AIClientSetup extends JPanel {
     JTextField address;
     JTextField port;
     JButton connect;
-    AIPlayer aiPlayer;
+    AINetworkPlayer aiPlayer;
 
 
     public AIClientSetup(GamePanel mainPanel) {
@@ -30,7 +31,7 @@ public class AIClientSetup extends JPanel {
         address = new JTextField(10);
         port = new JTextField(10);
         connect = new JButton("Connect to server");
-        aiPlayer = new AIPlayer();
+        aiPlayer = new AINetworkPlayer();
         connect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {

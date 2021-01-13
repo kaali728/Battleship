@@ -2,6 +2,7 @@ package com.Battleship.AIvsAI;
 
 import com.Battleship.Model.Board;
 import com.Battleship.Model.Ship;
+import com.Battleship.Player.AINetworkPlayer;
 import com.Battleship.Player.AIPlayer;
 import com.Battleship.UI.GamePanel;
 
@@ -20,7 +21,7 @@ public class AIServerScreen extends JPanel {
     private static JTextField chatInput;
     private static JScrollPane chatScroll;
     private int fieldsize;
-    public AIPlayer aiPlayer;
+    public AINetworkPlayer aiPlayer;
     boolean finish;
     int port;
     int carrierCount, battleshipCount, submarineCount, destroyerCount;
@@ -28,7 +29,7 @@ public class AIServerScreen extends JPanel {
     Board postionBoard;
     Board enemyBoard;
 
-    public AIServerScreen(int port, int fieldsize, int carrierCount, int battleshipCount, int submarineCount, int destroyerCount, GamePanel mainPanel, AIPlayer aiPlayer) {
+    public AIServerScreen(int port, int fieldsize, int carrierCount, int battleshipCount, int submarineCount, int destroyerCount, GamePanel mainPanel, AINetworkPlayer aiPlayer) {
         this.aiPlayer= aiPlayer;
         this.port = port;
         this.fieldsize = fieldsize;
@@ -128,7 +129,6 @@ public class AIServerScreen extends JPanel {
                             int row = Integer.parseInt(line.split(" ")[2]) - 1;
                             int col = Integer.parseInt(line.split(" ")[3]) - 1;
                             postionBoard.multiplayershoot(row, col);
-
                         }
 
                         if (line.contains("answer")) {
@@ -146,7 +146,6 @@ public class AIServerScreen extends JPanel {
                         }
 
                         if (line.contains("next") && mainPanel.getGameState().equals("battle")) {
-                            enemyBoard.multiEnableBtns(true);
                             aiPlayer.AIvsAIShot(enemyBoard);
                         }
 

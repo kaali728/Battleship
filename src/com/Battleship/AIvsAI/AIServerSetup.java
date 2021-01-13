@@ -2,6 +2,7 @@ package com.Battleship.AIvsAI;
 
 import com.Battleship.Model.Board;
 import com.Battleship.Model.Ship;
+import com.Battleship.Player.AINetworkPlayer;
 import com.Battleship.Player.AIPlayer;
 import com.Battleship.Player.Player;
 import com.Battleship.UI.GamePanel;
@@ -42,7 +43,7 @@ public class AIServerSetup extends JPanel {
     Box vbox;
     Player serverPlayer;
 
-    AIPlayer aiPlayer;
+    AINetworkPlayer aiPlayer;
 
 
     private int battleshipCount;
@@ -59,7 +60,7 @@ public class AIServerSetup extends JPanel {
     public AIServerSetup(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
         serverPlayer = mainPanel.getSingleplayer();
-        aiPlayer = mainPanel.getEnemyPlayer();
+        aiPlayer = mainPanel.getAiOnline();
         initVar();
         initLayout();
     }

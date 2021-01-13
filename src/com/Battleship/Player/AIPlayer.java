@@ -3,25 +3,24 @@ package com.Battleship.Player;
 import com.Battleship.Model.Board;
 import com.Battleship.Model.Field;
 import com.Battleship.Model.Ship;
-import com.sun.xml.internal.bind.v2.TODO;
 
 import java.util.*;
 
 public class AIPlayer {
     public boolean isHit = false;
-    private int nextRowShoot;
-    private int nextColumnShoot;
+    public int nextRowShoot;
+    public int nextColumnShoot;
     public boolean gametrun = false;
-    private int fieldsize;
-    private ArrayList<Ship> fleet = new ArrayList<>();
-    private Map<Integer, int[]> nextHit = new LinkedHashMap<>();
-    private Map<Integer, int[]> nextHitnext = new LinkedHashMap<>();
-    private Map<Integer, int[]> usedCord = new HashMap<>();
+    public int fieldsize;
+    public ArrayList<Ship> fleet = new ArrayList<>();
+    public Map<Integer, int[]> nextHit = new LinkedHashMap<>();
+    public Map<Integer, int[]> nextHitnext = new LinkedHashMap<>();
+    public Map<Integer, int[]> usedCord = new HashMap<>();
 
-    private Board enemyBoard;
-    private Board playerBoard;
+    public Board enemyBoard;
+    public Board playerBoard;
 
-    private boolean sunkedShip = false;
+    public boolean sunkedShip = false;
 
     public AIPlayer() {
         fieldsize = 0;
@@ -83,21 +82,6 @@ public class AIPlayer {
 
     public boolean setEnemyShip() {
         Random random = new Random();
-        int counter = 10000;
-
-//        for (Ship sj: fleet) {
-//            if(sj.getRow() != -1 && sj.getColumn() != -1){
-//                enemyBoard.getonebutton(sj.getRow(), sj.getColumn()).setMark(false);
-//                if(!sj.getHorizontal()){
-//                    enemyBoard.getonebutton(sj.getRow() + 1, sj.getColumn()).setMark(false);
-//                }else{
-//                    enemyBoard.getonebutton(sj.getRow(), sj.getColumn() +1).setMark(false);
-//                }
-//
-//                sj.setRow(-1);
-//                sj.setColumn(-1);
-//            }
-//        }
 
         if(fieldsize <= 7){
             for (Ship s: fleet) {
@@ -120,11 +104,6 @@ public class AIPlayer {
                     int row = random.nextInt(fieldsize - 1);
                     int column = random.nextInt(fieldsize - 1);
                     Ship shipret = enemyBoard.setShip(row, column);
-                    //counter--;
-                    //System.out.println(counter);
-//                    if(counter<= 0){
-//                        setEnemyShip();
-//                    }
                     if (shipret != null) {
                         break;
                     }
@@ -135,39 +114,6 @@ public class AIPlayer {
         return false;
     }
 
-    public boolean aisetEnemyShip() {
-        Random random = new Random();
-
-        if(fieldsize <= 7){
-            for (Ship s: fleet) {
-                if(s.getHealth() == 5){
-                    enemyBoard.aisetShip(0,0);
-                }
-                if(s.getHealth() == 4){
-                    enemyBoard.aisetShip(2,0);
-                }
-                if(s.getHealth() == 3){
-                    enemyBoard.aisetShip(4,0);
-                }
-                if(s.getHealth() == 2){
-                    enemyBoard.aisetShip(5,4);
-                }
-            }
-            return true;
-        }else{
-            for (Ship s : fleet) {
-                while (true) {
-                    int row = random.nextInt(fieldsize - 1);
-                    int column = random.nextInt(fieldsize - 1);
-                    Ship shipret = enemyBoard.aisetShip(row, column);
-                    if (shipret != null) {
-                        break;
-                    }
-                }
-            }
-            return true;
-        }
-    }
 
     public boolean Enemyshoot(Board player) {
         this.playerBoard = player;
@@ -231,72 +177,8 @@ public class AIPlayer {
         return false;
     }
 
-    //TODO: set Field 7 doesn´t work with shoot
-    //TODO: Server kann auf Button von Enemy klicken
 
-    public boolean AIvsAInextShoot(int ans) {
-        if (ans == 1 || ans == 2) {
-            isHit = true;
-            hitShipBehind(nextRowShoot, nextColumnShoot);
-            //if (nextHit.size() != 0 && isHit) {
 
-                int[] hited_entry = nextHitnext.get(hashCode(nextRowShoot, nextColumnShoot));
-                if (hited_entry[2] == 0) {
-                    //hori
-                    for (Map.Entry<Integer, int[]> s : nextHitnext.entrySet()) {
-                        int[] value_2 = s.getValue();
-                        if (nextHit.get(s.getKey()) != null && value_2[2] == 1) {
-                            nextHit.remove(s.getKey());
-                        }
-                    }
-                    hitShipBehind(nextRowShoot, nextColumnShoot, true);
-                } else {
-                    //verti
-                    for (Map.Entry<Integer, int[]> s : nextHitnext.entrySet()) {
-                        int[] value_2 = s.getValue();
-                        if (nextHit.get(s.getKey()) != null && value_2[2] == 0) {
-                            nextHit.remove(s.getKey());
-                        }
-                    }
-                    hitShipBehind(nextRowShoot, nextColumnShoot, false);
-                }
-            //}
-        } else {
-            isHit = false;
-        }
-        addTousedCord(nextRowShoot, nextColumnShoot);
-        AIshotAnalys();
-        return isHit;
-    }
-
-    public void AIshotAnalys(){
-        if (nextHit.size() == 0) {
-            Random random = new Random();
-            while (true) {
-                int row = random.nextInt(fieldsize);
-                int column = random.nextInt(fieldsize);
-                if ((row + column) % 2 == 0) {
-                    if (!isUsedCord(row, column)) {
-                        //addTousedCord(row, column);
-                        nextRowShoot = row;
-                        nextColumnShoot = column;
-                        break;
-                    }
-                }
-            }
-        } else {
-            Map.Entry<Integer, int[]> entry = nextHit.entrySet().iterator().next();
-            int key = entry.getKey();
-            int[] value = entry.getValue();
-            int nextRow = value[0];
-            int nextColumn = value[1];
-            if (!isUsedCord(nextRow, nextColumn)) {
-                nextRowShoot = nextRow;
-                nextColumnShoot = nextColumn;
-            }
-            nextHit.remove(key);
-        }
-    }
 //    private void sleep(){
 //        try {
 //            TimeUnit.MILLISECONDS.timedJoin(100);
@@ -306,12 +188,7 @@ public class AIPlayer {
 //    }
 
 
-    public void AIvsAIShot(Board player){
-        if(nextRowShoot == 0 && nextColumnShoot == 0 ){
-            addTousedCord(0, 0);
-        }
-        player.aimultiplayerShoot(nextRowShoot, nextColumnShoot);
-    }
+
 
     public void addTousedCord(int row, int column) {
         int[] entry = {row, column};
