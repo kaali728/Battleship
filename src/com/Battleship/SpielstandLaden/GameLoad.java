@@ -13,6 +13,7 @@ public class GameLoad {
     Border player = null;
     GameObj loadedGame;
     Gson gson = new Gson();
+    private String fileName;
 
     public GameObj readFile(String path) {
         if (path == null) {
@@ -30,7 +31,11 @@ public class GameLoad {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = choosePath.getSelectedFile();
             try {
+
                 FileReader fr = new FileReader(file);
+                String filenamewith = file.getName();
+                fileName = filenamewith.replace(".json", "");
+
                 loadedGame = gson.fromJson(fr, GameObj.class);
                 //System.out.println(loadedGame.size);
             } catch (Exception e) {
@@ -38,5 +43,9 @@ public class GameLoad {
             }
         }
         return loadedGame;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 }

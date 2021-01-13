@@ -23,25 +23,50 @@ public class GameObj {
     public Map<Integer, int[]> usedCord = new HashMap<>();
     public int size;
 
-    public GameObj(Board playerBoard, Board enemyBoard){
-        this.size = playerBoard.getButton().length;
-        playerButton = new SaveField[size][size];
-        enemyButton = new SaveField[size][size];
+    public boolean multiplayer = false;
 
-        setSavedField(playerBoard.getButton(), 1);
-        setSavedField(enemyBoard.getButton(), 2);
-        for (Ship s: playerBoard.getFleet()) {
-            this.playerFleet.add(new SaveShip(s));
+    public GameObj(Board playerBoard, Board enemyBoard, boolean multiplayer){
+        if(!multiplayer){
+            this.size = playerBoard.getButton().length;
+            playerButton = new SaveField[size][size];
+            enemyButton = new SaveField[size][size];
+
+            setSavedField(playerBoard.getButton(), 1);
+            setSavedField(enemyBoard.getButton(), 2);
+            for (Ship s: playerBoard.getFleet()) {
+                this.playerFleet.add(new SaveShip(s));
+            }
+            //System.out.println("enemyBoard"+enemyBoard.getFleet());
+            for (Ship s: enemyBoard.getFleet()) {
+                this.enemyFleet.add(new SaveShip(s));
+            }
+            EnemyHealth = enemyBoard.getAllHealthEnemy();
+            PlayerHealth = enemyBoard.getAllHealthPlayer();
+            usedCord =  enemyBoard.aiPlayer.getUsedCord();
+            nextHit = enemyBoard.aiPlayer.getNextHit();
+            nextHitnext = enemyBoard.aiPlayer.getNextHitnext();
+        }else{
+            this.size = playerBoard.getButton().length;
+            playerButton = new SaveField[size][size];
+            enemyButton = new SaveField[size][size];
+
+            setSavedField(playerBoard.getButton(), 1);
+            setSavedField(enemyBoard.getButton(), 2);
+            for (Ship s: playerBoard.getFleet()) {
+                this.playerFleet.add(new SaveShip(s));
+            }
+            //System.out.println("enemyBoard"+enemyBoard.getFleet());
+//            for (Ship s: enemyBoard.getFleet()) {
+//                this.enemyFleet.add(new SaveShip(s));
+//            }
+            EnemyHealth = enemyBoard.getAllHealthEnemy();
+            PlayerHealth = enemyBoard.getAllHealthPlayer();
+//            System.out.println("aiOnline from multi " + enemyBoard.aiOnline);
+//            usedCord =  enemyBoard.aiOnline.getUsedCord();
+//            nextHit = enemyBoard.aiOnline.getNextHit();
+//            nextHitnext = enemyBoard.aiOnline.getNextHitnext();
         }
-        //System.out.println("enemyBoard"+enemyBoard.getFleet());
-        for (Ship s: enemyBoard.getFleet()) {
-            this.enemyFleet.add(new SaveShip(s));
-        }
-        EnemyHealth = enemyBoard.getAllHealthEnemy();
-        PlayerHealth = enemyBoard.getAllHealthPlayer();
-        usedCord =  enemyBoard.aiPlayer.getUsedCord();
-        nextHit = enemyBoard.aiPlayer.getNextHit();
-        nextHitnext = enemyBoard.aiPlayer.getNextHitnext();
+
     }
 
 

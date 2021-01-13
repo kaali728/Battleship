@@ -1,24 +1,30 @@
 package com.Battleship.UI;
 
-import com.Battleship.Model.Ship;
-import com.Battleship.Model.Board;
+import com.Battleship.Model.*;
+import com.Battleship.SpielstandLaden.GameLoad;
+import com.Battleship.SpielstandLaden.GameObj;
+import com.Battleship.SpielstandLaden.SpeichernUnterClass;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ServerScreen extends JPanel {
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
     public static JButton button;    // Der o. g. Knopf.
+    public JButton saveButton;
+    JButton spielstandLaden;
     public static JTextArea chat;
     private static JTextField chatInput;
     private static JScrollPane chatScroll;
@@ -30,6 +36,8 @@ public class ServerScreen extends JPanel {
     Board postionBoard;
     Board enemyBoard;
     boolean gameOver = false;
+    SpeichernUnterClass speicher;
+    private GameLoad load;
 
 
     ServerScreen(int port, int fieldsize, int carrierCount, int battleshipCount, int submarineCount, int destroyerCount, GamePanel mainPanel) {
@@ -114,6 +122,7 @@ public class ServerScreen extends JPanel {
                                 enemyBoard.setVisible(true);
                                 enemyBoard.setOut(out);
                                 postionBoard.setOut(out);
+                                saveButton.setVisible(true);
                             });
                         }
 
@@ -133,11 +142,27 @@ public class ServerScreen extends JPanel {
                                 enemyBoard.multiEnableBtns(false);
                                 printWriter.println("S: next");
                                 printWriter.flush();
+                                SwingUtilities.invokeLater(()->{
+                                    saveButton.setVisible(false);
+                                });
                             }
+                        }
+
+                        if(line.contains("save")){
+                            int ut = Integer.parseInt(line.split(" ")[2]);
+                            SwingUtilities.invokeAndWait(() -> {
+                                speicher = new SpeichernUnterClass(postionBoard, enemyBoard);
+                                speicher.setDefaultname(ut);
+                                speicher.setMultiplayer(true);
+                                speicher.saveAs(null);
+                            });
+                            printWriter.println("S: done");
+                            printWriter.flush();
                         }
 
                         if (line.contains("next") && mainPanel.getGameState().equals("battle")) {
                             enemyBoard.multiEnableBtns(true);
+                            saveButton.setVisible(true);
                         }
 
                         SwingUtilities.invokeLater(
@@ -167,6 +192,10 @@ public class ServerScreen extends JPanel {
                     System.exit(0);
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
                 }
                 return null;
             }
@@ -176,11 +205,15 @@ public class ServerScreen extends JPanel {
 
     public void initLayout() {
         button = new JButton("Ready");
+        spielstandLaden = new JButton("Load Game");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setEnabled(false);
         enemyBoard = new Board(fieldsize, "battle", out);
         vertical = new JButton("vertical");
+        saveButton = new JButton("Save Game");
+        saveButton.setVisible(false);
         enemyBoard.setVisible(false);
+        load = new GameLoad();
         button.addActionListener(
                 // Wenn der Knopf gedrückt wird,
                 // erfolgt eine Kontrollausgabe auf System.out.
@@ -212,6 +245,57 @@ public class ServerScreen extends JPanel {
                     }
                 }
         );
+
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Server Save Game");
+                Date now = new Date();
+                long ut3 = now.getTime() / 1000L;
+                speicher = new SpeichernUnterClass(postionBoard, enemyBoard);
+                speicher.setDefaultname(ut3);
+                speicher.setMultiplayer(true);
+                speicher.saveAs(null);
+                try{
+                    out.write(String.format("%s%n", "S: save "+ut3));
+                    System.out.println("S: save "+ ut3);
+                    out.flush();
+                }catch (Exception es){
+                    System.out.println("write to socket failed by S:save" + es);
+                }
+            }
+        });
+        spielstandLaden.addActionListener(
+                (e) -> {
+                    try{
+                        GameObj spielStand = load.readFile(null);
+                        out.write(String.format("%s%n", "S: load "+load.getFileName()));
+                        System.out.println("S: load "+ load.getFileName());
+                        out.flush();
+                    }catch (Exception es){
+                        System.out.println("write to socket failed by S:load " + es);
+                    }
+
+//                    GameObj spielStand = load.readFile(null);
+//                    if(spielStand != null){
+//                        Field bt[][] = convertSaveField(spielStand.playerButton);
+//                        Field enbt[][] = convertSaveField(spielStand.enemyButton);
+//                        ArrayList<Ship> playerFleet = convertSaveShip(spielStand.playerFleet, bt);
+//                        ArrayList<Ship> enemyFleet = convertSaveShip(spielStand.enemyFleet, enbt);
+//                        this.mainPanel.getSingleplayer().setFieldsize(spielStand.size);
+//                        this.mainPanel.getEnemyPlayer().setFieldsize(spielStand.size);
+//                        this.mainPanel.getSingleplayer().setFleet(playerFleet);
+//                        postionBoard.setMyShip(bt);
+//                        enemyBoard.setMyShip(enbt);
+//                        this.mainPanel.setLoadedPlayerHealth(spielStand.PlayerHealth);
+//                        this.mainPanel.setLoadedEnemyHealth(spielStand.EnemyHealth);
+//                        this.mainPanel.changeScreen("battle");
+//                    }
+                    //change screen to battle
+                }
+        );
+
         chat = new JTextArea(10, 70);
         chat.setEditable(false);
         chat.setBackground(Color.lightGray);
@@ -237,6 +321,8 @@ public class ServerScreen extends JPanel {
         chatScroll = new JScrollPane(chat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         setBackground(Color.white);
+        add(saveButton);
+        add(spielstandLaden);
         add(button);
         add(vertical);
         // Board
@@ -270,4 +356,45 @@ public class ServerScreen extends JPanel {
         add(chatInput);
         repaint();
     }
+
+    private  ArrayList<Ship> convertSaveShip(ArrayList<SaveShip> saveShips, Field b[][]){
+        ArrayList<Ship> retList = new ArrayList<>();
+        for (SaveShip saveS:saveShips) {
+            Ship ship = new Ship(saveS.getShipModel());
+            ship.setRowColumn(saveS.getRow(), saveS.getColumn());
+            //ship.setHorizontal(saveS.isHorizontal());
+            if(saveS.getShipBoard().get(0).getColumn() !=  saveS.getShipBoard().get(saveS.getShipBoard().size() -1).getColumn()){
+                ship.setHorizontal(true);
+            }else{
+                ship.setHorizontal(false);
+            }
+            for (SaveField f: saveS.getShipBoard()) {
+                Field newField = new Field(f.getRow(),f.getColumn(), "battle");
+                for (int i = 0; i <b.length ; i++) {
+                    for (int j = 0; j <b[i].length ; j++) {
+                        if(b[i][j].getRow() == newField.getRow() && b[i][j].getColumn() == newField.getColumn()){
+                            newField.setMark(b[i][j].isMark());
+                            newField.setShot(b[i][j].isShot());
+                        }
+                    }
+                }
+                ship.getShipBoard().add(newField);
+            }
+            retList.add(ship);
+        }
+        return retList;
+    }
+    private Field[][] convertSaveField(SaveField bt[][]){
+        Field button[][] = new Field[bt.length][bt.length];
+        for (int i = 0; i <bt.length ; i++) {
+            for (int j = 0; j <bt[i].length ; j++) {
+                button[i][j] = new Field(bt[i][j].getRow(),bt[i][j].getColumn(), "battle");
+                button[i][j].setMark(bt[i][j].isMark());
+                button[i][j].setShot(bt[i][j].isShot());
+            }
+        }
+        return button;
+    }
+
+
 }

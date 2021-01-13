@@ -331,6 +331,22 @@ public class Board extends JPanel {
         }
     }
 
+    public void setMyShipMultiPlayerLoad(Field buttonLoad[][]) {
+        for (int i = 0; i < buttonLoad.length; i++) {
+            for (int j = 0; j < buttonLoad[i].length; j++) {
+                button[i][j].setShot(buttonLoad[i][j].isShot());
+                button[i][j].setMark(buttonLoad[i][j].isMark());
+                if (!buttonLoad[i][j].isMark() && buttonLoad[i][j].isShot()) {
+                    button[i][j].setText("<html><b color=white>X</b></html>");
+                    button[i][j].setBackground(new Color(0x0000B2));
+                }
+                if(buttonLoad[i][j].isMark() && buttonLoad[i][j].isShot()){
+                    button[i][j].setText("<html><b color=white>💣</b></html>");
+                    button[i][j].setBackground(new Color(0xE52100));
+                }
+            }
+        }
+    }
 
     public void setOut(Writer out) {
         System.out.println(client + " " + out);
@@ -399,10 +415,13 @@ public class Board extends JPanel {
                     button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>💣</b></html>");
                     button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0xE52100));
                 }
+                button[shootetRow - 1][shootetColumn - 1].setMark(true);
             } else {
                 button[shootetRow - 1][shootetColumn - 1].setText("<html><b color=white>X</b></html>");
                 button[shootetRow - 1][shootetColumn - 1].setBackground(new Color(0x0000B2));
+                button[shootetRow - 1][shootetColumn - 1].setMark(false);
             }
+            button[shootetRow - 1][shootetColumn - 1].setShot(true);
             addTousedCord(shootetRow - 1, shootetColumn - 1);
         }
     }

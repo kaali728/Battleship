@@ -8,6 +8,8 @@ import com.Battleship.Player.AIPlayer;
 import com.Battleship.Player.NetworkPlayer;
 import com.Battleship.Player.Player;
 import com.Battleship.Sound.SoundFactory;
+import com.Battleship.SpielstandLaden.GameLoad;
+import com.Battleship.SpielstandLaden.GameObj;
 
 
 import javax.swing.*;
@@ -66,6 +68,11 @@ public class GamePanel extends JPanel {
 
     public void changeScreen(String s, int port, int fieldsize,  int carrierCount,int  battleshipCount,int  submarineCount,int destroyerCount ) {
         add(new ServerScreen(port, fieldsize, carrierCount, battleshipCount, submarineCount, destroyerCount, this), "serverScreen");
+        cl.show(this, s);
+    }
+
+    public void changeScreen(String s, int port, String filename, GameObj loadGame) {
+        add(new LoadMultiPlayerScreen(port,filename, loadGame, this), "loadMultiPlayer");
         cl.show(this, s);
     }
 

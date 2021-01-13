@@ -1,8 +1,11 @@
 package com.Battleship.UI;
 
-import com.Battleship.Model.Board;
-import com.Battleship.Model.Ship;
+import com.Battleship.Model.*;
+import com.Battleship.SpielstandLaden.GameLoad;
+import com.Battleship.SpielstandLaden.GameObj;
 import com.Battleship.SpielstandLaden.SpeichernUnterClass;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,61 +13,54 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
-public class ClientScreen extends JPanel {
-    private static JButton button;
-    private static JTextArea chat;
-    private static JTextField chatInput;
-    private static JScrollPane chatScroll;
-    public static Writer out;        // Verpackung des Socket-Ausgabestroms.
-    public int fieldsize;
-    private String ships;
+public class LoadMultiPlayerScreen extends JPanel {
+    Integer portnum;
     GamePanel mainPanel;
+    String loadedfileName;
+    GameObj spielStand;
+    private int fieldsize;
     Board postionBoard;
     Board enemyBoard;
-    JButton vertical;
+    public static Writer out;
     public JButton saveButton;
-    boolean gameOver = false;
     SpeichernUnterClass speicher;
+    public static JTextArea chat;
+    private static JTextField chatInput;
+    private static JScrollPane chatScroll;
+    JButton ready;
 
-
-
-    int carrierCount, battleshipCount, submarineCount, destroyerCount;
-
-    ClientScreen(String address, Integer port, GamePanel mainPanel) {
+    public LoadMultiPlayerScreen(Integer port, String filename, GameObj loadGame, GamePanel mainPanel){
+        this.portnum = port;
         this.mainPanel = mainPanel;
+        this.loadedfileName = filename;
+        this.spielStand = loadGame;
+        initSpiel();
         new SwingWorker() {
             @Override
             protected Object doInBackground() {
                 try {
-                    Socket socket = new Socket(address, port);
+                    ServerSocket serverSocket = new ServerSocket(port);
+                    Socket socket = serverSocket.accept();
 
-                    // Send message to server.
+                    // Send message to client.
                     PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-                    System.out.println("CLIENT LOG");
+                    printWriter.println("S: load " + filename);
+                    printWriter.flush();
+                    System.out.println("SERVER LOG");
+                    System.out.println("S: load " + filename);
 
-                    // Get message from server.
+                    // Get message from client.
                     InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                     out = new OutputStreamWriter(socket.getOutputStream());
-
-                    // Wir ueberpruefen ob die Spielfeld groesse schon gesetzt ist,
-                    // ist das nicht der fall nehmen wir die erste Nachricht des Servers
-                    // was als Schluss die Groesse des Spielfeldes ausgibt.
-                    String str = bufferedReader.readLine();
-                    str = str.substring(str.length() - 2);
-                    str = str.replaceAll("\\s", "");
-                    fieldsize = Integer.parseInt(str);
-                    System.out.println("CLIENT FIELDSIZE: " + fieldsize);
-
-                    if (fieldsize != 0) {
-                        printWriter.println("C: next");
-                        printWriter.flush();
-                        System.out.println("C: next");
-                    }
 
                     // Netzwerknachrichten lesen und verarbeiten.
                     // Da die graphische Oberfläche von einem separaten Thread verwaltet
@@ -76,45 +72,26 @@ public class ClientScreen extends JPanel {
 
                         if (line == null) break;
 
-                        // Protokoll
-                        if (line.equals("S: size " + fieldsize + " " + fieldsize)) {
-                            printWriter.println("C: next");
-                            printWriter.flush();
-                            System.out.println("C: next");
-                        }
 
-                        // Schiffe synchronisieren
-                        if (fieldsize != 0 && line.contains("ships")) {
-                            ships = line;
-                            printWriter.println("C: done");
-                            printWriter.flush();
-                            System.out.println("C: done");
-
-                            carrierCount = (int) ships.chars().filter(ch -> ch == '5').count();
-                            battleshipCount = (int) ships.chars().filter(ch -> ch == '4').count();
-                            submarineCount = (int) ships.chars().filter(ch -> ch == '3').count();
-                            destroyerCount = (int) ships.chars().filter(ch -> ch == '2').count();
-
-                            System.out.println(carrierCount);
-
+                        // Server ist bereit für die Schlacht
+                        if (line.equals("C: done")) {
                             SwingUtilities.invokeLater(() -> {
-                                        initLayout();
-                                    }
-                            );
-                        }
-
-                        // Client ist bereit für die Schlacht
-                        if (fieldsize != 0 && carrierCount != 0 && battleshipCount != 0 && submarineCount != 0 && destroyerCount != 0 && line.equals("S: ready")) {
-                            SwingUtilities.invokeLater(() -> {
-                                button.setEnabled(true);
-                                postionBoard.setOut(out);
-                                postionBoard.setClient(true);
-                                enemyBoard.multiEnableBtns(false);
-                                saveButton.setVisible(false);
+                                ready.setEnabled(true);
                             });
                         }
 
-                        // Schuss vom Server verarbeiten.
+                        if (line.equals("C: ready")) {
+                            SwingUtilities.invokeLater(() -> {
+                                // Spielbrett
+                                mainPanel.setGameState("battle");
+                                enemyBoard.setVisible(true);
+                                enemyBoard.setOut(out);
+                                postionBoard.setOut(out);
+                                saveButton.setVisible(true);
+                            });
+                        }
+
+                        // Schuss vom client verarbeiten.
                         if (line.contains("shot")) {
                             int row = Integer.parseInt(line.split(" ")[2]) - 1;
                             int col = Integer.parseInt(line.split(" ")[3]) - 1;
@@ -128,28 +105,30 @@ public class ClientScreen extends JPanel {
                             // Man darf erst bei Wasser wieder schießen.
                             if (ans == 0) {
                                 enemyBoard.multiEnableBtns(false);
-                                saveButton.setVisible(false);
-                                printWriter.println("C: next");
+                                printWriter.println("S: next");
                                 printWriter.flush();
+                                SwingUtilities.invokeLater(()->{
+                                    saveButton.setVisible(false);
+                                });
                             }
-                        }
-
-                        if (line.contains("next")) {
-                            enemyBoard.multiEnableBtns(true);
-                            saveButton.setVisible(true);
                         }
 
                         if(line.contains("save")){
                             int ut = Integer.parseInt(line.split(" ")[2]);
-                            System.out.println("clinet"+ut);
                             SwingUtilities.invokeAndWait(() -> {
                                 speicher = new SpeichernUnterClass(postionBoard, enemyBoard);
                                 speicher.setDefaultname(ut);
                                 speicher.setMultiplayer(true);
                                 speicher.saveAs(null);
                             });
-                            printWriter.println("C: done");
+
+                            printWriter.println("S: done");
                             printWriter.flush();
+                        }
+
+                        if (line.contains("next") && mainPanel.getGameState().equals("battle")) {
+                            enemyBoard.multiEnableBtns(true);
+                            saveButton.setVisible(true);
                         }
 
                         SwingUtilities.invokeLater(
@@ -161,7 +140,7 @@ public class ClientScreen extends JPanel {
                                     if (line.contains("[Battleship]:")) {
                                         // Ping Pong und Nachricht an den Gegner,
                                         // dass er an der Reihe ist.
-                                        button.setEnabled(true);
+                                        //button.setEnabled(true);
                                         chat.setText(tmp + "\n" + line);
                                     } else {
                                         // Chat Historie und aktuelle Nachricht vom Gegner.
@@ -187,42 +166,22 @@ public class ClientScreen extends JPanel {
                 return null;
             }
         }.execute();
+        initLayout();
     }
-
     public void initLayout() {
-        System.out.println("LAYOUT" + carrierCount);
-
-        ArrayList<Ship> fleet = new ArrayList<>();
-        for (int i = 0; i < carrierCount; i++) {
-            fleet.add(new Ship("carrier"));
-        }
-        for (int i = 0; i < battleshipCount; i++) {
-            fleet.add(new Ship("battleship"));
-        }
-        for (int i = 0; i < submarineCount; i++) {
-            fleet.add(new Ship("submarine"));
-        }
-        for (int i = 0; i < destroyerCount; i++) {
-            fleet.add(new Ship("destroyer"));
-        }
-        this.mainPanel.getNetworkPlayer().setFleet(fleet);
-        this.mainPanel.getNetworkPlayer().setFieldsize(fieldsize);
-        mainPanel.setGameState("setzen");
-        vertical = new JButton("vertical");
-
-        button = new JButton("Ready");
         saveButton = new JButton("Save Game");
         saveButton.setVisible(false);
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setEnabled(false);
-        button.addActionListener(
+        ready = new JButton("Ready");
+        //enemyBoard.setVisible(false);
+
+        ready.addActionListener(
                 // Wenn der Knopf gedrückt wird,
                 // erfolgt eine Kontrollausgabe auf System.out.
                 // Anschließend wird der Knopf deaktiviert
                 // und eine beliebige Nachricht an die andere "Seite" geschickt,
                 // damit diese ihren Knopf aktivieren kann.
                 (e) -> {
-                    ArrayList<Ship> placedShips = this.mainPanel.getNetworkPlayer().getFleet();
+                    ArrayList<Ship> placedShips = this.mainPanel.getSingleplayer().getFleet();
                     boolean allSet = true;
                     for (Ship s : placedShips) {
                         if (s.getColumn() == -1 || s.getRow() == -1) {
@@ -231,17 +190,14 @@ public class ClientScreen extends JPanel {
                         }
                     }
                     if (allSet) {
-                        button.setEnabled(false);
+                        ready.setEnabled(false);
                         try {
                             // Gibt dem Gegner die Nachricht, dass er an der Reihe ist.
-                            out.write(String.format("%s%n", "C: ready"));
-                            System.out.println("C: ready");
+                            out.write(String.format("%s%n", "S: ready"));
+                            System.out.println("S: ready");
                             out.flush();
-                            button.setVisible(false);
-                            // enemy Spielbrett
-                            mainPanel.setGameState("battle");
-                            enemyBoard.setVisible(true);
-                            vertical.setVisible(false);
+                            this.mainPanel.setGameState("battle");
+                            ready.setVisible(false);
                         } catch (IOException ex) {
                             System.out.println("write to socket failed");
                         }
@@ -249,29 +205,26 @@ public class ClientScreen extends JPanel {
                 }
         );
 
+
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Client save Game");
+                System.out.println("Server Save Game");
                 Date now = new Date();
                 long ut3 = now.getTime() / 1000L;
+                speicher = new SpeichernUnterClass(postionBoard, enemyBoard);
+                speicher.setDefaultname(ut3);
+                speicher.setMultiplayer(true);
+                speicher.saveAs(null);
                 try{
-                    out.write(String.format("%s%n", "C: save "+ut3));
-                    System.out.println("C: save "+ ut3);
-                    speicher = new SpeichernUnterClass(postionBoard, enemyBoard);
-                    speicher.setDefaultname(ut3);
-                    speicher.setMultiplayer(true);
-                    speicher.saveAs(null);
+                    out.write(String.format("%s%n", "S: save "+ut3));
+                    System.out.println("S: save "+ ut3);
                     out.flush();
                 }catch (Exception es){
-                    System.out.println("write to socket failed by C; save" + es);
+                    System.out.println("write to socket failed by S:save" + es);
                 }
             }
         });
-
-
-        enemyBoard = new Board(fieldsize, "battle", out, true);
-        enemyBoard.setVisible(false);
 
 
         chat = new JTextArea(10, 70);
@@ -300,40 +253,82 @@ public class ClientScreen extends JPanel {
 
         setBackground(Color.white);
 
-        add(button);
-        add(vertical);
+        add(ready);
         add(saveButton);
         Box vbox = Box.createVerticalBox();
         vbox.add(Box.createVerticalStrut(100));
         vbox.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(vbox);
-
+        // Board
         Box hbox = Box.createHorizontalBox();
         {
             hbox.add(Box.createHorizontalStrut(10));
-            ArrayList<Ship> fleet1 = this.mainPanel.getNetworkPlayer().getFleet();
-            postionBoard = new Board(fieldsize, fleet1, this.mainPanel.getGameState());
             hbox.add(postionBoard);
+            hbox.add(Box.createHorizontalStrut(10));
             hbox.add(enemyBoard);
             hbox.add(Box.createHorizontalStrut(10));
         }
         add(hbox);
-        vertical.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(postionBoard != null) {
-                    if (postionBoard.isHorizontal()) {
-                        vertical.setText("horizontal");
-                        postionBoard.setHorizontal(!postionBoard.isHorizontal());
-                    } else {
-                        vertical.setText("vertical");
-                        postionBoard.setHorizontal(!postionBoard.isHorizontal());
-                    }
-                }
-            }
-        });
+
+
         add(chatScroll);
         add(chatInput);
-        updateUI();
+        repaint();
     }
+    void initSpiel() {
+        if (spielStand != null) {
+            this.fieldsize = spielStand.size;
+            Field bt[][] = convertSaveField(spielStand.playerButton);
+            Field enbt[][] = convertSaveField(spielStand.enemyButton);
+            ArrayList<Ship> playerFleet = convertSaveShip(spielStand.playerFleet, bt);
+            this.mainPanel.getSingleplayer().setFieldsize(spielStand.size);
+            this.mainPanel.getSingleplayer().setFleet(playerFleet);
+            this.mainPanel.setLoadedPlayerHealth(spielStand.PlayerHealth);
+            this.mainPanel.setLoadedEnemyHealth(spielStand.EnemyHealth);
+            postionBoard = new Board(fieldsize, playerFleet, "battle");
+            this.postionBoard.setMyShip(bt);
+            enemyBoard = new Board(fieldsize, "battle", out);
+            this.enemyBoard.setMyShipMultiPlayerLoad(enbt);
+        }
+    }
+
+    private ArrayList<Ship> convertSaveShip(ArrayList<SaveShip> saveShips, Field b[][]){
+        ArrayList<Ship> retList = new ArrayList<>();
+        for (SaveShip saveS:saveShips) {
+            Ship ship = new Ship(saveS.getShipModel());
+            ship.setRowColumn(saveS.getRow(), saveS.getColumn());
+            //ship.setHorizontal(saveS.isHorizontal());
+            if(saveS.getShipBoard().get(0).getColumn() !=  saveS.getShipBoard().get(saveS.getShipBoard().size() -1).getColumn()){
+                ship.setHorizontal(true);
+            }else{
+                ship.setHorizontal(false);
+            }
+            for (SaveField f: saveS.getShipBoard()) {
+                Field newField = new Field(f.getRow(),f.getColumn(), "battle");
+                for (int i = 0; i <b.length ; i++) {
+                    for (int j = 0; j <b[i].length ; j++) {
+                        if(b[i][j].getRow() == newField.getRow() && b[i][j].getColumn() == newField.getColumn()){
+                            newField.setMark(b[i][j].isMark());
+                            newField.setShot(b[i][j].isShot());
+                        }
+                    }
+                }
+                ship.getShipBoard().add(newField);
+            }
+            retList.add(ship);
+        }
+        return retList;
+    }
+    private Field[][] convertSaveField(SaveField bt[][]){
+        Field button[][] = new Field[bt.length][bt.length];
+        for (int i = 0; i <bt.length ; i++) {
+            for (int j = 0; j <bt[i].length ; j++) {
+                button[i][j] = new Field(bt[i][j].getRow(),bt[i][j].getColumn(), "battle");
+                button[i][j].setMark(bt[i][j].isMark());
+                button[i][j].setShot(bt[i][j].isShot());
+            }
+        }
+        return button;
+    }
+
 }

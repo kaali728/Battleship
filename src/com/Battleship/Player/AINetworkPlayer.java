@@ -58,7 +58,7 @@ public class AINetworkPlayer extends AIPlayer{
                 int[] hited_entry = nextHitnext.get(hashCode(nextRowShoot, nextColumnShoot));
                 if (hited_entry[2] == 0) {
                     //hori
-                    System.out.println("horizental");
+                    //System.out.println("horizental");
                     for (Map.Entry<Integer, int[]> s :nextHitnext.entrySet()) {
                         int[] value_2 = s.getValue();
                         if (nextHit.get(s.getKey()) != null && value_2[2] == 1) {
@@ -68,7 +68,7 @@ public class AINetworkPlayer extends AIPlayer{
                     hitShipBehind(nextRowShoot, nextColumnShoot, true);
                 } else {
                     //verti
-                    System.out.println("vertical");
+                    //System.out.println("vertical");
                     for (Map.Entry<Integer, int[]> s :  nextHitnext.entrySet()) {
                         int[] value_2 = s.getValue();
                         if (nextHit.get(s.getKey()) != null && value_2[2] == 0) {

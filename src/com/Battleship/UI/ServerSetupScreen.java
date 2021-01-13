@@ -2,6 +2,8 @@ package com.Battleship.UI;
 
 import com.Battleship.Model.Ship;
 import com.Battleship.Player.Player;
+import com.Battleship.SpielstandLaden.GameLoad;
+import com.Battleship.SpielstandLaden.GameObj;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -21,7 +23,9 @@ public class ServerSetupScreen extends JPanel {
     int fieldsize;
 
     JButton back;
-
+    JButton loadGame;
+    private GameLoad load;
+    public JButton spielstandLaden;
 
     JSlider carrierSlider;
     JLabel carrierLabel;
@@ -60,7 +64,8 @@ public class ServerSetupScreen extends JPanel {
         portLabel = new JLabel("Port");
         port = new JTextField(10);
         back = new JButton("Back");
-
+        loadGame = new JButton("Load Game");
+        load = new GameLoad();
         carrierSlider = new JSlider(1,1);
         carrierLabel = new JLabel();
         battleshipSlider = new JSlider(1,1);
@@ -121,6 +126,15 @@ public class ServerSetupScreen extends JPanel {
 
             }
         });
+        loadGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                portNumber = Integer.parseInt(port.getText());
+                GameObj spielStand = load.readFile(null);
+                mainPanel.setGameState("battle");
+                mainPanel.changeScreen("loadMultiPlayer", portNumber, load.getFileName(), spielStand);
+            }
+        });
     }
 
     public void initLayout() {
@@ -164,6 +178,7 @@ public class ServerSetupScreen extends JPanel {
             vbox.add(portLabel);
             vbox.add(port);
             vbox.add(createServer);
+            vbox.add(loadGame);
             vbox.add(back);
             vbox.add(Box.createVerticalStrut(100));
 

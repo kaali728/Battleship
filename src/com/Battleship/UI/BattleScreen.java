@@ -52,7 +52,6 @@ public class BattleScreen extends Panel implements ActionListener {
             enemyBoard.setAllHealthEnemy(this.mainPanel.getLoadedEnemyHealth());
             enemyBoard.setAllHealthPlayer(this.mainPanel.getLoadedPlayerHealth());
             this.mainPanel.getEnemyPlayer().setEnemyBoard(enemyBoard);
-
         }else{
             playerBoard.setMyShip();
             this.mainPanel.getEnemyPlayer().setEnemyBoard(enemyBoard);

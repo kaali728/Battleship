@@ -22,6 +22,9 @@ public class SpeichernUnterClass  extends JFrame {
     private Board player;
     private Board enemy;
 
+    private long defaultname = 0;
+
+    private boolean multiplayer = false;
 
     public SpeichernUnterClass(Board playerBoard, Board enemyBoard) {
         this.player = playerBoard;
@@ -50,16 +53,22 @@ public class SpeichernUnterClass  extends JFrame {
                 map.put("Player", this.player);
                 Field enemybutton[][] = enemy.getButton();
                 //System.out.println(enemy.getFleet());
-                for (int i = 0; i <enemybutton.length ; i++) {
-                    for (int j = 0; j <enemybutton[i].length ; j++) {
-                        //System.out.println(enemybutton[i][j]);
-                    }
-                }
+//                for (int i = 0; i <enemybutton.length ; i++) {
+//                    for (int j = 0; j <enemybutton[i].length ; j++) {
+//                        System.out.println(enemybutton[i][j]);
+//                    }
+//                }
                 //map.put("Fleet", this.fleet);
                 //map.put("Enemy", this.enemy);
                 //System.out.println("läuft");
-                Writer writer = Files.newBufferedWriter(Paths.get(path+".json"));
-                GameObj data = new GameObj(this.player, this.enemy);
+                Writer writer;
+                if(defaultname == 0){
+                    writer= Files.newBufferedWriter(Paths.get(path+".json"));
+                }else {
+                   writer = Files.newBufferedWriter(Paths.get(defaultname+".json"));
+                }
+
+                GameObj data = new GameObj(this.player, this.enemy, multiplayer);
 
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 //Gson gson = new GsonBuilder().registerTypeAdapter(Board.class, new MyTypeAdaptor<Board>()).create();
@@ -78,5 +87,21 @@ public class SpeichernUnterClass  extends JFrame {
         }
         choosePath.setVisible(false);
         return false;
+    }
+
+    public long getDefaultname() {
+        return defaultname;
+    }
+
+    public void setDefaultname(long defaultname) {
+        this.defaultname = defaultname;
+    }
+
+    public boolean isMultiplayer() {
+        return multiplayer;
+    }
+
+    public void setMultiplayer(boolean multiplayer) {
+        this.multiplayer = multiplayer;
     }
 }
