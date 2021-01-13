@@ -457,7 +457,7 @@ public class Board extends JPanel {
                 button[row][column].setShot(true);
                 allHealthEnemy--;
                 if (isGameOver()) {
-                    JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
                     return false;
                 }
                 return true;
@@ -585,7 +585,7 @@ public class Board extends JPanel {
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
         //cordianten von enemy schiffe
         //!playerboard shoot doppelt and that can be help and extra feature
-        if (playerBoard && !button[row][column].isShot()) {
+        if (playerBoard) {
             ArrayList<Field> posFields = getPosShip();
             //System.out.println(posFields);
             for (Field f : posFields) {
@@ -608,7 +608,7 @@ public class Board extends JPanel {
                             button[f.getRow()][f.getColumn()].setText("<html><b color=white>🔥</b></html>");
                             button[f.getRow()][f.getColumn()].setBackground(new Color(0xE52100));
                         }
-                        JOptionPane.showMessageDialog(this, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "You Lose!", "End Game", JOptionPane.INFORMATION_MESSAGE);
                         return false;
                     }
                     if (shotetShip.sunken()) {
