@@ -184,29 +184,12 @@ public class AIServerScreen extends JPanel {
 
     public void initLayout() {
         enemyBoard = new Board(fieldsize, "battle", out, aiPlayer);
-        // Board
-        Box hbox = Box.createHorizontalBox();
-        {
-            hbox.add(Box.createHorizontalStrut(10));
-            ArrayList<Ship> fleet = this.mainPanel.getSingleplayer().getFleet();
-            postionBoard = new Board(fieldsize, fleet, this.mainPanel.getGameState());
-            aiPlayer.setFieldsize(fieldsize);
-            aiPlayer.setEnemyBoard(postionBoard);
-            aiPlayer.setFleet(fleet);
-            postionBoard.multiEnableBtns(false);
-            enemyBoard.multiEnableBtns(false);
-            hbox.add(postionBoard);
-            hbox.add(enemyBoard);
-            hbox.add(Box.createHorizontalStrut(10));
-        }
 
-
-
-        chat = new JTextArea(10, 70);
+        chat = new JTextArea(7, 55);
         chat.setEditable(false);
         chat.setBackground(Color.lightGray);
 
-        chatInput = new JTextField(70);
+        chatInput = new JTextField(55);
         chatInput.addActionListener(
                 (e) -> {
                     try {
@@ -228,10 +211,32 @@ public class AIServerScreen extends JPanel {
 
         setBackground(Color.white);
 
-        add(hbox);
+        Box board = Box.createHorizontalBox();
+        {
+            board.add(Box.createHorizontalStrut(10));
+            ArrayList<Ship> fleet = this.mainPanel.getSingleplayer().getFleet();
+            postionBoard = new Board(fieldsize, fleet, this.mainPanel.getGameState());
+            aiPlayer.setFieldsize(fieldsize);
+            aiPlayer.setEnemyBoard(postionBoard);
+            aiPlayer.setFleet(fleet);
+            postionBoard.multiEnableBtns(false);
+            enemyBoard.multiEnableBtns(false);
+            board.add(postionBoard);
+            board.add(enemyBoard);
+            board.add(Box.createHorizontalStrut(10));
+        }
 
-        add(chatScroll);
-        add(chatInput);
+        Box chat = Box.createVerticalBox();
+        {
+            chat.add(Box.createVerticalStrut(15));
+            chat.add(chatScroll);
+            chat.add(Box.createVerticalStrut(10));
+            chat.add(chatInput);
+        }
+
+        add(board);
+        add(chat);
+
         repaint();
     }
 }

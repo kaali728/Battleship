@@ -225,11 +225,11 @@ public class AIClientScreen extends JPanel {
         }
 
 
-        chat = new JTextArea(10, 70);
+        chat = new JTextArea(7, 55);
         chat.setEditable(false);
         chat.setBackground(Color.lightGray);
 
-        chatInput = new JTextField(70);
+        chatInput = new JTextField(55);
         chatInput.addActionListener(
                 (e) -> {
                     try {
