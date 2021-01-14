@@ -25,6 +25,9 @@ public class SpeichernUnterClass  extends JFrame {
     private long defaultname = 0;
 
     private boolean multiplayer = false;
+    private String fileName;
+    private boolean client = false;
+
 
     public SpeichernUnterClass(Board playerBoard, Board enemyBoard) {
         this.player = playerBoard;
@@ -34,7 +37,10 @@ public class SpeichernUnterClass  extends JFrame {
     public boolean saveAs(String path) {
         JFileChooser choosePath;
         if (path == null) {
-            path = System.getProperty("user.home");
+            path =  "savedGames/";
+                    //System.getProperty("user.home");
+                    //System.getProperty("user.dir");
+                    //getClass().getClassLoader().getResource(".").getPath();
         }
 
         choosePath = new JFileChooser(path);
@@ -47,8 +53,11 @@ public class SpeichernUnterClass  extends JFrame {
 
         if (result == JFileChooser.APPROVE_OPTION) {
             try {
-                path = choosePath.getSelectedFile().toString();
-
+                if(client){
+                 path = "savedGames/";
+                }else {
+                    path = choosePath.getSelectedFile().toString();
+                }
                 Map<String, Object> map = new HashMap<>();
                 map.put("Player", this.player);
                 Field enemybutton[][] = enemy.getButton();
@@ -65,7 +74,11 @@ public class SpeichernUnterClass  extends JFrame {
                 if(defaultname == 0){
                     writer= Files.newBufferedWriter(Paths.get(path+".json"));
                 }else {
-                   writer = Files.newBufferedWriter(Paths.get(defaultname+".json"));
+                    if(client){
+                        writer = Files.newBufferedWriter(Paths.get(path+"/"+defaultname+".json"));
+                    }else{
+                        writer = Files.newBufferedWriter(Paths.get(defaultname+".json"));
+                    }
                 }
 
                 GameObj data = new GameObj(this.player, this.enemy, multiplayer);
@@ -103,5 +116,21 @@ public class SpeichernUnterClass  extends JFrame {
 
     public void setMultiplayer(boolean multiplayer) {
         this.multiplayer = multiplayer;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public boolean isClient() {
+        return client;
+    }
+
+    public void setClient(boolean client) {
+        this.client = client;
     }
 }

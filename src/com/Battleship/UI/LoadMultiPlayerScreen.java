@@ -61,7 +61,6 @@ public class LoadMultiPlayerScreen extends JPanel {
                     InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                     out = new OutputStreamWriter(socket.getOutputStream());
-
                     // Netzwerknachrichten lesen und verarbeiten.
                     // Da die graphische Oberfläche von einem separaten Thread verwaltet
                     // wird, kann man hier unabhängig davon auf Nachrichten warten.
@@ -166,12 +165,14 @@ public class LoadMultiPlayerScreen extends JPanel {
                 return null;
             }
         }.execute();
+
         initLayout();
     }
     public void initLayout() {
         saveButton = new JButton("Save Game");
         saveButton.setVisible(false);
         ready = new JButton("Ready");
+        ready.setEnabled(false);
         //enemyBoard.setVisible(false);
 
         ready.addActionListener(
@@ -196,6 +197,7 @@ public class LoadMultiPlayerScreen extends JPanel {
                             out.write(String.format("%s%n", "S: ready"));
                             System.out.println("S: ready");
                             out.flush();
+                            enemyBoard.multiEnableBtns(true);
                             this.mainPanel.setGameState("battle");
                             ready.setVisible(false);
                         } catch (IOException ex) {
@@ -289,6 +291,8 @@ public class LoadMultiPlayerScreen extends JPanel {
             this.postionBoard.setMyShip(bt);
             enemyBoard = new Board(fieldsize, "battle", out);
             this.enemyBoard.setMyShipMultiPlayerLoad(enbt);
+            this.enemyBoard.setUsedCord(spielStand.usedCord);
+            enemyBoard.multiEnableBtns(false);
         }
     }
 

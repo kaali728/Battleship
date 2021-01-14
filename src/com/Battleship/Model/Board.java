@@ -365,7 +365,7 @@ public class Board extends JPanel {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("multiplayershoot "+e);
         }
     }
 
@@ -1366,6 +1366,10 @@ public class Board extends JPanel {
                 button[i][j].setEnabled(turn);
             }
         }
+    }
+
+    public void setUsedCord(Map<Integer, int[]> usedCord) {
+        this.usedCord = usedCord;
     }
 
     public Map<Integer, int[]> getUsedCord() {

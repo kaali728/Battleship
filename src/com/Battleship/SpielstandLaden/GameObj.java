@@ -23,6 +23,7 @@ public class GameObj {
     public Map<Integer, int[]> usedCord = new HashMap<>();
     public int size;
 
+
     public boolean multiplayer = false;
 
     public GameObj(Board playerBoard, Board enemyBoard, boolean multiplayer){
@@ -61,6 +62,7 @@ public class GameObj {
 //            }
             EnemyHealth = enemyBoard.getAllHealthEnemy();
             PlayerHealth = enemyBoard.getAllHealthPlayer();
+            usedCord =  enemyBoard.getUsedCord();
 //            System.out.println("aiOnline from multi " + enemyBoard.aiOnline);
 //            usedCord =  enemyBoard.aiOnline.getUsedCord();
 //            nextHit = enemyBoard.aiOnline.getNextHit();
