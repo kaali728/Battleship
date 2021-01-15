@@ -84,18 +84,58 @@ public class AIPlayer {
         Random random = new Random();
 
         if(fieldsize <= 7){
-            for (Ship s: fleet) {
-                if(s.getHealth() == 5){
-                    enemyBoard.setShip(0,0);
+            if(fieldsize == 5){
+                boolean carrship = false;
+                boolean battship = false;
+                boolean subship = false;
+                boolean destroship = false;
+                for (Ship s: fleet) {
+                    if(s.getHealth() == 5){
+                        enemyBoard.setShip(0,0);
+                        carrship = true;
+                    }
+                    if(s.getHealth() == 4){
+                        if(carrship){
+                            enemyBoard.setShip(2,0);
+                            battship = true;
+                        }else{
+                            enemyBoard.setShip(0,0);
+                        }
+
+                    }
+                    if(s.getHealth() == 3){
+                        if(battship){
+                            enemyBoard.setShip(4,0);
+                            subship = true;
+                        }else{
+                            enemyBoard.setShip(2,0);
+                        }
+
+                    }
+                    if(s.getHealth() == 2){
+                        if(subship){
+                            enemyBoard.setShip(4,3);
+                            destroship = true;
+                        }else{
+                            enemyBoard.setShip(4,0);
+                        }
+
+                    }
                 }
-                if(s.getHealth() == 4){
-                    enemyBoard.setShip(2,0);
-                }
-                if(s.getHealth() == 3){
-                    enemyBoard.setShip(4,0);
-                }
-                if(s.getHealth() == 2){
-                    enemyBoard.setShip(5,4);
+            }else{
+                for (Ship s: fleet) {
+                    if(s.getHealth() == 5){
+                        enemyBoard.setShip(0,0);
+                    }
+                    if(s.getHealth() == 4){
+                        enemyBoard.setShip(2,0);
+                    }
+                    if(s.getHealth() == 3){
+                        enemyBoard.setShip(4,0);
+                    }
+                    if(s.getHealth() == 2){
+                        enemyBoard.setShip(5,4);
+                    }
                 }
             }
         }else{

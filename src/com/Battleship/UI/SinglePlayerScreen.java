@@ -53,13 +53,13 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
     }
     public void initvar(){
         fieldslider = new JSlider(5,30);
-        carrierSlider = new JSlider(1,1);
+        carrierSlider = new JSlider(0,0);
         carrierLabel = new JLabel();
-        battleshipSlider = new JSlider(1,1);
+        battleshipSlider = new JSlider(0,0);
         battleshipLabel = new JLabel();
-        destroyerslider = new JSlider(1,1);
+        destroyerslider = new JSlider(0,0);
         destroyerLabel = new JLabel();
-        submarineslider = new JSlider(1,1);
+        submarineslider = new JSlider(0,0);
         submarineLabel = new JLabel();
         back = new JButton("BACK");
         play = new JButton("SET FLEET >");

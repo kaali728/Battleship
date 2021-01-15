@@ -66,13 +66,13 @@ public class ServerSetupScreen extends JPanel {
         back = new JButton("Back");
         loadGame = new JButton("Load Game");
         load = new GameLoad();
-        carrierSlider = new JSlider(1,1);
+        carrierSlider = new JSlider(0,0);
         carrierLabel = new JLabel();
-        battleshipSlider = new JSlider(1,1);
+        battleshipSlider = new JSlider(0,0);
         battleshipLabel = new JLabel();
-        destroyerslider = new JSlider(1,1);
+        destroyerslider = new JSlider(0,0);
         destroyerLabel = new JLabel();
-        submarineslider = new JSlider(1,1);
+        submarineslider = new JSlider(0,0);
         submarineLabel = new JLabel();
 
 
