@@ -1,8 +1,6 @@
 package com.Battleship.UI;
 
 import com.Battleship.Constants.Constants;
-import com.Battleship.Image.Image;
-import com.Battleship.Image.ImageFactory;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -29,7 +27,7 @@ public class GameMainFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //Schließt das Fenster
         pack();
         //ICON setzen
-        setIconImage(ImageFactory.createImage(Image.ICON).getImage());
+        setIconImage(new ImageIcon(getClass().getClassLoader().getResource("images/battleshipicon.png")).getImage());
         setLocationRelativeTo(null); //Setzt das Fenster in der Mitte
         setVisible(true);
         setMinimumSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));

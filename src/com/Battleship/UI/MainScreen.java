@@ -1,8 +1,6 @@
 package com.Battleship.UI;
 
 import com.Battleship.Constants.Constants;
-import com.Battleship.Image.Image;
-import com.Battleship.Image.ImageFactory;
 import com.Battleship.Main.Game;
 import com.Battleship.Model.Field;
 import com.Battleship.Model.SaveField;
@@ -21,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -88,9 +87,8 @@ public class MainScreen extends JPanel {
         load = new GameLoad();
 
         //this.background = ImageFactory.createImage(Image.BACKGROUND);
-        this.ship = ImageFactory.createImage(Image.SHIP);
+        this.ship = new ImageIcon(getClass().getClassLoader().getResource("images/ship.png"));
         shiplabel = new JLabel(ship);
-
     }
 
     /**
@@ -99,7 +97,8 @@ public class MainScreen extends JPanel {
     void initLayout() {
         Font  titlefont  = null;
         try {
-            titlefont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/Fonts/Road_Rage.otf")).deriveFont(100f);
+            InputStream font = getClass().getClassLoader().getResourceAsStream("Fonts/Road_Rage.otf");
+            titlefont = Font.createFont(Font.TRUETYPE_FONT, font).deriveFont(100f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             //register the font
             ge.registerFont(titlefont);
