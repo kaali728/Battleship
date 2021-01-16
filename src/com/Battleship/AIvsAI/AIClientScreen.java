@@ -110,7 +110,7 @@ public class AIClientScreen extends JPanel {
                         }
 
                         // Client ist bereit für die Schlacht
-                        if (fieldsize != 0 && carrierCount != 0 && battleshipCount != 0 && submarineCount != 0 && destroyerCount != 0 && line.equals("S: ready")) {
+                        if (fieldsize != 0 && line.equals("S: ready")) {
                             SwingUtilities.invokeAndWait(() -> {
                                 postionBoard.setOut(out);
                                 enemyBoard.setOut(out);
