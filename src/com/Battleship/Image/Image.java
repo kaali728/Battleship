@@ -1,5 +1,19 @@
 package com.Battleship.Image;
 
+/**
+ * The enum Image.
+ */
 public enum Image {
-    ICON, BACKGROUND, SHIP
+    /**
+     * Icon image.
+     */
+    ICON,
+    /**
+     * Background image.
+     */
+    BACKGROUND,
+    /**
+     * Ship image.
+     */
+    SHIP
 }

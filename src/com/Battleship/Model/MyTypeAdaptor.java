@@ -6,6 +6,11 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
+/**
+ * The type My type adaptor.
+ *
+ * @param <T> the type parameter
+ */
 public class MyTypeAdaptor<T> extends TypeAdapter<T> {
     public T read(JsonReader reader) throws IOException {
         return null;

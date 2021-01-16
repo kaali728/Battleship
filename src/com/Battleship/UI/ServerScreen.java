@@ -16,22 +16,75 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Server screen.
+ */
 public class ServerScreen extends JPanel {
+    /**
+     * The constant out.
+     */
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
+    /**
+     * The constant button.
+     */
     public static JButton button;    // Der o. g. Knopf.
+    /**
+     * The constant chat.
+     */
     public static JTextArea chat;
     private static JTextField chatInput;
     private static JScrollPane chatScroll;
     private int fieldsize;
+    /**
+     * The Port.
+     */
     int port;
-    int carrierCount, battleshipCount, submarineCount, destroyerCount;
+    /**
+     * The Carrier count.
+     */
+    int carrierCount, /**
+     * The Battleship count.
+     */
+    battleshipCount, /**
+     * The Submarine count.
+     */
+    submarineCount, /**
+     * The Destroyer count.
+     */
+    destroyerCount;
+    /**
+     * The Vertical.
+     */
     JButton vertical;
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Postion board.
+     */
     Board postionBoard;
+    /**
+     * The Enemy board.
+     */
     Board enemyBoard;
+    /**
+     * The Game over.
+     */
     boolean gameOver = false;
 
 
+    /**
+     * Instantiates a new Server screen.
+     *
+     * @param port            the port
+     * @param fieldsize       the fieldsize
+     * @param carrierCount    the carrier count
+     * @param battleshipCount the battleship count
+     * @param submarineCount  the submarine count
+     * @param destroyerCount  the destroyer count
+     * @param mainPanel       the main panel
+     */
     ServerScreen(int port, int fieldsize, int carrierCount, int battleshipCount, int submarineCount, int destroyerCount, GamePanel mainPanel) {
         this.port = port;
         this.fieldsize = fieldsize;
@@ -174,6 +227,9 @@ public class ServerScreen extends JPanel {
         initLayout();
     }
 
+    /**
+     * Init layout.
+     */
     public void initLayout() {
         button = new JButton("Ready");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -14,36 +14,101 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * The type Single player screen.
+ */
 public class SinglePlayerScreen extends JPanel implements ChangeListener {
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Back.
+     */
     JButton back;
+    /**
+     * The Fieldslider.
+     */
     JSlider fieldslider;
 
+    /**
+     * The Carrier slider.
+     */
     JSlider carrierSlider;
+    /**
+     * The Carrier label.
+     */
     JLabel carrierLabel;
+    /**
+     * The Carrier counter max.
+     */
     int carrierCounterMax;
+    /**
+     * The Battleship slider.
+     */
     JSlider battleshipSlider;
+    /**
+     * The Battleship label.
+     */
     JLabel battleshipLabel;
+    /**
+     * The Destroyerslider.
+     */
     JSlider destroyerslider;
+    /**
+     * The Destroyer label.
+     */
     JLabel destroyerLabel;
+    /**
+     * The Submarineslider.
+     */
     JSlider submarineslider;
+    /**
+     * The Submarine label.
+     */
     JLabel submarineLabel;
 
+    /**
+     * The Size.
+     */
     JLabel size;
+    /**
+     * The Play.
+     */
     JButton play;
+    /**
+     * The Sizefield.
+     */
     int sizefield;
+    /**
+     * The Singplayer.
+     */
     Player singplayer;
+    /**
+     * The Enemy player.
+     */
     AIPlayer enemyPlayer;
     private int battleshipCount;
     private int destroyerCount;
     private int submarineCount;
+    /**
+     * The Carrier count.
+     */
     int carrierCount;
+    /**
+     * The Vbox.
+     */
     Box vbox;
 
     private int submarineCounterMax;
     private int destroyerCounterMax;
     private int battleshipCounterMax;
 
+    /**
+     * Instantiates a new Single player screen.
+     *
+     * @param mainPanel the main panel
+     */
     SinglePlayerScreen(GamePanel mainPanel){
         this.mainPanel = mainPanel;
         initvar();
@@ -51,6 +116,10 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
         enemyPlayer = mainPanel.getEnemyPlayer();
         initlayout();
     }
+
+    /**
+     * Initvar.
+     */
     public void initvar(){
         fieldslider = new JSlider(5,30);
         carrierSlider = new JSlider(0,0);
@@ -106,6 +175,10 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             }
         });
     }
+
+    /**
+     * Initlayout.
+     */
     public void initlayout(){
         setBackground(Color.black);
         size.setBackground(Color.black);

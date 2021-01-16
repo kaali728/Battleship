@@ -32,6 +32,12 @@ public class AIClientScreen extends JPanel {
 
     int carrierCount, battleshipCount, submarineCount, destroyerCount;
 
+    /**
+     * @param address
+     * @param port
+     * @param mainPanel
+     * @param aiPlayer
+     */
     public AIClientScreen(String address, Integer port, GamePanel mainPanel, AINetworkPlayer aiPlayer) {
         this.aiPlayer= aiPlayer;
         this.mainPanel = mainPanel;
@@ -169,6 +175,9 @@ public class AIClientScreen extends JPanel {
         }.execute();
     }
 
+    /**
+     *
+     */
     public void initLayout() {
         System.out.println("LAYOUT" + carrierCount);
 

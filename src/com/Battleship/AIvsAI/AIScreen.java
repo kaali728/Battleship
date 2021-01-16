@@ -13,12 +13,18 @@ public class AIScreen extends JPanel {
     JButton server;
     JButton back;
 
+    /**
+     * @param mainPanel
+     */
     public AIScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
         initVar();
         initLayout();
     }
 
+    /**
+     *
+     */
     public void initVar() {
         client = new JButton("Connect to a server");
         server = new JButton("Host game");
@@ -45,6 +51,9 @@ public class AIScreen extends JPanel {
         });
     }
 
+    /**
+     *
+     */
     public void initLayout() {
         setBackground(Color.white);
         add(client);

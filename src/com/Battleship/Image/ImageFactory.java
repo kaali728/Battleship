@@ -4,7 +4,16 @@ import com.Battleship.Constants.Constants;
 
 import javax.swing.*;
 
+/**
+ * The type Image factory.
+ */
 public class ImageFactory {
+    /**
+     * Create image image icon.
+     *
+     * @param image the image
+     * @return the image icon
+     */
     public static ImageIcon createImage(Image image) {
         ImageIcon imageIcon;
         switch (image) {

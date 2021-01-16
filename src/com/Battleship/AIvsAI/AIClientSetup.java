@@ -19,12 +19,18 @@ public class AIClientSetup extends JPanel {
     AINetworkPlayer aiPlayer;
 
 
+    /**
+     * @param mainPanel
+     */
     public AIClientSetup(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
         initVar();
         initLayout();
     }
 
+    /**
+     *
+     */
     public void initVar() {
         addressLabel = new JLabel("Address");
         portLabel = new JLabel("Port");
@@ -40,6 +46,9 @@ public class AIClientSetup extends JPanel {
         });
     }
 
+    /**
+     *
+     */
     public void initLayout() {
         setBackground(Color.white);
         add(addressLabel);

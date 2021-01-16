@@ -5,18 +5,41 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The type Multiplayer screen.
+ */
 public class MultiplayerScreen extends JPanel {
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Client.
+     */
     JButton client;
+    /**
+     * The Server.
+     */
     JButton server;
+    /**
+     * The Back.
+     */
     JButton back;
 
+    /**
+     * Instantiates a new Multiplayer screen.
+     *
+     * @param mainPanel the main panel
+     */
     MultiplayerScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
         initVar();
         initLayout();
     }
 
+    /**
+     * Init var.
+     */
     public void initVar() {
         client = new JButton("Connect to a server");
         server = new JButton("Host game");
@@ -43,6 +66,9 @@ public class MultiplayerScreen extends JPanel {
         });
     }
 
+    /**
+     * Init layout.
+     */
     public void initLayout() {
         setBackground(Color.white);
         add(client);

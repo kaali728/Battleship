@@ -9,11 +9,29 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+/**
+ * The type Game load.
+ */
 public class GameLoad {
+    /**
+     * The Player.
+     */
     Border player = null;
+    /**
+     * The Loaded game.
+     */
     GameObj loadedGame;
+    /**
+     * The Gson.
+     */
     Gson gson = new Gson();
 
+    /**
+     * Read file game obj.
+     *
+     * @param path the path
+     * @return the game obj
+     */
     public GameObj readFile(String path) {
         if (path == null) {
             path = System.getProperty("user.home");

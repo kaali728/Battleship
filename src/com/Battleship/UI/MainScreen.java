@@ -24,26 +24,58 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * The type Main screen.
+ */
 public class MainScreen extends JPanel {
+    /**
+     * The Singleplayer.
+     */
     JButton singleplayer;
+    /**
+     * The Multiplayer.
+     */
     JButton multiplayer;
+    /**
+     * The Ai v sai.
+     */
     JButton aiVSai;
+    /**
+     * The Spielstand laden.
+     */
     JButton spielstandLaden;
+    /**
+     * The Sound button.
+     */
     JButton soundButton;
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
     private SoundFactory sound;
+    /**
+     * The Start sound.
+     */
     boolean startSound = true;
     private ImageIcon background;
     private ImageIcon ship;
     private GameLoad load;
     private JLabel shiplabel;
 
+    /**
+     * Instantiates a new Main screen.
+     *
+     * @param gamePanel the game panel
+     */
     MainScreen(GamePanel gamePanel) {
         mainPanel = gamePanel;
         initVars();
         initLayout();
     }
 
+    /**
+     * Init vars.
+     */
     void initVars() {
         singleplayer = new JButton("Singleplayer");
         multiplayer = new JButton("Multiplayer");
@@ -61,6 +93,9 @@ public class MainScreen extends JPanel {
 
     }
 
+    /**
+     * Init layout.
+     */
     void initLayout() {
         Font  titlefont  = null;
         try {
