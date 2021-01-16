@@ -268,6 +268,7 @@ public class AIPlayer {
                     enemyBoard.setShip(5, 4);
                 }
             }
+            return true;
         }else{
             for (Ship s : fleet) {
                 while (true) {
@@ -284,7 +285,6 @@ public class AIPlayer {
             }
             return true;
         }
-        return false;
     }
 
 

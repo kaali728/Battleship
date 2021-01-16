@@ -322,14 +322,20 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
 //            this.destroyerCounterMax = fieldslider.getValue()/ 1;
 //            this.battleshipCounterMax = fieldslider.getValue()/ 3;
 
-            this.carrierCounterMax = fieldslider.getValue() * fieldslider.getValue()/ 13 == 0 ? 2 : fieldslider.getValue()*fieldslider.getValue()/ 13;
+            this.carrierCounterMax = fieldslider.getValue() * fieldslider.getValue()/ 20 == 0 ? 1 : fieldslider.getValue()*fieldslider.getValue()/ 20;
             this.submarineCounterMax = fieldslider.getValue()/ 2;
             this.destroyerCounterMax = fieldslider.getValue()/ 1;
-            this.battleshipCounterMax = carrierCounterMax*carrierCounterMax/2;
+            this.battleshipCounterMax = fieldslider.getValue()/ 3;
+
+
+
+//            this.battleshipCounterMax = fieldslider.getValue() / carrierSlider.getValue();
+//            this.submarineCounterMax = fieldslider.getValue()/ 2;
+//            this.destroyerCounterMax = fieldslider.getValue()/ 1;
 
             this.carrierSlider.setMaximum(carrierCounterMax);
-            this.submarineslider.setMaximum(submarineCounterMax);
-            this.destroyerslider.setMaximum(destroyerCounterMax);
+//            this.submarineslider.setMaximum(submarineCounterMax);
+//            this.destroyerslider.setMaximum(destroyerCounterMax);
             this.battleshipSlider.setMaximum(battleshipCounterMax);
 
             carrierLabel.setBackground(Color.black);
