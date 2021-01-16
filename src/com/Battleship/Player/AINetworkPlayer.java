@@ -17,20 +17,38 @@ public class AINetworkPlayer extends AIPlayer{
         Random random = new Random();
 
         if(fieldsize <= 7){
-            for (Ship s: fleet) {
-                if(s.getHealth() == 5){
-                    enemyBoard.aisetShip(0,0);
+            if(fieldsize == 5){
+                for (Ship s: fleet) {
+                    if(s.getHealth() == 5){
+                        enemyBoard.aisetShip(0,0);
+                    }
+                    if(s.getHealth() == 4){
+                        enemyBoard.aisetShip(2,0);
+                    }
+                    if(s.getHealth() == 3){
+                        enemyBoard.aisetShip(4,0);
+                    }
+                    if(s.getHealth() == 2){
+                        enemyBoard.aisetShip(5,4);
+                    }
                 }
-                if(s.getHealth() == 4){
-                    enemyBoard.aisetShip(2,0);
-                }
-                if(s.getHealth() == 3){
-                    enemyBoard.aisetShip(4,0);
-                }
-                if(s.getHealth() == 2){
-                    enemyBoard.aisetShip(5,4);
+            }else{
+                for (Ship s: fleet) {
+                    if(s.getHealth() == 5){
+                        enemyBoard.aisetShip(0,0);
+                    }
+                    if(s.getHealth() == 4){
+                        enemyBoard.aisetShip(2,0);
+                    }
+                    if(s.getHealth() == 3){
+                        enemyBoard.aisetShip(4,0);
+                    }
+                    if(s.getHealth() == 2){
+                        enemyBoard.aisetShip(5,4);
+                    }
                 }
             }
+
             return true;
         }else{
             for (Ship s : fleet) {

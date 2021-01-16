@@ -16,6 +16,7 @@ public class AIPlayer {
     public Map<Integer, int[]> nextHit = new LinkedHashMap<>();
     public Map<Integer, int[]> nextHitnext = new LinkedHashMap<>();
     public Map<Integer, int[]> usedCord = new HashMap<>();
+    public Map<Integer, int[]> tousedCord = new HashMap<>();
 
     public Board enemyBoard;
     public Board playerBoard;
@@ -82,20 +83,77 @@ public class AIPlayer {
 
     public boolean setEnemyShip() {
         Random random = new Random();
-
-        if(fieldsize <= 7){
+        int carrshipCount = 0;
+        int battshipCount = 0;
+        int subshipCount = 0;
+        int destroshipCount = 0;
+        for (Ship s: fleet) {
+            if(s.getHealth() == 5){
+                carrshipCount++;
+            }
+            if(s.getHealth() == 4){
+                battshipCount++;
+            }
+            if(s.getHealth() == 3){
+                subshipCount++;
+            }
+            if(s.getHealth() == 2){
+                destroshipCount++;
+            }
+        }
+        if(fieldsize == 5 && (carrshipCount==0 && battshipCount==1 && subshipCount==1 && destroshipCount==1 ||
+                carrshipCount==1 && battshipCount==0 && subshipCount==1 && destroshipCount==1 || carrshipCount==1 && battshipCount==1 && subshipCount==0 && destroshipCount==1 ||
+                carrshipCount==1 && battshipCount==1 && subshipCount==1 && destroshipCount==0)){
+            boolean carrship = false;
+            boolean battship = false;
+            boolean subship = false;
+            boolean destroship = false;
             for (Ship s: fleet) {
                 if(s.getHealth() == 5){
                     enemyBoard.setShip(0,0);
+                    carrship = true;
                 }
                 if(s.getHealth() == 4){
-                    enemyBoard.setShip(2,0);
+                    if(carrship){
+                        enemyBoard.setShip(2,0);
+                        battship = true;
+                    }else{
+                        enemyBoard.setShip(0,0);
+                    }
                 }
                 if(s.getHealth() == 3){
-                    enemyBoard.setShip(4,0);
+                    if(battship){
+                        enemyBoard.setShip(4,0);
+                        subship = true;
+                    }else{
+                        enemyBoard.setShip(2,0);
+                    }
+
                 }
                 if(s.getHealth() == 2){
-                    enemyBoard.setShip(5,4);
+                    if(subship){
+                        enemyBoard.setShip(4,3);
+                        destroship = true;
+                    }else{
+                        enemyBoard.setShip(4,0);
+                    }
+                }
+            }
+            return true;
+        }
+        if((fieldsize == 7 || fieldsize == 6) && carrshipCount==1 && battshipCount==1 && subshipCount==1 && destroshipCount==1) {
+            for (Ship s : fleet) {
+                if (s.getHealth() == 5) {
+                    enemyBoard.setShip(0, 0);
+                }
+                if (s.getHealth() == 4) {
+                    enemyBoard.setShip(2, 0);
+                }
+                if (s.getHealth() == 3) {
+                    enemyBoard.setShip(4, 0);
+                }
+                if (s.getHealth() == 2) {
+                    enemyBoard.setShip(5, 4);
                 }
             }
         }else{
@@ -103,9 +161,12 @@ public class AIPlayer {
                 while (true) {
                     int row = random.nextInt(fieldsize - 1);
                     int column = random.nextInt(fieldsize - 1);
-                    Ship shipret = enemyBoard.setShip(row, column);
-                    if (shipret != null) {
-                        break;
+                    if (!isUsedCordforSet(row, column)) {
+                        UsedcordforSet(row, column);
+                        Ship shipret = enemyBoard.setShip(row, column);
+                        if (shipret != null) {
+                            break;
+                        }
                     }
                 }
             }
@@ -187,9 +248,20 @@ public class AIPlayer {
 //        }
 //    }
 
+    public void UsedcordforSet(int row, int column) {
+        int[] entry = {row, column};
+        tousedCord.put(hashCode(row, column), entry);
+    }
 
-
-
+    public boolean isUsedCordforSet(int row, int column) {
+        for (Map.Entry<Integer, int[]> entry : tousedCord.entrySet()) {
+            int[] value = entry.getValue();
+            if (value[0] == row && value[1] == column) {
+                return true;
+            }
+        }
+        return false;
+    }
     public void addTousedCord(int row, int column) {
         int[] entry = {row, column};
         usedCord.put(hashCode(row, column), entry);
@@ -324,6 +396,7 @@ public class AIPlayer {
     }
     public void endGame() {
         usedCord.clear();
+        tousedCord.clear();
     }
 
     public int getNextColumnShoot() {
