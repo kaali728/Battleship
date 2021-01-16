@@ -334,8 +334,8 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
 //            this.destroyerCounterMax = fieldslider.getValue()/ 1;
 
             this.carrierSlider.setMaximum(carrierCounterMax);
-//            this.submarineslider.setMaximum(submarineCounterMax);
-//            this.destroyerslider.setMaximum(destroyerCounterMax);
+            this.submarineslider.setMaximum(submarineCounterMax);
+            this.destroyerslider.setMaximum(destroyerCounterMax);
             this.battleshipSlider.setMaximum(battleshipCounterMax);
 
             carrierLabel.setBackground(Color.black);
