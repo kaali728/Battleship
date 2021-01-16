@@ -12,14 +12,32 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Board.
+ */
 public class Board extends JPanel {
+    /**
+     * The Size.
+     */
     int size = 0;
 
+    /**
+     * The Button.
+     */
     public Field button[][];
 
+    /**
+     * The Button panel.
+     */
     JPanel buttonPanel;
 
+    /**
+     * The Rows.
+     */
     int rows;
+    /**
+     * The Columns.
+     */
     int columns;
 
     private ArrayList<Ship> fleet;
@@ -43,7 +61,13 @@ public class Board extends JPanel {
     private boolean playerBoard = true;
     private Board playerBoardobj;
 
+    /**
+     * The Ai player.
+     */
     public AIPlayer aiPlayer;
+    /**
+     * The Ai online.
+     */
     public AINetworkPlayer aiOnline;
 
     //0 player 1 ai
@@ -52,7 +76,13 @@ public class Board extends JPanel {
     private int allHealthPlayer = 0;
     private int allHealthEnemy = 0;
 
+    /**
+     * The Shootet row.
+     */
     public int shootetRow = -1;
+    /**
+     * The Shootet column.
+     */
     public int shootetColumn = -1;
 
     private int counter = 0;
@@ -61,6 +91,13 @@ public class Board extends JPanel {
     private Writer out;
     private Map<Integer, int[]> usedCord = new HashMap<>();
 
+    /**
+     * Instantiates a new Board.
+     *
+     * @param size      the size
+     * @param GameState the game state
+     * @param out       the out
+     */
     public Board(int size, String GameState, Writer out) {
         this.size = size;
         this.gameState = GameState;
@@ -69,6 +106,14 @@ public class Board extends JPanel {
         initlayoutmulti();
     }
 
+    /**
+     * Instantiates a new Board.
+     *
+     * @param size      the size
+     * @param GameState the game state
+     * @param out       the out
+     * @param aiPlayer  the ai player
+     */
     public Board(int size, String GameState, Writer out, AINetworkPlayer aiPlayer) {
         this.size = size;
         this.gameState = GameState;
@@ -78,6 +123,14 @@ public class Board extends JPanel {
         initlayoutmulti();
     }
 
+    /**
+     * Instantiates a new Board.
+     *
+     * @param size      the size
+     * @param GameState the game state
+     * @param out       the out
+     * @param client    the client
+     */
     public Board(int size, String GameState, Writer out, boolean client) {
         this.size = size;
         this.gameState = GameState;
@@ -87,6 +140,15 @@ public class Board extends JPanel {
         initlayoutmulti();
     }
 
+    /**
+     * Instantiates a new Board.
+     *
+     * @param size      the size
+     * @param GameState the game state
+     * @param out       the out
+     * @param client    the client
+     * @param aiPlayer  the ai player
+     */
     public Board(int size, String GameState, Writer out, boolean client, AINetworkPlayer aiPlayer) {
         this.size = size;
         this.gameState = GameState;
@@ -97,6 +159,13 @@ public class Board extends JPanel {
         initlayoutmulti();
     }
 
+    /**
+     * Instantiates a new Board.
+     *
+     * @param size      the size
+     * @param fleet     the fleet
+     * @param GameState the game state
+     */
     public Board(int size, ArrayList<Ship> fleet, String GameState) {
         this.size = size;
         this.fleet = fleet;
@@ -107,6 +176,14 @@ public class Board extends JPanel {
         initlayout();
     }
 
+    /**
+     * Instantiates a new Board.
+     *
+     * @param size        the size
+     * @param fleet       the fleet
+     * @param GameState   the game state
+     * @param playerBoard the player board
+     */
     public Board(int size, ArrayList<Ship> fleet, String GameState, boolean playerBoard) {
         this.size = size;
         this.fleet = fleet;
@@ -118,6 +195,16 @@ public class Board extends JPanel {
         initlayout();
     }
 
+    /**
+     * Instantiates a new Board.
+     *
+     * @param size           the size
+     * @param fleet          the fleet
+     * @param GameState      the game state
+     * @param playerBoard    the player board
+     * @param aiPlayer       the ai player
+     * @param playerBoardobj the player boardobj
+     */
     public Board(int size, ArrayList<Ship> fleet, String GameState, boolean playerBoard, AIPlayer aiPlayer, Board playerBoardobj) {
         this.size = size;
         this.fleet = fleet;
@@ -131,6 +218,9 @@ public class Board extends JPanel {
         initlayout();
     }
 
+    /**
+     * Initlayoutmulti.
+     */
     public void initlayoutmulti() {
         setSize(new Dimension(650, 650));
         setLayout(new GridBagLayout());
@@ -180,6 +270,9 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Initlayout.
+     */
     public void initlayout() {
         setSize(new Dimension(650, 650));
         setLayout(new GridBagLayout());
@@ -228,11 +321,19 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Convert list.
+     *
+     * @return the list
+     */
     public List convert() {
         List<List<Field>> list = Arrays.stream(button).map(Arrays::asList).collect(Collectors.toList());
         return list;
     }
 
+    /**
+     * Sets my ship.
+     */
     public void setMyShip() {
         for (Ship s : fleet) {
             //System.out.println(s);
@@ -250,6 +351,11 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Sets my ship.
+     *
+     * @param buttonLoad the button load
+     */
     public void setMyShip(Field buttonLoad[][]) {
         if (playerBoard) {
             for (int i = 0; i < buttonLoad.length; i++) {
@@ -332,11 +438,19 @@ public class Board extends JPanel {
     }
 
 
+    /**
+     * Sets out.
+     *
+     * @param out the out
+     */
     public void setOut(Writer out) {
         System.out.println(client + " " + out);
         this.out = out;
     }
 
+    /**
+     * Multiplayer shoot.
+     */
     public void multiplayerShoot() {
         try {
             if (!isUsedCord(shootetRow - 1, shootetColumn - 1)) {
@@ -353,6 +467,12 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Aimultiplayer shoot.
+     *
+     * @param row    the row
+     * @param column the column
+     */
     public void aimultiplayerShoot(int row, int column) {
         try {
             row++;
@@ -369,11 +489,24 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Add toused cord.
+     *
+     * @param row    the row
+     * @param column the column
+     */
     public void addTousedCord(int row, int column) {
         int[] entry = {row, column};
         usedCord.put(hashCode(row, column), entry);
     }
 
+    /**
+     * Is used cord boolean.
+     *
+     * @param row    the row
+     * @param column the column
+     * @return the boolean
+     */
     public boolean isUsedCord(int row, int column) {
         for (Map.Entry<Integer, int[]> entry : usedCord.entrySet()) {
             Integer key = entry.getKey();
@@ -385,10 +518,22 @@ public class Board extends JPanel {
         return false;
     }
 
+    /**
+     * Hash code int.
+     *
+     * @param x the x
+     * @param y the y
+     * @return the int
+     */
     public int hashCode(int x, int y) {
         return x * 31 + y;
     }
 
+    /**
+     * Multi shoot.
+     *
+     * @param shot the shot
+     */
     public void multiShoot(int shot) {
         if (!isUsedCord(shootetRow - 1, shootetColumn - 1)) {
             if (shot == 1 || shot == 2) {
@@ -407,6 +552,11 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Aimulti shoot.
+     *
+     * @param shot the shot
+     */
     public void aimultiShoot(int shot) {
         shootetRow = aiOnline.getNextRowShoot();
         shootetColumn = aiOnline.getNextColumnShoot();
@@ -426,10 +576,21 @@ public class Board extends JPanel {
     }
 
 
+    /**
+     * Sets client.
+     *
+     * @param client the client
+     */
     public void setClient(boolean client) {
         this.client = client;
     }
 
+    /**
+     * Shoot boolean.
+     *
+     * @param e the e
+     * @return the boolean
+     */
     public boolean shoot(ActionEvent e) {
         String[] coordinate = e.getActionCommand().split(",");
         int row = Integer.parseInt(coordinate[0]);
@@ -500,6 +661,13 @@ public class Board extends JPanel {
         return false;
     }
 
+    /**
+     * Multiplayershoot boolean.
+     *
+     * @param row    the row
+     * @param column the column
+     * @return the boolean
+     */
     public boolean multiplayershoot(int row, int column) {
         //schauen ob der person gewonnen hat oder nicht
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
@@ -566,7 +734,7 @@ public class Board extends JPanel {
      * 1 = Treffer
      * 2 = Schiff ist zerstört
      *
-     * @param ans
+     * @param ans the ans
      */
     public void writeinOut(int ans) {
         try {
@@ -582,6 +750,13 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Shoot boolean.
+     *
+     * @param row    the row
+     * @param column the column
+     * @return the boolean
+     */
     public boolean shoot(int row, int column) {
         //schauen ob der person gewonnen hat oder nicht
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
@@ -634,6 +809,9 @@ public class Board extends JPanel {
     }
 
 
+    /**
+     * Count health.
+     */
     public void countHealth() {
         for (Ship s : fleet) {
             allHealthPlayer += s.getHealth();
@@ -642,6 +820,11 @@ public class Board extends JPanel {
     }
 
 
+    /**
+     * Is game over boolean.
+     *
+     * @return the boolean
+     */
     public boolean isGameOver() {
         if (allHealthPlayer == 0 || allHealthEnemy == 0) {
             gameState = "Game Over";
@@ -650,6 +833,13 @@ public class Board extends JPanel {
         return false;
     }
 
+    /**
+     * Gets shootetship.
+     *
+     * @param row    the row
+     * @param column the column
+     * @return the shootetship
+     */
     public Ship getShootetship(int row, int column) {
         Ship shotetShip = null;
         for (Ship s : fleet) {
@@ -663,6 +853,11 @@ public class Board extends JPanel {
         return shotetShip;
     }
 
+    /**
+     * Gets pos ship.
+     *
+     * @return the pos ship
+     */
     public ArrayList<Field> getPosShip() {
         ArrayList<Field> fieldsShip = new ArrayList<>();
         for (Ship s : fleet) {
@@ -674,6 +869,12 @@ public class Board extends JPanel {
     }
 
 
+    /**
+     * Sets ship.
+     *
+     * @param e the e
+     * @return the ship
+     */
     public Ship setShip(ActionEvent e) {
         String[] coordinate = e.getActionCommand().split(",");
         int row = Integer.parseInt(coordinate[0]);
@@ -814,6 +1015,13 @@ public class Board extends JPanel {
         return null;
     }
 
+    /**
+     * Sets ship.
+     *
+     * @param row    the row
+     * @param column the column
+     * @return the ship
+     */
     public Ship setShip(int row, int column) {
         Random random = new Random();
         boolean hori = random.nextBoolean();
@@ -958,6 +1166,13 @@ public class Board extends JPanel {
         return null;
     }
 
+    /**
+     * Aiset ship ship.
+     *
+     * @param row    the row
+     * @param column the column
+     * @return the ship
+     */
     public Ship aisetShip(int row, int column) {
         Random random = new Random();
         boolean hori = random.nextBoolean();
@@ -1102,6 +1317,15 @@ public class Board extends JPanel {
         return null;
     }
 
+    /**
+     * Check board postion boolean.
+     *
+     * @param row        the row
+     * @param column     the column
+     * @param length     the length
+     * @param horizontal the horizontal
+     * @return the boolean
+     */
     public boolean checkBoardPostion(int row, int column, int length, boolean horizontal) {
         int diffRow = rows - (row + 1);
         int diffCol = columns - (column + 1);
@@ -1124,10 +1348,10 @@ public class Board extends JPanel {
      * Returns if Ship can be placed on this place.
      * <p>
      *
-     * @param row
-     * @param column
-     * @param length
-     * @param horizontal
+     * @param row        the row
+     * @param column     the column
+     * @param length     the length
+     * @param horizontal the horizontal
      * @return true or false
      */
     public boolean checkShipArea(int row, int column, int length, boolean horizontal) {
@@ -1247,8 +1471,8 @@ public class Board extends JPanel {
      * mark all field who we have a ship on it
      * <p>
      *
-     * @param row
-     * @param column
+     * @param row    the row
+     * @param column the column
      */
     public void makeMark(int row, int column) {
         button[row][column].setMark(true);
@@ -1281,46 +1505,101 @@ public class Board extends JPanel {
         super.paint(g);
     }
 
+    /**
+     * Is horizontal boolean.
+     *
+     * @return the boolean
+     */
     public boolean isHorizontal() {
         return horizontal;
     }
 
+    /**
+     * Sets horizontal.
+     *
+     * @param horizontal the horizontal
+     */
     public void setHorizontal(boolean horizontal) {
         this.horizontal = horizontal;
     }
 
+    /**
+     * Gets fleet.
+     *
+     * @return the fleet
+     */
     public ArrayList<Ship> getFleet() {
         return fleet;
     }
 
+    /**
+     * Makealarm.
+     */
     public void makealarm() {
         JOptionPane.showMessageDialog(this, "You should place all ships!", "Place Ship", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Get button field [ ] [ ].
+     *
+     * @return the field [ ] [ ]
+     */
     public Field[][] getButton() {
         return this.button;
     }
 
+    /**
+     * Gets .
+     *
+     * @param row     the row
+     * @param columns the columns
+     * @return the
+     */
     public Field getonebutton(int row, int columns) {
         return button[row][columns];
     }
 
+    /**
+     * Sets fleet.
+     *
+     * @param fleet the fleet
+     */
     public void setFleet(ArrayList<Ship> fleet) {
         this.fleet = fleet;
     }
 
+    /**
+     * Gets all health enemy.
+     *
+     * @return the all health enemy
+     */
     public int getAllHealthEnemy() {
         return allHealthEnemy;
     }
 
+    /**
+     * Gets all health player.
+     *
+     * @return the all health player
+     */
     public int getAllHealthPlayer() {
         return allHealthPlayer;
     }
 
+    /**
+     * Sets all health enemy.
+     *
+     * @param allHealthEnemy the all health enemy
+     */
     public void setAllHealthEnemy(int allHealthEnemy) {
         this.allHealthEnemy = allHealthEnemy;
     }
 
+    /**
+     * Sets all health player.
+     *
+     * @param allHealthPlayer the all health player
+     */
     public void setAllHealthPlayer(int allHealthPlayer) {
         this.allHealthPlayer = allHealthPlayer;
     }
@@ -1341,6 +1620,11 @@ public class Board extends JPanel {
                 '}';
     }
 
+    /**
+     * Multi enable btns.
+     *
+     * @param turn the turn
+     */
     public void multiEnableBtns(boolean turn) {
         for (int i = 0; i < button.length; i++) {
             for (int j = 0; j < button[i].length; j++) {
@@ -1349,6 +1633,11 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Gets used cord.
+     *
+     * @return the used cord
+     */
     public Map<Integer, int[]> getUsedCord() {
         return usedCord;
     }

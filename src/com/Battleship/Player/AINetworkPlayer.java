@@ -6,13 +6,24 @@ import com.Battleship.Model.Ship;
 
 import java.util.*;
 
+/**
+ * The type Ai network player.
+ */
 public class AINetworkPlayer extends AIPlayer{
 
 
+    /**
+     * Instantiates a new Ai network player.
+     */
     public AINetworkPlayer(){
         super();
     }
 
+    /**
+     * Aiset enemy ship boolean.
+     *
+     * @return the boolean
+     */
     public boolean aisetEnemyShip() {
         Random random = new Random();
 
@@ -47,6 +58,12 @@ public class AINetworkPlayer extends AIPlayer{
         }
     }
 
+    /**
+     * A ivs a inext shoot boolean.
+     *
+     * @param ans the ans
+     * @return the boolean
+     */
     public boolean AIvsAInextShoot(int ans) {
         if (ans == 1 || ans == 2) {
             isHit = true;
@@ -86,6 +103,9 @@ public class AINetworkPlayer extends AIPlayer{
         return isHit;
     }
 
+    /**
+     * A ishot analys.
+     */
     public void AIshotAnalys(){
         if (nextHit.size() == 0) {
             Random random = new Random();
@@ -115,6 +135,11 @@ public class AINetworkPlayer extends AIPlayer{
         }
     }
 
+    /**
+     * A ivs ai shot.
+     *
+     * @param player the player
+     */
     public void AIvsAIShot(Board player){
         if(nextRowShoot == 0 && nextColumnShoot == 0 ){
             addTousedCord(0, 0);

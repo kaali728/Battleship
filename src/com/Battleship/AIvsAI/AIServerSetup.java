@@ -18,31 +18,94 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * The type Ai server setup.
+ */
 public class AIServerSetup extends JPanel {
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Port.
+     */
     JTextField port;
+    /**
+     * The Port label.
+     */
     JLabel portLabel;
+    /**
+     * The Port number.
+     */
     Integer portNumber;
+    /**
+     * The Create server.
+     */
     JButton createServer;
+    /**
+     * The Size label.
+     */
     JLabel sizeLabel;
+    /**
+     * The Size.
+     */
     JSlider size;
+    /**
+     * The Fieldsize.
+     */
     int fieldsize;
 
+    /**
+     * The Back.
+     */
     JButton back;
 
 
+    /**
+     * The Carrier slider.
+     */
     JSlider carrierSlider;
+    /**
+     * The Carrier label.
+     */
     JLabel carrierLabel;
+    /**
+     * The Battleship slider.
+     */
     JSlider battleshipSlider;
+    /**
+     * The Battleship label.
+     */
     JLabel battleshipLabel;
+    /**
+     * The Destroyerslider.
+     */
     JSlider destroyerslider;
+    /**
+     * The Destroyer label.
+     */
     JLabel destroyerLabel;
+    /**
+     * The Submarineslider.
+     */
     JSlider submarineslider;
+    /**
+     * The Submarine label.
+     */
     JLabel submarineLabel;
 
+    /**
+     * The Vbox.
+     */
     Box vbox;
+    /**
+     * The Server player.
+     */
     Player serverPlayer;
 
+    /**
+     * The Ai player.
+     */
     AINetworkPlayer aiPlayer;
 
 
@@ -57,6 +120,11 @@ public class AIServerSetup extends JPanel {
     private int battleshipCounterMax;
 
 
+    /**
+     * Instantiates a new Ai server setup.
+     *
+     * @param mainPanel the main panel
+     */
     public AIServerSetup(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
         serverPlayer = mainPanel.getSingleplayer();
@@ -65,6 +133,9 @@ public class AIServerSetup extends JPanel {
         initLayout();
     }
 
+    /**
+     * Init var.
+     */
     public void initVar() {
         portLabel = new JLabel("Port");
         port = new JTextField(10);
@@ -128,6 +199,9 @@ public class AIServerSetup extends JPanel {
         });
     }
 
+    /**
+     * Init layout.
+     */
     public void initLayout() {
         setBackground(Color.white);
 
@@ -182,6 +256,11 @@ public class AIServerSetup extends JPanel {
 
     }
 
+    /**
+     * State changed.
+     *
+     * @param e the e
+     */
     public void stateChanged(ChangeEvent e) {
         if (e.getSource().equals(size)) {
             sizeLabel.setText("size= " + size.getValue());

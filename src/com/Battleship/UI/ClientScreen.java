@@ -11,24 +11,66 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * The type Client screen.
+ */
 public class ClientScreen extends JPanel {
     private static JButton button;
     private static JTextArea chat;
     private static JTextField chatInput;
     private static JScrollPane chatScroll;
+    /**
+     * The constant out.
+     */
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
+    /**
+     * The Fieldsize.
+     */
     public int fieldsize;
     private String ships;
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Postion board.
+     */
     Board postionBoard;
+    /**
+     * The Enemy board.
+     */
     Board enemyBoard;
+    /**
+     * The Vertical.
+     */
     JButton vertical;
+    /**
+     * The Game over.
+     */
     boolean gameOver = false;
 
 
+    /**
+     * The Carrier count.
+     */
+    int carrierCount, /**
+     * The Battleship count.
+     */
+    battleshipCount, /**
+     * The Submarine count.
+     */
+    submarineCount, /**
+     * The Destroyer count.
+     */
+    destroyerCount;
 
-    int carrierCount, battleshipCount, submarineCount, destroyerCount;
-
+    /**
+     * Instantiates a new Client screen.
+     *
+     * @param address   the address
+     * @param port      the port
+     * @param mainPanel the main panel
+     */
     ClientScreen(String address, Integer port, GamePanel mainPanel) {
         this.mainPanel = mainPanel;
         new SwingWorker() {
@@ -164,6 +206,9 @@ public class ClientScreen extends JPanel {
         }.execute();
     }
 
+    /**
+     * Init layout.
+     */
     public void initLayout() {
         System.out.println("LAYOUT" + carrierCount);
 

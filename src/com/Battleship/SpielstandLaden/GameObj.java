@@ -8,21 +8,60 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * The type Game obj.
+ */
 public class GameObj {
 
+    /**
+     * The Player button.
+     */
     public SaveField playerButton[][];
+    /**
+     * The Enemy button.
+     */
     public SaveField enemyButton[][];
 
+    /**
+     * The Player fleet.
+     */
     public ArrayList<SaveShip> playerFleet = new ArrayList<>();
+    /**
+     * The Enemy fleet.
+     */
     public ArrayList<SaveShip> enemyFleet = new ArrayList<>();
 
+    /**
+     * The Enemy health.
+     */
     public int EnemyHealth;
+    /**
+     * The Player health.
+     */
     public int PlayerHealth;
+    /**
+     * The Next hit.
+     */
     public Map<Integer, int[]> nextHit = new LinkedHashMap<>();
+    /**
+     * The Next hitnext.
+     */
     public Map<Integer, int[]> nextHitnext = new LinkedHashMap<>();
+    /**
+     * The Used cord.
+     */
     public Map<Integer, int[]> usedCord = new HashMap<>();
+    /**
+     * The Size.
+     */
     public int size;
 
+    /**
+     * Instantiates a new Game obj.
+     *
+     * @param playerBoard the player board
+     * @param enemyBoard  the enemy board
+     */
     public GameObj(Board playerBoard, Board enemyBoard){
         this.size = playerBoard.getButton().length;
         playerButton = new SaveField[size][size];
@@ -45,6 +84,12 @@ public class GameObj {
     }
 
 
+    /**
+     * Set saved field.
+     *
+     * @param button the button
+     * @param who    the who
+     */
     public void setSavedField(Field[][] button, int who){
             for (int i = 0; i <button.length ; i++) {
                 for (int j = 0; j <button[i].length ; j++) {

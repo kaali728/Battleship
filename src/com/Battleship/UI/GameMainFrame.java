@@ -9,11 +9,20 @@ import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * The type Game main frame.
+ */
 public class GameMainFrame extends JFrame {
+    /**
+     * Instantiates a new Game main frame.
+     */
     public GameMainFrame() {
         init();
     }
 
+    /**
+     * Init.
+     */
     public void init() {
         add(new GamePanel());
         setTitle(Constants.TITLE);
