@@ -36,12 +36,14 @@ public class GameLoad {
      */
     public GameObj readFile(String path) {
         if(client){
-            File file = new File("savedGames/"+fileName);
+            path = String.valueOf(javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory());
+            File file = new File(path+"/"+ fileName);
             try {
                 FileReader fr = new FileReader(file);
                 String filenamewith = file.getName();
                 fileName = filenamewith.replace(".json", "");
                 loadedGame = gson.fromJson(fr, GameObj.class);
+                return loadedGame;
             } catch (Exception e) {
                 e.printStackTrace();
             }

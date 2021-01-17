@@ -51,40 +51,34 @@ public class SpeichernUnterClass  extends JFrame {
      */
     public boolean saveAs(String path) {
         JFileChooser choosePath;
-        if (path == null) {
-            path =  "savedGames/";
-                    //System.getProperty("user.home");
-                    //System.getProperty("user.dir");
-                    //getClass().getClassLoader().getResource(".").getPath();
+        if (path == null ) {
+            path =  System.getProperty("user.dir");
+        }
+        int result = 0;
+
+            choosePath = new JFileChooser(path);
+            choosePath.setDialogType(JFileChooser.SAVE_DIALOG);
+            choosePath.removeChoosableFileFilter(choosePath.getAcceptAllFileFilter());
+        if(!multiplayer){
+            result = choosePath.showSaveDialog(this);
         }
 
-        choosePath = new JFileChooser(path);
-        choosePath.setDialogType(JFileChooser.SAVE_DIALOG);
-        //FileNameExtensionFilter plainFilter = new FileNameExtensionFilter("txt", "txt");
-        choosePath.removeChoosableFileFilter(choosePath.getAcceptAllFileFilter());
-        //choosePath.setFileFilter(plainFilter);
 
-        int result = choosePath.showSaveDialog(this);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
+        if (result == JFileChooser.APPROVE_OPTION || multiplayer) {
             try {
-                if(client){
-                 path = "savedGames/";
+                if(client && multiplayer){
+                    if(client){
+                      path =  String.valueOf(javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory());
+                    }else{
+                        path = System.getProperty("user.dir");
+                    }
                 }else {
                     path = choosePath.getSelectedFile().toString();
                 }
                 Map<String, Object> map = new HashMap<>();
                 map.put("Player", this.player);
                 Field enemybutton[][] = enemy.getButton();
-                //System.out.println(enemy.getFleet());
-//                for (int i = 0; i <enemybutton.length ; i++) {
-//                    for (int j = 0; j <enemybutton[i].length ; j++) {
-//                        System.out.println(enemybutton[i][j]);
-//                    }
-//                }
-                //map.put("Fleet", this.fleet);
-                //map.put("Enemy", this.enemy);
-                //System.out.println("läuft");
+
                 Writer writer;
                 if(defaultname == 0){
                     writer= Files.newBufferedWriter(Paths.get(path+".json"));

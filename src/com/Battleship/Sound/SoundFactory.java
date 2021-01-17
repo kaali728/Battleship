@@ -53,6 +53,12 @@ public class SoundFactory {
     public void play(URL Sound) {
         try {
             clip = AudioSystem.getClip();
+/*<<<<<<< HEAD
+            // Buffer fuer mark / reset Unterstützung
+            InputStream bufferedIn = new BufferedInputStream(Sound);
+            System.out.println(sound);
+            clip.open(AudioSystem.getAudioInputStream(bufferedIn));
+=======*/
             clip.open(AudioSystem.getAudioInputStream(Sound));
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
