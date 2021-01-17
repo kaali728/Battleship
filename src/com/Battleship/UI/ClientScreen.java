@@ -108,7 +108,8 @@ public class ClientScreen extends JPanel {
                     if(str.contains("S: load")){
                         System.out.println(str);
                         int ut = Integer.parseInt(str.split(" ")[2]);
-                        load.setFileName(ut+".json");
+                        //umunterscheidung zwischen client und server datei(wenn auf der gleiche computer gespielt wird, wird dann überschrieben) deswegen "-c"
+                        load.setFileName(ut+"-c.json");
                         load.setClient(true);
                         GameObj spielStand = load.readFile(null);
                         if (spielStand != null) {
@@ -126,6 +127,7 @@ public class ClientScreen extends JPanel {
                                 enemyBoard = new Board(fieldsize, "battle", out,true);
                                 enemyBoard.setMyShipMultiPlayerLoad(enbt);
                                 enemyBoard.setUsedCord(spielStand.usedCord);
+                                enemyBoard.multiEnableBtns(false);
                             });
 
                         }
@@ -387,7 +389,9 @@ public class ClientScreen extends JPanel {
                             // enemy Spielbrett
                             mainPanel.setGameState("battle");
                             enemyBoard.setVisible(true);
-                            vertical.setVisible(false);
+                            if(!loadedGame){
+                                vertical.setVisible(false);
+                            }
                         } catch (IOException ex) {
                             System.out.println("write to socket failed");
                         }
