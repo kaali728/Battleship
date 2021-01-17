@@ -1,9 +1,11 @@
 package com.Battleship.Sound;
 
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import java.io.*;
+import java.net.URL;
 
 /**
  * The type Sound factory.
@@ -12,7 +14,7 @@ public class SoundFactory {
     /**
      * The constant sound.
      */
-    public static InputStream sound;
+    public static URL sound;
     /**
      * The constant value.
      */
@@ -27,7 +29,7 @@ public class SoundFactory {
     /**
      * Instantiates a new Sound factory.
      */
-    public SoundFactory(){
+    public SoundFactory() {
         value = -15f;
     }
 
@@ -36,9 +38,9 @@ public class SoundFactory {
      *
      * @param s the s
      */
-    public void load(Sound s){
+    public void load(Sound s) {
         if (s == Sound.MAINSOUND) {
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("sounds/Karibik.wav");
+            URL inputStream = getClass().getClassLoader().getResource("sounds/Karibik.wav");
             sound = inputStream;
         }
     }
@@ -48,13 +50,16 @@ public class SoundFactory {
      *
      * @param Sound the sound
      */
-    public void play(InputStream Sound){
+    public void play(URL Sound) {
         try {
             clip = AudioSystem.getClip();
+/*<<<<<<< HEAD
             // Buffer fuer mark / reset Unterstützung
             InputStream bufferedIn = new BufferedInputStream(Sound);
             System.out.println(sound);
             clip.open(AudioSystem.getAudioInputStream(bufferedIn));
+=======*/
+            clip.open(AudioSystem.getAudioInputStream(Sound));
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(value);
@@ -67,7 +72,7 @@ public class SoundFactory {
     /**
      * Stop.
      */
-    public void stop(){
+    public void stop() {
         clip.stop();
     }
 

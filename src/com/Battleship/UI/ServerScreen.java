@@ -332,23 +332,6 @@ public class ServerScreen extends JPanel {
                     }catch (Exception es){
                         System.out.println("write to socket failed by S:load " + es);
                     }
-
-//                    GameObj spielStand = load.readFile(null);
-//                    if(spielStand != null){
-//                        Field bt[][] = convertSaveField(spielStand.playerButton);
-//                        Field enbt[][] = convertSaveField(spielStand.enemyButton);
-//                        ArrayList<Ship> playerFleet = convertSaveShip(spielStand.playerFleet, bt);
-//                        ArrayList<Ship> enemyFleet = convertSaveShip(spielStand.enemyFleet, enbt);
-//                        this.mainPanel.getSingleplayer().setFieldsize(spielStand.size);
-//                        this.mainPanel.getEnemyPlayer().setFieldsize(spielStand.size);
-//                        this.mainPanel.getSingleplayer().setFleet(playerFleet);
-//                        postionBoard.setMyShip(bt);
-//                        enemyBoard.setMyShip(enbt);
-//                        this.mainPanel.setLoadedPlayerHealth(spielStand.PlayerHealth);
-//                        this.mainPanel.setLoadedEnemyHealth(spielStand.EnemyHealth);
-//                        this.mainPanel.changeScreen("battle");
-//                    }
-                    //change screen to battle
                 }
         );
 
@@ -378,7 +361,6 @@ public class ServerScreen extends JPanel {
 
         setBackground(Color.white);
         add(saveButton);
-        add(spielstandLaden);
         add(button);
         add(vertical);
         // Board
