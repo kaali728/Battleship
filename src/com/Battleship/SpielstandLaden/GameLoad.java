@@ -36,12 +36,13 @@ public class GameLoad {
      */
     public GameObj readFile(String path) {
         if(client){
-            path = String.valueOf(javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory());
+            path =System.getProperty("user.dir");
             File file = new File(path+"/"+ fileName);
             try {
                 FileReader fr = new FileReader(file);
                 String filenamewith = file.getName();
-                fileName = filenamewith.replace(".json", "");
+                //umunterscheidung zwischen client und server datei(wenn auf der gleiche computer gespielt wird, wird dann überschrieben) deswegen "-c"
+                fileName = filenamewith.replace("-c.json", "");
                 loadedGame = gson.fromJson(fr, GameObj.class);
                 return loadedGame;
             } catch (Exception e) {
@@ -49,7 +50,7 @@ public class GameLoad {
             }
         }else {
             if (path == null) {
-                path = "savedGames/";
+                path = System.getProperty("user.dir");
                 //String.valueOf(javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory());
 
                 //System.getProperty("user.home.Desktop");
@@ -70,7 +71,9 @@ public class GameLoad {
 
                     FileReader fr = new FileReader(file);
                     String filenamewith = file.getName();
-                    fileName = filenamewith.replace(".json", "");
+                    //umunterscheidung zwischen client und server datei(wenn auf der gleiche computer gespielt wird, wird dann überschrieben) deswegen "-s"
+                    fileName = filenamewith.replace("-s.json", "");
+                    System.out.println(fileName);
 
                     loadedGame = gson.fromJson(fr, GameObj.class);
                     //System.out.println(loadedGame.size);

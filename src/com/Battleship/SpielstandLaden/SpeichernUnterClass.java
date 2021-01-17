@@ -66,13 +66,10 @@ public class SpeichernUnterClass  extends JFrame {
 
         if (result == JFileChooser.APPROVE_OPTION || multiplayer) {
             try {
-                if(client && multiplayer){
-                    if(client){
-                      path =  String.valueOf(javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory());
-                    }else{
-                        path = System.getProperty("user.dir");
-                    }
+                if(client || multiplayer){
+                    path = System.getProperty("user.dir");
                 }else {
+                    System.out.println("ich bin hier");
                     path = choosePath.getSelectedFile().toString();
                 }
                 Map<String, Object> map = new HashMap<>();
@@ -84,9 +81,11 @@ public class SpeichernUnterClass  extends JFrame {
                     writer= Files.newBufferedWriter(Paths.get(path+".json"));
                 }else {
                     if(client){
-                        writer = Files.newBufferedWriter(Paths.get(path+"/"+defaultname+".json"));
+                        //umunterscheidung zwischen client und server datei(wenn auf der gleiche computer gespielt wird, wird dann überschrieben) deswegen "-c"
+                        writer = Files.newBufferedWriter(Paths.get(path+"/"+defaultname+"-c"+".json"));
                     }else{
-                        writer = Files.newBufferedWriter(Paths.get(defaultname+".json"));
+                        //umunterscheidung zwischen client und server datei(wenn auf der gleiche computer gespielt wird, wird dann überschrieben) deswegen "-s"
+                        writer = Files.newBufferedWriter(Paths.get(path+"/"+defaultname+"-s"+".json"));
                     }
                 }
 
