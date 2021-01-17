@@ -53,6 +53,7 @@ public class SoundFactory {
             clip = AudioSystem.getClip();
             // Buffer fuer mark / reset Unterstützung
             InputStream bufferedIn = new BufferedInputStream(Sound);
+            System.out.println(sound);
             clip.open(AudioSystem.getAudioInputStream(bufferedIn));
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
