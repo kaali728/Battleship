@@ -9,7 +9,15 @@ import javax.swing.plaf.multi.MultiPanelUI;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * The type Game.
+ */
 public class Game {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(GameMainFrame::new);
     }

@@ -9,13 +9,31 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+/**
+ * The type Game load.
+ */
 public class GameLoad {
+    /**
+     * The Player.
+     */
     Border player = null;
+    /**
+     * The Loaded game.
+     */
     GameObj loadedGame;
+    /**
+     * The Gson.
+     */
     Gson gson = new Gson();
     private String fileName;
     private boolean client = false;
 
+    /**
+     * Read file game obj.
+     *
+     * @param path the path
+     * @return the game obj
+     */
     public GameObj readFile(String path) {
         if(client){
             File file = new File("savedGames/"+fileName);

@@ -9,20 +9,46 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * The type Ship setup screen.
+ */
 public class ShipSetupScreen extends Panel {
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Back.
+     */
     JButton back;
+    /**
+     * The Vertical.
+     */
     JButton vertical;
+    /**
+     * The Postion board.
+     */
     Board postionBoard;
+    /**
+     * The Play.
+     */
     JButton play;
 
 
+    /**
+     * Instantiates a new Ship setup screen.
+     *
+     * @param mainPanel the main panel
+     */
     ShipSetupScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
         initvar();
         initlayout();
     }
 
+    /**
+     * Initvar.
+     */
     public void initvar() {
         back = new JButton("Back");
         vertical = new JButton("vertical");
@@ -76,6 +102,9 @@ public class ShipSetupScreen extends Panel {
         });
     }
 
+    /**
+     * Initlayout.
+     */
     public void initlayout() {
         Box hbox = Box.createHorizontalBox();
         {

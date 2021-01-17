@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Speichern unter class.
+ */
 public class SpeichernUnterClass  extends JFrame {
 
     //kommt variable die von der spiel brett kommen
@@ -29,11 +32,23 @@ public class SpeichernUnterClass  extends JFrame {
     private boolean client = false;
 
 
+    /**
+     * Instantiates a new Speichern unter class.
+     *
+     * @param playerBoard the player board
+     * @param enemyBoard  the enemy board
+     */
     public SpeichernUnterClass(Board playerBoard, Board enemyBoard) {
         this.player = playerBoard;
         this.enemy = enemyBoard;
     }
 
+    /**
+     * Save as boolean.
+     *
+     * @param path the path
+     * @return the boolean
+     */
     public boolean saveAs(String path) {
         JFileChooser choosePath;
         if (path == null) {

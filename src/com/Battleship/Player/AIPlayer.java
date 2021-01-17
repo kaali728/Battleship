@@ -6,155 +6,294 @@ import com.Battleship.Model.Ship;
 
 import java.util.*;
 
+/**
+ * The type Ai player.
+ */
 public class AIPlayer {
+    /**
+     * The Is hit.
+     */
     public boolean isHit = false;
+    /**
+     * The Next row shoot.
+     */
     public int nextRowShoot;
+    /**
+     * The Next column shoot.
+     */
     public int nextColumnShoot;
+    /**
+     * The Gametrun.
+     */
     public boolean gametrun = false;
+    /**
+     * The Fieldsize.
+     */
     public int fieldsize;
+    /**
+     * The Fleet.
+     */
     public ArrayList<Ship> fleet = new ArrayList<>();
+    /**
+     * The Next hit.
+     */
     public Map<Integer, int[]> nextHit = new LinkedHashMap<>();
+    /**
+     * The Next hitnext.
+     */
     public Map<Integer, int[]> nextHitnext = new LinkedHashMap<>();
+    /**
+     * The Used cord.
+     */
     public Map<Integer, int[]> usedCord = new HashMap<>();
+    public Map<Integer, int[]> tousedCord = new HashMap<>();
 
+    /**
+     * The Enemy board.
+     */
     public Board enemyBoard;
+    /**
+     * The Player board.
+     */
     public Board playerBoard;
 
+    /**
+     * The Sunked ship.
+     */
     public boolean sunkedShip = false;
 
+    /**
+     * Instantiates a new Ai player.
+     */
     public AIPlayer() {
         fieldsize = 0;
     }
 
     private Field isMarked;
 
+    /**
+     * Sets fieldsize.
+     *
+     * @param fieldsize the fieldsize
+     */
     public void setFieldsize(int fieldsize) {
         this.fieldsize = fieldsize;
     }
 
+    /**
+     * Gets fieldsize.
+     *
+     * @return the fieldsize
+     */
     public int getFieldsize() {
         return fieldsize;
     }
 
+    /**
+     * Gets fleet.
+     *
+     * @return the fleet
+     */
     public ArrayList<Ship> getFleet() {
         return fleet;
     }
 
+    /**
+     * Sets fleet.
+     *
+     * @param fleet the fleet
+     */
     public void setFleet(ArrayList<Ship> fleet) {
         this.fleet = fleet;
     }
 
+    /**
+     * Gets enemy board.
+     *
+     * @return the enemy board
+     */
     public Board getEnemyBoard() {
         return enemyBoard;
     }
 
+    /**
+     * Sets used cord.
+     *
+     * @param usedCord the used cord
+     */
     public void setUsedCord(Map<Integer, int[]> usedCord) {
         this.usedCord = usedCord;
     }
 
+    /**
+     * Gets used cord.
+     *
+     * @return the used cord
+     */
     public Map<Integer, int[]> getUsedCord() {
         return usedCord;
     }
 
+    /**
+     * Sets next hit.
+     *
+     * @param nextHit the next hit
+     */
     public void setNextHit(Map<Integer, int[]> nextHit) {
         this.nextHit = nextHit;
     }
 
+    /**
+     * Gets next hit.
+     *
+     * @return the next hit
+     */
     public Map<Integer, int[]> getNextHit() {
         return nextHit;
     }
 
+    /**
+     * Sets next hitnext.
+     *
+     * @param nextHitnext the next hitnext
+     */
     public void setNextHitnext(Map<Integer, int[]> nextHitnext) {
         this.nextHitnext = nextHitnext;
     }
 
+    /**
+     * Gets next hitnext.
+     *
+     * @return the next hitnext
+     */
     public Map<Integer, int[]> getNextHitnext() {
         return nextHitnext;
     }
 
+    /**
+     * Sets enemy board.
+     *
+     * @param enemyBoard the enemy board
+     */
     public void setEnemyBoard(Board enemyBoard) {
         this.enemyBoard = enemyBoard;
     }
 
+    /**
+     * Gets player board.
+     *
+     * @return the player board
+     */
     public Board getPlayerBoard() {
         return playerBoard;
     }
 
+    /**
+     * Sets enemy ship.
+     *
+     * @return the enemy ship
+     */
     public boolean setEnemyShip() {
         Random random = new Random();
-
-        if(fieldsize <= 7){
-            if(fieldsize == 5){
-                boolean carrship = false;
-                boolean battship = false;
-                boolean subship = false;
-                boolean destroship = false;
-                for (Ship s: fleet) {
-                    if(s.getHealth() == 5){
+        int carrshipCount = 0;
+        int battshipCount = 0;
+        int subshipCount = 0;
+        int destroshipCount = 0;
+        for (Ship s: fleet) {
+            if(s.getHealth() == 5){
+                carrshipCount++;
+            }
+            if(s.getHealth() == 4){
+                battshipCount++;
+            }
+            if(s.getHealth() == 3){
+                subshipCount++;
+            }
+            if(s.getHealth() == 2){
+                destroshipCount++;
+            }
+        }
+        if(fieldsize == 5 && (carrshipCount==0 && battshipCount==1 && subshipCount==1 && destroshipCount==1 ||
+                carrshipCount==1 && battshipCount==0 && subshipCount==1 && destroshipCount==1 || carrshipCount==1 && battshipCount==1 && subshipCount==0 && destroshipCount==1 ||
+                carrshipCount==1 && battshipCount==1 && subshipCount==1 && destroshipCount==0)){
+            boolean carrship = false;
+            boolean battship = false;
+            boolean subship = false;
+            boolean destroship = false;
+            for (Ship s: fleet) {
+                if(s.getHealth() == 5){
+                    enemyBoard.setShip(0,0);
+                    carrship = true;
+                }
+                if(s.getHealth() == 4){
+                    if(carrship){
+                        enemyBoard.setShip(2,0);
+                        battship = true;
+                    }else{
                         enemyBoard.setShip(0,0);
-                        carrship = true;
-                    }
-                    if(s.getHealth() == 4){
-                        if(carrship){
-                            enemyBoard.setShip(2,0);
-                            battship = true;
-                        }else{
-                            enemyBoard.setShip(0,0);
-                        }
-
-                    }
-                    if(s.getHealth() == 3){
-                        if(battship){
-                            enemyBoard.setShip(4,0);
-                            subship = true;
-                        }else{
-                            enemyBoard.setShip(2,0);
-                        }
-
-                    }
-                    if(s.getHealth() == 2){
-                        if(subship){
-                            enemyBoard.setShip(4,3);
-                            destroship = true;
-                        }else{
-                            enemyBoard.setShip(4,0);
-                        }
-
                     }
                 }
-            }else{
-                for (Ship s: fleet) {
-                    if(s.getHealth() == 5){
-                        enemyBoard.setShip(0,0);
-                    }
-                    if(s.getHealth() == 4){
+                if(s.getHealth() == 3){
+                    if(battship){
+                        enemyBoard.setShip(4,0);
+                        subship = true;
+                    }else{
                         enemyBoard.setShip(2,0);
                     }
-                    if(s.getHealth() == 3){
-                        enemyBoard.setShip(4,0);
-                    }
-                    if(s.getHealth() == 2){
-                        enemyBoard.setShip(5,4);
-                    }
+
                 }
-            }
-        }else{
-            for (Ship s : fleet) {
-                while (true) {
-                    int row = random.nextInt(fieldsize - 1);
-                    int column = random.nextInt(fieldsize - 1);
-                    Ship shipret = enemyBoard.setShip(row, column);
-                    if (shipret != null) {
-                        break;
+                if(s.getHealth() == 2){
+                    if(subship){
+                        enemyBoard.setShip(4,3);
+                        destroship = true;
+                    }else{
+                        enemyBoard.setShip(4,0);
                     }
                 }
             }
             return true;
         }
-        return false;
+        if((fieldsize == 7 || fieldsize == 6) && carrshipCount==1 && battshipCount==1 && subshipCount==1 && destroshipCount==1) {
+            for (Ship s : fleet) {
+                if (s.getHealth() == 5) {
+                    enemyBoard.setShip(0, 0);
+                }
+                if (s.getHealth() == 4) {
+                    enemyBoard.setShip(2, 0);
+                }
+                if (s.getHealth() == 3) {
+                    enemyBoard.setShip(4, 0);
+                }
+                if (s.getHealth() == 2) {
+                    enemyBoard.setShip(5, 4);
+                }
+            }
+            return true;
+        }else{
+            for (Ship s : fleet) {
+                while (true) {
+                    int row = random.nextInt(fieldsize - 1);
+                    int column = random.nextInt(fieldsize - 1);
+                    if (!isUsedCordforSet(row, column)) {
+                        UsedcordforSet(row, column);
+                        Ship shipret = enemyBoard.setShip(row, column);
+                        if (shipret != null) {
+                            break;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
     }
 
 
+    /**
+     * Enemyshoot boolean.
+     *
+     * @param player the player
+     * @return the boolean
+     */
     public boolean Enemyshoot(Board player) {
         this.playerBoard = player;
         if(!player.isGameOver()){
@@ -227,15 +366,40 @@ public class AIPlayer {
 //        }
 //    }
 
+    public void UsedcordforSet(int row, int column) {
+        int[] entry = {row, column};
+        tousedCord.put(hashCode(row, column), entry);
+    }
 
+    public boolean isUsedCordforSet(int row, int column) {
+        for (Map.Entry<Integer, int[]> entry : tousedCord.entrySet()) {
+            int[] value = entry.getValue();
+            if (value[0] == row && value[1] == column) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-
+    /**
+     * Add toused cord.
+     *
+     * @param row    the row
+     * @param column the column
+     */
     public void addTousedCord(int row, int column) {
         int[] entry = {row, column};
         usedCord.put(hashCode(row, column), entry);
     }
 
 
+    /**
+     * Is used cord boolean.
+     *
+     * @param row    the row
+     * @param column the column
+     * @return the boolean
+     */
     public boolean isUsedCord(int row, int column) {
         for (Map.Entry<Integer, int[]> entry : usedCord.entrySet()) {
             Integer key = entry.getKey();
@@ -247,10 +411,24 @@ public class AIPlayer {
         return false;
     }
 
+    /**
+     * Hash code int.
+     *
+     * @param x the x
+     * @param y the y
+     * @return the int
+     */
     public int hashCode(int x, int y) {
         return x * 31 + y;
     }
 
+    /**
+     * Hit ship behind.
+     *
+     * @param row    the row
+     * @param column the column
+     * @param next   the next
+     */
     public void hitShipBehind(int row, int column, boolean next) {
         boolean hitH = next;
         boolean hitV = !next;
@@ -294,6 +472,12 @@ public class AIPlayer {
         }
     }
 
+    /**
+     * Hit ship behind.
+     *
+     * @param row    the row
+     * @param column the column
+     */
     public void hitShipBehind(int row, int column) {
         if (column + 1 <= fieldsize - 1) {
             int[] cord = {row, column + 1};
@@ -330,6 +514,14 @@ public class AIPlayer {
         }
     }
 
+    /**
+     * Hori boolean.
+     *
+     * @param row    the row
+     * @param column the column
+     * @param hori   the hori
+     * @return the boolean
+     */
     public boolean hori(int row, int column, boolean hori) {
         if (hori) {
             int[] c = {row + 1, column};
@@ -343,6 +535,14 @@ public class AIPlayer {
         return false;
     }
 
+    /**
+     * Vert boolean.
+     *
+     * @param row    the row
+     * @param column the column
+     * @param verti  the verti
+     * @return the boolean
+     */
     public boolean vert(int row, int column, boolean verti) {
         if (verti) {
             int[] c = {row, column + 1};
@@ -356,20 +556,42 @@ public class AIPlayer {
         return false;
     }
 
+    /**
+     * Sunked ship.
+     */
     public void sunkedShip(){
         sunkedShip = true;
     }
+
+    /**
+     * Not sunked.
+     */
     public void notSunked(){
         sunkedShip =false;
     }
+
+    /**
+     * End game.
+     */
     public void endGame() {
         usedCord.clear();
+        tousedCord.clear();
     }
 
+    /**
+     * Gets next column shoot.
+     *
+     * @return the next column shoot
+     */
     public int getNextColumnShoot() {
         return nextColumnShoot;
     }
 
+    /**
+     * Gets next row shoot.
+     *
+     * @return the next row shoot
+     */
     public int getNextRowShoot() {
         return nextRowShoot;
     }

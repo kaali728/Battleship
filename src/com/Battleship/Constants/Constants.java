@@ -1,13 +1,20 @@
 package com.Battleship.Constants;
 
+/**
+ * The type Constants.
+ */
 public class Constants {
 
+    /**
+     * The constant TITLE.
+     */
     public static final String TITLE = "Battleship";
+    /**
+     * The constant WIDTH.
+     */
     public static final int WIDTH = 1500;
-    public static final int HEIGHT = 800;
-
-    public static final String ICON = "assets/images/battleshipicon.png";
-    public static final String BACKGROUND = "assets/images/background.JPG";
-    public static final String SHIP = "assets/images/ship.png";
-
+    /**
+     * The constant HEIGHT.
+     */
+    public static final int HEIGHT = 850;
 }

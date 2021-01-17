@@ -6,46 +6,97 @@ import com.Battleship.Model.Ship;
 
 import java.util.*;
 
+/**
+ * The type Ai network player.
+ */
 public class AINetworkPlayer extends AIPlayer{
 
 
+    /**
+     * Instantiates a new Ai network player.
+     */
     public AINetworkPlayer(){
         super();
     }
 
+    /**
+     * Aiset enemy ship boolean.
+     *
+     * @return the boolean
+     */
     public boolean aisetEnemyShip() {
         Random random = new Random();
-
-        if(fieldsize <= 7){
-            if(fieldsize == 5){
-                for (Ship s: fleet) {
-                    if(s.getHealth() == 5){
-                        enemyBoard.aisetShip(0,0);
-                    }
-                    if(s.getHealth() == 4){
-                        enemyBoard.aisetShip(2,0);
-                    }
-                    if(s.getHealth() == 3){
-                        enemyBoard.aisetShip(4,0);
-                    }
-                    if(s.getHealth() == 2){
-                        enemyBoard.aisetShip(5,4);
+        int carrshipCount = 0;
+        int battshipCount = 0;
+        int subshipCount = 0;
+        int destroshipCount = 0;
+        for (Ship s: fleet) {
+            if(s.getHealth() == 5){
+                carrshipCount++;
+            }
+            if(s.getHealth() == 4){
+                battshipCount++;
+            }
+            if(s.getHealth() == 3){
+                subshipCount++;
+            }
+            if(s.getHealth() == 2){
+                destroshipCount++;
+            }
+        }
+        if(fieldsize == 5 && (carrshipCount==0 && battshipCount==1 && subshipCount==1 && destroshipCount==1 ||
+                carrshipCount==1 && battshipCount==0 && subshipCount==1 && destroshipCount==1 || carrshipCount==1 && battshipCount==1 && subshipCount==0 && destroshipCount==1 ||
+                carrshipCount==1 && battshipCount==1 && subshipCount==1 && destroshipCount==0)){
+            boolean carrship = false;
+            boolean battship = false;
+            boolean subship = false;
+            boolean destroship = false;
+            for (Ship s: fleet) {
+                if(s.getHealth() == 5){
+                    enemyBoard.setShip(0,0);
+                    carrship = true;
+                }
+                if(s.getHealth() == 4){
+                    if(carrship){
+                        enemyBoard.setShip(2,0);
+                        battship = true;
+                    }else{
+                        enemyBoard.setShip(0,0);
                     }
                 }
-            }else{
-                for (Ship s: fleet) {
-                    if(s.getHealth() == 5){
-                        enemyBoard.aisetShip(0,0);
+                if(s.getHealth() == 3){
+                    if(battship){
+                        enemyBoard.setShip(4,0);
+                        subship = true;
+                    }else{
+                        enemyBoard.setShip(2,0);
                     }
-                    if(s.getHealth() == 4){
-                        enemyBoard.aisetShip(2,0);
+
+                }
+                if(s.getHealth() == 2){
+                    if(subship){
+                        enemyBoard.setShip(4,3);
+                        destroship = true;
+                    }else{
+                        enemyBoard.setShip(4,0);
                     }
-                    if(s.getHealth() == 3){
-                        enemyBoard.aisetShip(4,0);
-                    }
-                    if(s.getHealth() == 2){
-                        enemyBoard.aisetShip(5,4);
-                    }
+                }
+            }
+            return true;
+        }
+        if((fieldsize == 7 || fieldsize == 6) && carrshipCount==1 && battshipCount==1 && subshipCount==1 && destroshipCount==1) {
+            for (Ship s : fleet) {
+                if (s.getHealth() == 5) {
+                    enemyBoard.setShip(0, 0);
+                }
+                if (s.getHealth() == 4) {
+                    enemyBoard.setShip(2, 0);
+                }
+                if (s.getHealth() == 3) {
+                    enemyBoard.setShip(4, 0);
+                }
+                if (s.getHealth() == 2) {
+                    enemyBoard.setShip(5, 4);
                 }
             }
 
@@ -55,9 +106,12 @@ public class AINetworkPlayer extends AIPlayer{
                 while (true) {
                     int row = random.nextInt(fieldsize - 1);
                     int column = random.nextInt(fieldsize - 1);
-                    Ship shipret = enemyBoard.aisetShip(row, column);
-                    if (shipret != null) {
-                        break;
+                    if (!isUsedCordforSet(row, column)) {
+                        UsedcordforSet(row, column);
+                        Ship shipret = enemyBoard.setShip(row, column);
+                        if (shipret != null) {
+                            break;
+                        }
                     }
                 }
             }
@@ -65,6 +119,12 @@ public class AINetworkPlayer extends AIPlayer{
         }
     }
 
+    /**
+     * A ivs a inext shoot boolean.
+     *
+     * @param ans the ans
+     * @return the boolean
+     */
     public boolean AIvsAInextShoot(int ans) {
         if (ans == 1 || ans == 2) {
             isHit = true;
@@ -104,6 +164,9 @@ public class AINetworkPlayer extends AIPlayer{
         return isHit;
     }
 
+    /**
+     * A ishot analys.
+     */
     public void AIshotAnalys(){
         if (nextHit.size() == 0) {
             Random random = new Random();
@@ -133,6 +196,11 @@ public class AINetworkPlayer extends AIPlayer{
         }
     }
 
+    /**
+     * A ivs ai shot.
+     *
+     * @param player the player
+     */
     public void AIvsAIShot(Board player){
         if(nextRowShoot == 0 && nextColumnShoot == 0 ){
             addTousedCord(0, 0);

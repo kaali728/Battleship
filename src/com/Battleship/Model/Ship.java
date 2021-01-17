@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * The type Ship.
+ */
 public class Ship implements ActionListener {
     //carrier 5 ,battleship 4,submarine 3,destroyer  2
     private String shipModel;
@@ -25,6 +28,11 @@ public class Ship implements ActionListener {
     private boolean horizontal = true;
     private ArrayList<Field> shipBoard;
 
+    /**
+     * Instantiates a new Ship.
+     *
+     * @param model the model
+     */
     public Ship(String model){
         this.whosship = 0;
         this.shipBoard = new ArrayList<>();
@@ -59,28 +67,57 @@ public class Ship implements ActionListener {
     }
 
 
+    /**
+     * Sets horizontal.
+     *
+     * @param horizontal the horizontal
+     */
     public void setHorizontal(boolean horizontal) {
         this.horizontal = horizontal;
     }
 
+    /**
+     * Set row column.
+     *
+     * @param row    the row
+     * @param column the column
+     */
     public void setRowColumn(int row, int column){
         this.row = row;
         this.column = column;
     }
 
+    /**
+     * Gets ship postion.
+     *
+     * @return the ship postion
+     */
     public int getShipPostion() {
         return shipPostion;
     }
 
+    /**
+     * Sets ship postion.
+     *
+     * @param shipPostion the ship postion
+     */
     public void setShipPostion(int shipPostion) {
         this.shipPostion = shipPostion;
     }
 
 
-
+    /**
+     * Shot.
+     */
     public void shot(){
         health--;
     }
+
+    /**
+     * Sunken boolean.
+     *
+     * @return the boolean
+     */
     public boolean sunken(){
         if(health == 0){
             sunken = true;
@@ -89,6 +126,11 @@ public class Ship implements ActionListener {
         return false;
     }
 
+    /**
+     * Get ship model string.
+     *
+     * @return the string
+     */
     public String getShipModel(){
         return this.shipModel;
     }
@@ -98,50 +140,110 @@ public class Ship implements ActionListener {
         System.out.println(shipModel + "ist geklickt");
     }
 
+    /**
+     * Gets row.
+     *
+     * @return the row
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * Sets row.
+     *
+     * @param row the row
+     */
     public void setRow(int row) {
         this.row = row;
     }
 
+    /**
+     * Gets column.
+     *
+     * @return the column
+     */
     public int getColumn() {
         return column;
     }
 
+    /**
+     * Sets column.
+     *
+     * @param column the column
+     */
     public void setColumn(int column) {
         this.column = column;
     }
 
+    /**
+     * Gets ship color.
+     *
+     * @return the ship color
+     */
     public Color getShipColor() {
         return shipColor;
     }
 
+    /**
+     * Gets shiplength.
+     *
+     * @return the shiplength
+     */
     public int getShiplength() {
         return shiplength;
     }
 
+    /**
+     * Sets shiplength.
+     *
+     * @param shiplength the shiplength
+     */
     public void setShiplength(int shiplength) {
         this.shiplength = shiplength;
     }
 
+    /**
+     * Get horizontal boolean.
+     *
+     * @return the boolean
+     */
     public boolean getHorizontal(){
         return this.horizontal;
     }
 
+    /**
+     * Gets ship board.
+     *
+     * @return the ship board
+     */
     public ArrayList<Field> getShipBoard() {
         return shipBoard;
     }
 
+    /**
+     * Sets ship board.
+     *
+     * @param shipBoard the ship board
+     */
     public void setShipBoard(ArrayList<Field> shipBoard) {
         this.shipBoard = shipBoard;
     }
 
+    /**
+     * Gets health.
+     *
+     * @return the health
+     */
     public int getHealth() {
         return health;
     }
 
+    /**
+     * Sets health.
+     *
+     * @param health the health
+     */
     public void setHealth(int health) {
         this.health = health;
     }

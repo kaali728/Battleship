@@ -1,8 +1,6 @@
 package com.Battleship.UI;
 
 import com.Battleship.Constants.Constants;
-import com.Battleship.Image.Image;
-import com.Battleship.Image.ImageFactory;
 import com.Battleship.Main.Game;
 import com.Battleship.Model.Field;
 import com.Battleship.Model.SaveField;
@@ -21,29 +19,62 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * The type Main screen.
+ */
 public class MainScreen extends JPanel {
+    /**
+     * The Singleplayer.
+     */
     JButton singleplayer;
+    /**
+     * The Multiplayer.
+     */
     JButton multiplayer;
+    /**
+     * The Ai v sai.
+     */
     JButton aiVSai;
+    /**
+     * The Spielstand laden.
+     */
     JButton spielstandLaden;
+    /**
+     * The Sound button.
+     */
     JButton soundButton;
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
     private SoundFactory sound;
+    /**
+     * The Start sound.
+     */
     boolean startSound = true;
     private ImageIcon background;
     private ImageIcon ship;
     private GameLoad load;
     private JLabel shiplabel;
 
+    /**
+     * Instantiates a new Main screen.
+     *
+     * @param gamePanel the game panel
+     */
     MainScreen(GamePanel gamePanel) {
         mainPanel = gamePanel;
         initVars();
         initLayout();
     }
 
+    /**
+     * Init vars.
+     */
     void initVars() {
         singleplayer = new JButton("Singleplayer");
         multiplayer = new JButton("Multiplayer");
@@ -56,15 +87,18 @@ public class MainScreen extends JPanel {
         load = new GameLoad();
 
         //this.background = ImageFactory.createImage(Image.BACKGROUND);
-        this.ship = ImageFactory.createImage(Image.SHIP);
+        this.ship = new ImageIcon(getClass().getClassLoader().getResource("images/ship.png"));
         shiplabel = new JLabel(ship);
-
     }
 
+    /**
+     * Init layout.
+     */
     void initLayout() {
         Font  titlefont  = null;
         try {
-            titlefont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/Fonts/Road_Rage.otf")).deriveFont(100f);
+            InputStream font = getClass().getClassLoader().getResourceAsStream("Fonts/Road_Rage.otf");
+            titlefont = Font.createFont(Font.TRUETYPE_FONT, font).deriveFont(100f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             //register the font
             ge.registerFont(titlefont);

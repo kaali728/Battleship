@@ -10,26 +10,67 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The type Battle screen.
+ */
 public class BattleScreen extends Panel implements ActionListener {
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The End game.
+     */
     JButton endGame;
+    /**
+     * The Save game.
+     */
     JButton saveGame;
+    /**
+     * The Player board.
+     */
     Board playerBoard;
+    /**
+     * The Enemy board.
+     */
     Board enemyBoard;
+    /**
+     * The Enemy label.
+     */
     JLabel enemyLabel;
+    /**
+     * The Player label.
+     */
     JLabel playerLabel;
+    /**
+     * The Sound button.
+     */
     JButton soundButton;
     private SoundFactory sound;
+    /**
+     * The Start sound.
+     */
     boolean startSound = true;
+    /**
+     * The Speicher.
+     */
     SpeichernUnterClass speicher;
     private GameObj save;
 
+    /**
+     * Instantiates a new Battle screen.
+     *
+     * @param mainPanel the main panel
+     */
     BattleScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
         initvar();
         initlayout();
     }
 
+    /**
+     * Initvar.
+     */
     public void initvar() {
         sound = mainPanel.getSound();
         soundButton = new JButton("Sound");
@@ -62,11 +103,10 @@ public class BattleScreen extends Panel implements ActionListener {
 
     }
 
+    /**
+     * Initlayout.
+     */
     public void initlayout() {
-        add(endGame);
-        add(saveGame);
-        add(soundButton);
-
         soundButton.addActionListener(this);
 
         Box hbox = Box.createHorizontalBox();
@@ -88,8 +128,23 @@ public class BattleScreen extends Panel implements ActionListener {
             hbox.add(Box.createHorizontalStrut(10));
 
         }
-        add(hbox);
 
+        Box buttons = Box.createHorizontalBox();
+        {
+            buttons.add(endGame);
+            buttons.add(Box.createHorizontalStrut(15));
+            buttons.add(saveGame);
+            buttons.add(Box.createHorizontalStrut(15));
+            buttons.add(soundButton);
+        }
+
+        Box vbox = Box.createVerticalBox();
+        {
+            vbox.add(buttons);
+            vbox.add(hbox);
+        }
+
+        add(vbox);
     }
 
 

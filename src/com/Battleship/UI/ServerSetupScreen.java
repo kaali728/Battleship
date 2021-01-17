@@ -12,31 +12,91 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * The type Server setup screen.
+ */
 public class ServerSetupScreen extends JPanel {
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Port.
+     */
     JTextField port;
+    /**
+     * The Port label.
+     */
     JLabel portLabel;
+    /**
+     * The Port number.
+     */
     Integer portNumber;
+    /**
+     * The Create server.
+     */
     JButton createServer;
+    /**
+     * The Size label.
+     */
     JLabel sizeLabel;
+    /**
+     * The Size.
+     */
     JSlider size;
+    /**
+     * The Fieldsize.
+     */
     int fieldsize;
 
+    /**
+     * The Back.
+     */
     JButton back;
     JButton loadGame;
     private GameLoad load;
     public JButton spielstandLaden;
 
+    /**
+     * The Carrier slider.
+     */
     JSlider carrierSlider;
+    /**
+     * The Carrier label.
+     */
     JLabel carrierLabel;
+    /**
+     * The Battleship slider.
+     */
     JSlider battleshipSlider;
+    /**
+     * The Battleship label.
+     */
     JLabel battleshipLabel;
+    /**
+     * The Destroyerslider.
+     */
     JSlider destroyerslider;
+    /**
+     * The Destroyer label.
+     */
     JLabel destroyerLabel;
+    /**
+     * The Submarineslider.
+     */
     JSlider submarineslider;
+    /**
+     * The Submarine label.
+     */
     JLabel submarineLabel;
 
+    /**
+     * The Vbox.
+     */
     Box vbox;
+    /**
+     * The Server player.
+     */
     Player serverPlayer;
 
 
@@ -51,8 +111,11 @@ public class ServerSetupScreen extends JPanel {
     private int battleshipCounterMax;
 
 
-
-
+    /**
+     * Instantiates a new Server setup screen.
+     *
+     * @param mainPanel the main panel
+     */
     ServerSetupScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
         serverPlayer = mainPanel.getSingleplayer();
@@ -60,6 +123,9 @@ public class ServerSetupScreen extends JPanel {
         initLayout();
     }
 
+    /**
+     * Init var.
+     */
     public void initVar() {
         portLabel = new JLabel("Port");
         port = new JTextField(10);
@@ -137,6 +203,9 @@ public class ServerSetupScreen extends JPanel {
         });
     }
 
+    /**
+     * Init layout.
+     */
     public void initLayout() {
         setBackground(Color.white);
 
@@ -192,6 +261,11 @@ public class ServerSetupScreen extends JPanel {
 
     }
 
+    /**
+     * State changed.
+     *
+     * @param e the e
+     */
     public void stateChanged(ChangeEvent e) {
         if (e.getSource().equals(size)) {
             sizeLabel.setText("size= " + size.getValue());

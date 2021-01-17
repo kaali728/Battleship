@@ -32,6 +32,12 @@ public class AIClientScreen extends JPanel {
 
     int carrierCount, battleshipCount, submarineCount, destroyerCount;
 
+    /**
+     * @param address
+     * @param port
+     * @param mainPanel
+     * @param aiPlayer
+     */
     public AIClientScreen(String address, Integer port, GamePanel mainPanel, AINetworkPlayer aiPlayer) {
         this.aiPlayer= aiPlayer;
         this.mainPanel = mainPanel;
@@ -104,7 +110,7 @@ public class AIClientScreen extends JPanel {
                         }
 
                         // Client ist bereit für die Schlacht
-                        if (fieldsize != 0 && carrierCount != 0 && battleshipCount != 0 && submarineCount != 0 && destroyerCount != 0 && line.equals("S: ready")) {
+                        if (fieldsize != 0 && line.equals("S: ready")) {
                             SwingUtilities.invokeAndWait(() -> {
                                 postionBoard.setOut(out);
                                 enemyBoard.setOut(out);
@@ -169,6 +175,9 @@ public class AIClientScreen extends JPanel {
         }.execute();
     }
 
+    /**
+     *
+     */
     public void initLayout() {
         System.out.println("LAYOUT" + carrierCount);
 
@@ -225,11 +234,11 @@ public class AIClientScreen extends JPanel {
         }
 
 
-        chat = new JTextArea(10, 70);
+        chat = new JTextArea(7, 55);
         chat.setEditable(false);
         chat.setBackground(Color.lightGray);
 
-        chatInput = new JTextField(70);
+        chatInput = new JTextField(55);
         chatInput.addActionListener(
                 (e) -> {
                     try {

@@ -15,19 +15,46 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * The type Client screen.
+ */
 public class ClientScreen extends JPanel {
     private static JButton button;
     private static JTextArea chat;
     private static JTextField chatInput;
     private static JScrollPane chatScroll;
+    /**
+     * The constant out.
+     */
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
+    /**
+     * The Fieldsize.
+     */
     public int fieldsize;
     private String ships;
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Postion board.
+     */
     Board postionBoard;
+    /**
+     * The Enemy board.
+     */
     Board enemyBoard;
+    /**
+     * The Vertical.
+     */
     JButton vertical;
+
     public JButton saveButton;
+
+    /**
+     * The Game over.
+     */
+
     boolean gameOver = false;
     SpeichernUnterClass speicher;
     GameObj spielStand;
@@ -35,9 +62,27 @@ public class ClientScreen extends JPanel {
     private boolean loadedGame = false;
 
 
+    /**
+     * The Carrier count.
+     */
+    int carrierCount, /**
+     * The Battleship count.
+     */
+    battleshipCount, /**
+     * The Submarine count.
+     */
+    submarineCount, /**
+     * The Destroyer count.
+     */
+    destroyerCount;
 
-    int carrierCount, battleshipCount, submarineCount, destroyerCount;
-
+    /**
+     * Instantiates a new Client screen.
+     *
+     * @param address   the address
+     * @param port      the port
+     * @param mainPanel the main panel
+     */
     ClientScreen(String address, Integer port, GamePanel mainPanel) {
         this.mainPanel = mainPanel;
         load = new GameLoad();
@@ -250,6 +295,9 @@ public class ClientScreen extends JPanel {
         }.execute();
     }
 
+    /**
+     * Init layout.
+     */
     public void initLayout() {
         System.out.println("LAYOUT" + carrierCount);
         if(!loadedGame){
@@ -368,11 +416,11 @@ public class ClientScreen extends JPanel {
             }
         });
 
-        chat = new JTextArea(10, 70);
+        chat = new JTextArea(7, 55);
         chat.setEditable(false);
         chat.setBackground(Color.lightGray);
 
-        chatInput = new JTextField(70);
+        chatInput = new JTextField(55);
         chatInput.addActionListener(
                 (e) -> {
                     try {
@@ -396,8 +444,15 @@ public class ClientScreen extends JPanel {
         add(hbox);
         add(button);
         add(saveButton);
-        add(chatScroll);
-        add(chatInput);
+        Box chat = Box.createVerticalBox();
+        {
+            chat.add(Box.createVerticalStrut(15));
+            chat.add(chatScroll);
+            chat.add(Box.createVerticalStrut(10));
+            chat.add(chatInput);
+        }
+
+        add(chat);
         updateUI();
     }
     private ArrayList<Ship> convertSaveShip(ArrayList<SaveShip> saveShips, Field b[][]){

@@ -14,36 +14,101 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * The type Single player screen.
+ */
 public class SinglePlayerScreen extends JPanel implements ChangeListener {
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Back.
+     */
     JButton back;
+    /**
+     * The Fieldslider.
+     */
     JSlider fieldslider;
 
+    /**
+     * The Carrier slider.
+     */
     JSlider carrierSlider;
+    /**
+     * The Carrier label.
+     */
     JLabel carrierLabel;
+    /**
+     * The Carrier counter max.
+     */
     int carrierCounterMax;
+    /**
+     * The Battleship slider.
+     */
     JSlider battleshipSlider;
+    /**
+     * The Battleship label.
+     */
     JLabel battleshipLabel;
+    /**
+     * The Destroyerslider.
+     */
     JSlider destroyerslider;
+    /**
+     * The Destroyer label.
+     */
     JLabel destroyerLabel;
+    /**
+     * The Submarineslider.
+     */
     JSlider submarineslider;
+    /**
+     * The Submarine label.
+     */
     JLabel submarineLabel;
 
+    /**
+     * The Size.
+     */
     JLabel size;
+    /**
+     * The Play.
+     */
     JButton play;
+    /**
+     * The Sizefield.
+     */
     int sizefield;
+    /**
+     * The Singplayer.
+     */
     Player singplayer;
+    /**
+     * The Enemy player.
+     */
     AIPlayer enemyPlayer;
     private int battleshipCount;
     private int destroyerCount;
     private int submarineCount;
+    /**
+     * The Carrier count.
+     */
     int carrierCount;
+    /**
+     * The Vbox.
+     */
     Box vbox;
 
     private int submarineCounterMax;
     private int destroyerCounterMax;
     private int battleshipCounterMax;
 
+    /**
+     * Instantiates a new Single player screen.
+     *
+     * @param mainPanel the main panel
+     */
     SinglePlayerScreen(GamePanel mainPanel){
         this.mainPanel = mainPanel;
         initvar();
@@ -51,6 +116,10 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
         enemyPlayer = mainPanel.getEnemyPlayer();
         initlayout();
     }
+
+    /**
+     * Initvar.
+     */
     public void initvar(){
         fieldslider = new JSlider(5,30);
         carrierSlider = new JSlider(0,0);
@@ -106,6 +175,10 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             }
         });
     }
+
+    /**
+     * Initlayout.
+     */
     public void initlayout(){
         setBackground(Color.black);
         size.setBackground(Color.black);
@@ -225,13 +298,40 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
 
     @Override
     public void stateChanged(ChangeEvent e) {
+        if(e.getSource().equals(carrierSlider)){
+            carrierLabel.setText("Count of Carrier length 5= " + carrierSlider.getValue());
+            this.carrierCount = carrierSlider.getValue();
+        }
+        if(e.getSource().equals(submarineslider)){
+            submarineLabel.setText("Count of Submarine length 3= " + submarineslider.getValue());
+            this.submarineCount = submarineslider.getValue();
+        }
+        if(e.getSource().equals(destroyerslider)){
+            destroyerLabel.setText("Count of Destroyer length 2= " + destroyerslider.getValue());
+            this.destroyerCount = destroyerslider.getValue();
+        }
+        if(e.getSource().equals(battleshipSlider)){
+            battleshipLabel.setText("Count of Battleship length 4= " + battleshipSlider.getValue());
+            this.battleshipCount = battleshipSlider.getValue();
+        }
         if(e.getSource().equals(fieldslider)){
             size.setText("size= " + fieldslider.getValue());
             this.sizefield = fieldslider.getValue();
-            this.carrierCounterMax = fieldslider.getValue()/ 6 == 0 ? 1 : fieldslider.getValue()/ 6;
+//            this.carrierCounterMax = fieldslider.getValue()/ 6 == 0 ? 1 : fieldslider.getValue()/ 6;
+//            this.submarineCounterMax = fieldslider.getValue()/ 2;
+//            this.destroyerCounterMax = fieldslider.getValue()/ 1;
+//            this.battleshipCounterMax = fieldslider.getValue()/ 3;
+
+            this.carrierCounterMax = fieldslider.getValue() * fieldslider.getValue()/ 20 == 0 ? 1 : fieldslider.getValue()*fieldslider.getValue()/ 20;
             this.submarineCounterMax = fieldslider.getValue()/ 2;
             this.destroyerCounterMax = fieldslider.getValue()/ 1;
             this.battleshipCounterMax = fieldslider.getValue()/ 3;
+
+
+
+//            this.battleshipCounterMax = fieldslider.getValue() / carrierSlider.getValue();
+//            this.submarineCounterMax = fieldslider.getValue()/ 2;
+//            this.destroyerCounterMax = fieldslider.getValue()/ 1;
 
             this.carrierSlider.setMaximum(carrierCounterMax);
             this.submarineslider.setMaximum(submarineCounterMax);
@@ -261,23 +361,6 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             vbox.add(destroyerLabel);
             vbox.add(destroyerslider);
 
-
-        }
-        if(e.getSource().equals(carrierSlider)){
-            carrierLabel.setText("Count of Carrier length 5= " + carrierSlider.getValue());
-            this.carrierCount = carrierSlider.getValue();
-        }
-        if(e.getSource().equals(submarineslider)){
-            submarineLabel.setText("Count of Submarine length 3= " + submarineslider.getValue());
-            this.submarineCount = submarineslider.getValue();
-        }
-        if(e.getSource().equals(destroyerslider)){
-            destroyerLabel.setText("Count of Destroyer length 2= " + destroyerslider.getValue());
-            this.destroyerCount = destroyerslider.getValue();
-        }
-        if(e.getSource().equals(battleshipSlider)){
-            battleshipLabel.setText("Count of Battleship length 4= " + battleshipSlider.getValue());
-            this.battleshipCount = battleshipSlider.getValue();
         }
     }
 }
