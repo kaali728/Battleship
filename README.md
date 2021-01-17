@@ -15,7 +15,7 @@ HS-Aalen Battelship Game Team Project
     <li>src: java source code</li>
 </ul>
 
-# Version:
+# Dependencies:
 <ul>
     <li>Java 8</li>
     <li>gson-2.8.6. (.jar files are in lib folder)</li>
@@ -32,7 +32,7 @@ java -jar Battleships.jar
 - You need java installed and the console must find it
 - You can also pass the full path to the java executable
 
-## How to Run the Game?
+## How to Run the Game in IntelliJ?
 - Go to: **File** > **Open** > Select this **repository** > click **OK**
 - Note: *If you try to run the Programm, there will occur Errors. Followings steps should solve them*
 - Go to: **Build** > click **Rebuild Project** > **Run** again

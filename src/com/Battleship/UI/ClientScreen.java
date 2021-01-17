@@ -195,7 +195,7 @@ public class ClientScreen extends JPanel {
 
 
                         // Client ist bereit für die Schlacht
-                        if (fieldsize != 0 && carrierCount != 0 && battleshipCount != 0 && submarineCount != 0 && destroyerCount != 0 && !loadedGame && line.equals("S: ready")) {
+                        if (fieldsize != 0 && !loadedGame && line.equals("S: ready")) {
                             SwingUtilities.invokeLater(() -> {
                                 button.setEnabled(true);
                                 postionBoard.setOut(out);
