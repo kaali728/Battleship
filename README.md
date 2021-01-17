@@ -32,7 +32,7 @@ java -jar Battleships.jar
 - You need java installed and the console must find it
 - You can also pass the full path to the java executable
 
-## How to Run the Game in Intellij?
+## How to Run the Game in IntelliJ?
 - Go to: **File** > **Open** > Select this **repository** > click **OK**
 - Note: *If you try to run the Programm, there will occur Errors. Followings steps should solve them*
 - Go to: **Build** > click **Rebuild Project** > **Run** again
