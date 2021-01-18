@@ -30,6 +30,10 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
      * The Fieldslider.
      */
     JSlider fieldslider;
+    /**
+     * Rest of Board with ships in it.
+     */
+    private int flaeche;
 
     /**
      * The Carrier slider.
@@ -104,6 +108,7 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
     private int destroyerCounterMax;
     private int battleshipCounterMax;
 
+
     /**
      * Instantiates a new Single player screen.
      *
@@ -130,40 +135,48 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
         destroyerLabel = new JLabel();
         submarineslider = new JSlider(0,0);
         submarineLabel = new JLabel();
+
         back = new JButton("BACK");
         play = new JButton("SET FLEET >");
         size = new JLabel();
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(sizefield != 0){
-                    ArrayList<Ship> fleet = new ArrayList<>();
-                    ArrayList<Ship> enemyfleet = new ArrayList<>();
-                    for (int i=0; i<carrierCount; i++){
-                        fleet.add(new Ship("carrier"));
-                        enemyfleet.add(new Ship("carrier"));
+                int tempArea = flaeche;
+                tempArea -= (carrierCount*21 + battleshipCount*18 + submarineCount*15 + destroyerCount*12);
+                if(tempArea < 0){
+                    JOptionPane.showMessageDialog(mainPanel, "You have too many ship, not enough space!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                }else {
+                    if(sizefield != 0 && (carrierCount != 0 || battleshipCount != 0 || submarineCount != 0 || destroyerCount != 0)){
+                        ArrayList<Ship> fleet = new ArrayList<>();
+                        ArrayList<Ship> enemyfleet = new ArrayList<>();
+                        for (int i=0; i<carrierCount; i++){
+                            fleet.add(new Ship("carrier"));
+                            enemyfleet.add(new Ship("carrier"));
+                        }
+                        for (int i=0; i<battleshipCount; i++){
+                            fleet.add(new Ship("battleship"));
+                            enemyfleet.add(new Ship("battleship"));
+                        }
+                        for (int i=0; i<submarineCount; i++){
+                            fleet.add(new Ship("submarine"));
+                            enemyfleet.add(new Ship("submarine"));
+                        }
+                        for (int i=0; i<destroyerCount; i++){
+                            fleet.add(new Ship("destroyer"));
+                            enemyfleet.add(new Ship("destroyer"));
+                        }
+                        singplayer.setFleet(fleet);
+                        singplayer.setFieldsize(fieldslider.getValue());
+                        enemyPlayer.setFleet(enemyfleet);
+                        enemyPlayer.setFieldsize(fieldslider.getValue());
+                        mainPanel.setGameState("setzen");
+                        mainPanel.changeScreen("battlefield");
+                    }else{
+                        JOptionPane.showMessageDialog(mainPanel, "Set your Field size!", "Warning", JOptionPane.INFORMATION_MESSAGE);
                     }
-                    for (int i=0; i<battleshipCount; i++){
-                        fleet.add(new Ship("battleship"));
-                        enemyfleet.add(new Ship("battleship"));
-                    }
-                    for (int i=0; i<submarineCount; i++){
-                        fleet.add(new Ship("submarine"));
-                        enemyfleet.add(new Ship("submarine"));
-                    }
-                    for (int i=0; i<destroyerCount; i++){
-                        fleet.add(new Ship("destroyer"));
-                        enemyfleet.add(new Ship("destroyer"));
-                    }
-                    singplayer.setFleet(fleet);
-                    singplayer.setFieldsize(fieldslider.getValue());
-                    enemyPlayer.setFleet(enemyfleet);
-                    enemyPlayer.setFieldsize(fieldslider.getValue());
-                    mainPanel.setGameState("setzen");
-                    mainPanel.changeScreen("battlefield");
-                }else{
-                    JOptionPane.showMessageDialog(mainPanel, "Set your Field size!", "Warning", JOptionPane.INFORMATION_MESSAGE);
                 }
+
 
             }
         });
@@ -229,8 +242,8 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             fieldslider.setPaintTicks(true);
             fieldslider.setPaintLabels(true);
             fieldslider.addChangeListener(this::stateChanged);
-            fieldslider.setMinorTickSpacing(5);
-            fieldslider.setMajorTickSpacing(25);
+            fieldslider.setMinorTickSpacing(1);
+            fieldslider.setMajorTickSpacing(5);
             fieldslider.setBackground(Color.black);
             fieldslider.setForeground(Color.white);
             size.setText("size=" + fieldslider.getValue());
@@ -243,8 +256,8 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             carrierSlider.setBackground(Color.black);
             carrierSlider.setForeground(Color.white);
             carrierSlider.setMinorTickSpacing(1);
-            carrierSlider.setMajorTickSpacing(1);
-            carrierLabel.setText("Count of Carrier length 5= " + carrierSlider.getValue());
+            carrierSlider.setMajorTickSpacing(5);
+            carrierLabel.setText("Count of Carrier length 5");
 
             battleshipSlider.setPaintTrack(true);
             battleshipSlider.setPaintTicks(true);
@@ -253,8 +266,8 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             battleshipSlider.setBackground(Color.black);
             battleshipSlider.setForeground(Color.white);
             battleshipSlider.setMinorTickSpacing(1);
-            battleshipSlider.setMajorTickSpacing(1);
-            battleshipLabel.setText("Count of Battleship length 4= " + battleshipSlider.getValue());
+            battleshipSlider.setMajorTickSpacing(5);
+            battleshipLabel.setText("Count of Battleship length 4");
 
             destroyerslider.setPaintTrack(true);
             destroyerslider.setPaintTicks(true);
@@ -263,8 +276,8 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             destroyerslider.setBackground(Color.black);
             destroyerslider.setForeground(Color.white);
             destroyerslider.setMinorTickSpacing(1);
-            destroyerslider.setMajorTickSpacing(1);
-            destroyerLabel.setText("Count of Destroyer length 2= " + destroyerslider.getValue());
+            destroyerslider.setMajorTickSpacing(5);
+            destroyerLabel.setText("Count of Destroyer length 2");
 
 
             submarineslider.setPaintTrack(true);
@@ -274,8 +287,19 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             submarineslider.setBackground(Color.black);
             submarineslider.setForeground(Color.white);
             submarineslider.setMinorTickSpacing(1);
-            submarineslider.setMajorTickSpacing(1);
-            submarineLabel.setText("Count of Submarine length 3= " + submarineslider.getValue());
+            submarineslider.setMajorTickSpacing(5);
+            submarineLabel.setText("Count of Submarine length 3");
+
+
+            carrierLabel.setBackground(Color.black);
+            carrierLabel.setForeground(Color.WHITE);
+            submarineLabel.setBackground(Color.black);
+            submarineLabel.setForeground(Color.WHITE);
+            battleshipLabel.setBackground(Color.black);
+            battleshipLabel.setForeground(Color.WHITE);
+            destroyerLabel.setBackground(Color.black);
+            destroyerLabel.setForeground(Color.WHITE);
+
 
             vbox.add(size);
             vbox.add(fieldslider);
@@ -287,14 +311,27 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             }
             vbox.add(Box.createVerticalStrut(20));
             vbox.add(hbox);
-
+//            vbox.add(Box.createVerticalStrut(40));
+//            vbox.add(carrierLabel);
+//            vbox.add(carrierCountTextfield);
+//            vbox.add(Box.createVerticalStrut(20));
+//            vbox.add(battleshipLabel);
+//            vbox.add(battleshipCountTextfield);
+//            vbox.add(Box.createVerticalStrut(20));
+//            vbox.add(submarineLabel);
+//            vbox.add(submarinerCountTextfield);
+//            vbox.add(Box.createVerticalStrut(20));
+//            vbox.add(destroyerLabel);
+//            vbox.add(destroyerCountTextfield);
         }
         vbox.add(Box.createVerticalStrut(100));
         vbox.setAlignmentX(JPanel.CENTER_ALIGNMENT);
         vbox.setAlignmentY(JPanel.CENTER_ALIGNMENT);
         add(vbox);
 
+
     }
+
 
     @Override
     public void stateChanged(ChangeEvent e) {
@@ -302,41 +339,66 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             carrierLabel.setText("Count of Carrier length 5= " + carrierSlider.getValue());
             this.carrierCount = carrierSlider.getValue();
         }
+        if(e.getSource().equals(battleshipSlider)){
+            battleshipLabel.setText("Count of Battleship length 4= " + battleshipSlider.getValue());
+            this.battleshipCount = battleshipSlider.getValue();
+        }
         if(e.getSource().equals(submarineslider)){
             submarineLabel.setText("Count of Submarine length 3= " + submarineslider.getValue());
             this.submarineCount = submarineslider.getValue();
+
         }
         if(e.getSource().equals(destroyerslider)){
             destroyerLabel.setText("Count of Destroyer length 2= " + destroyerslider.getValue());
             this.destroyerCount = destroyerslider.getValue();
         }
-        if(e.getSource().equals(battleshipSlider)){
-            battleshipLabel.setText("Count of Battleship length 4= " + battleshipSlider.getValue());
-            this.battleshipCount = battleshipSlider.getValue();
-        }
+
         if(e.getSource().equals(fieldslider)){
             size.setText("size= " + fieldslider.getValue());
             this.sizefield = fieldslider.getValue();
 //            this.carrierCounterMax = fieldslider.getValue()/ 6 == 0 ? 1 : fieldslider.getValue()/ 6;
-//            this.submarineCounterMax = fieldslider.getValue()/ 2;
-//            this.destroyerCounterMax = fieldslider.getValue()/ 1;
-//            this.battleshipCounterMax = fieldslider.getValue()/ 3;
+//            this.battleshipCounterMax = fieldslider.getValue()/ 5;
+//            this.submarineCounterMax = fieldslider.getValue()/ 4;
+//            this.destroyerCounterMax = fieldslider.getValue()/ 2;
 
-            this.carrierCounterMax = fieldslider.getValue() * fieldslider.getValue()/ 20 == 0 ? 1 : fieldslider.getValue()*fieldslider.getValue()/ 20;
-            this.submarineCounterMax = fieldslider.getValue()/ 2;
-            this.destroyerCounterMax = fieldslider.getValue()/ 1;
-            this.battleshipCounterMax = fieldslider.getValue()/ 3;
+            if(fieldslider.getValue() <= 5){
+                carrierSlider.setMajorTickSpacing(1);
+                battleshipSlider.setMajorTickSpacing(1);
+                destroyerslider.setMinorTickSpacing(1);
+                submarineslider.setMinorTickSpacing(1);
+            }else{
+                carrierSlider.setMajorTickSpacing(5);
+                battleshipSlider.setMajorTickSpacing(5);
+                destroyerslider.setMinorTickSpacing(5);
+                submarineslider.setMajorTickSpacing(5);
+            }
 
+            this.flaeche = fieldslider.getValue() * fieldslider.getValue();
+
+            this.carrierCounterMax = flaeche / 21;
+            this.carrierCount = carrierSlider.getValue();
+            this.battleshipCounterMax = (flaeche) / 18;
+            this.battleshipCount = battleshipSlider.getValue();
+            this.submarineCounterMax = (flaeche) /15;
+            this.submarineCount = submarineslider.getValue();
+            this.destroyerCounterMax = flaeche / 12;
+
+
+
+            this.carrierSlider.setMaximum(carrierCounterMax);
+            this.submarineslider.setMaximum(submarineCounterMax);
+            this.destroyerslider.setMaximum(destroyerCounterMax);
+            this.battleshipSlider.setMaximum(battleshipCounterMax);
 
 
 //            this.battleshipCounterMax = fieldslider.getValue() / carrierSlider.getValue();
 //            this.submarineCounterMax = fieldslider.getValue()/ 2;
 //            this.destroyerCounterMax = fieldslider.getValue()/ 1;
 
-            this.carrierSlider.setMaximum(carrierCounterMax);
-            this.submarineslider.setMaximum(submarineCounterMax);
-            this.destroyerslider.setMaximum(destroyerCounterMax);
-            this.battleshipSlider.setMaximum(battleshipCounterMax);
+//            this.carrierSlider.setMaximum(carrierCounterMax);
+//            this.submarineslider.setMaximum(submarineCounterMax);
+//            this.destroyerslider.setMaximum(destroyerCounterMax);
+//            this.battleshipSlider.setMaximum(battleshipCounterMax);
 
             carrierLabel.setBackground(Color.black);
             carrierLabel.setForeground(Color.WHITE);
