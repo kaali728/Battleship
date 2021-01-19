@@ -29,7 +29,8 @@ public class GameLoad {
     private boolean client = false;
 
     /**
-     * Read file game obj.
+     * Read file and rebuild the game in Singleplayer.
+     * In Multiplayer the player who saved the game is also the only one who can reload it
      *
      * @param path the path
      * @return the game obj
@@ -93,18 +94,34 @@ public class GameLoad {
         return loadedGame;
     }
 
+    /**
+     * Set Filename
+     * @param fileName
+     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
+    /**
+     * Get File name
+     * @return
+     */
     public String getFileName() {
         return fileName;
     }
 
+    /**
+     * Check if it is a Client
+     * @return
+     */
     public boolean isClient() {
         return client;
     }
 
+    /**
+     * set Client
+     * @param client
+     */
     public void setClient(boolean client) {
         this.client = client;
     }
