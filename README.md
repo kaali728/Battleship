@@ -1,4 +1,4 @@
-# 🎮🕹 Battleship 
+# 🕹 Battleship 
 HS-Aalen Battelship Game Team Project
 
 ![alt text](assets/images/StartScreen.JPG?raw=true)
