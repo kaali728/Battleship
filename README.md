@@ -1,4 +1,4 @@
-# 🎮🕹 Battleship 
+# 🕹 Battleship 
 HS-Aalen Battelship Game Team Project
 
 ![alt text](assets/images/StartScreen.JPG?raw=true)
@@ -25,7 +25,7 @@ HS-Aalen Battelship Game Team Project
     <li>gson-2.8.6. (.jar files are in lib folder)</li>
 </ul>
 
-## ✨ Compiled version
+# ✨ Compiled version
 
 - go into the **binaries** folder
 - on windows: just double click the **battleship.exe** file. You need to have a jre (java runtime environment) folder there. You can create a shortcut and add it where you want.
@@ -37,7 +37,7 @@ java -jar Battleship.jar
 - You need java and the console must find it
 - You can also pass the full path to the java executable
 
-## ✨ How to open the Game in IntelliJ?
+# ✨ How to open the Game in IntelliJ?
 - Go to: **File** > **Open** > Select this **Project** > click **OK**
 - Setup your SDK to Java 1.8.0
 - You have to mark your src directory as Source Root.
