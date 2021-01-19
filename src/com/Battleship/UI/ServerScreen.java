@@ -21,7 +21,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * The type Server screen.
+ * This will run in a separated thread in the background through a SwingWorker.
+ * It will run endlessly until the connection is closed.
  */
 public class ServerScreen extends JPanel {
     /**
@@ -80,8 +81,6 @@ public class ServerScreen extends JPanel {
     /**
      * Instantiates a new Server screen.
      *
-     * This will run in a separated thread in the background through a SwingWorker.
-     * It will run endlessly until the connection is closed.
      *
      * @param port            the port
      * @param fieldsize       the fieldsize

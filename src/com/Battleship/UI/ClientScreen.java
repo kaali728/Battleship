@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * The type Client screen.
+ * This will run in a separated thread in the background through a SwingWorker.
+ * It will run endlessly until the connection is closed.
  */
 public class ClientScreen extends JPanel {
     private static JButton button;
@@ -85,8 +86,6 @@ public class ClientScreen extends JPanel {
     /**
      * Instantiates a new Client screen.
      *
-     * This will run in a separated thread in the background through a SwingWorker.
-     * It will run endlessly until the connection is closed.
      *
      * @param address   the address
      * @param port      the port

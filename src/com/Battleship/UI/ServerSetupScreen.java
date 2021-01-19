@@ -14,7 +14,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * The type Server setup screen.
+ * It is used to know which port and on which address the server will run on later (see ServerScreen).
+ * This will also be used to select the fieldsize and which ships and how many of it.
  */
 public class ServerSetupScreen extends JPanel {
     /**
@@ -120,8 +121,6 @@ public class ServerSetupScreen extends JPanel {
     /**
      * Instantiates a new Server setup screen.
      *
-     * It is used to know which port and on which address the server will run on later (see ServerScreen).
-     * This will also be used to select the fieldsize and which ships and how many of it.
      *
      * @see com.Battleship.UI.ServerScreen
      * @param mainPanel the main panel

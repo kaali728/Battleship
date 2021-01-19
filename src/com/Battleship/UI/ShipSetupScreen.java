@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * The type Ship setup screen.
+ * The type Ship setup screen. Screen to place your ship on Board.
  */
 public class ShipSetupScreen extends Panel {
     /**

@@ -15,7 +15,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
- * The type Single player screen.
+ * The type Single player screen. Here you select number of your ships.
  */
 public class SinglePlayerScreen extends JPanel implements ChangeListener {
     /**

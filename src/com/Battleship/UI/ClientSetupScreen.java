@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * The type Client setup screen.
+ * We collect port and address on this screen to establish a connection to the server on the ClientScreen.
  */
 public class ClientSetupScreen extends JPanel {
     /**
@@ -42,7 +42,6 @@ public class ClientSetupScreen extends JPanel {
     /**
      * Instantiates a new Client setup screen.
      *
-     * We collect port and address on this screen to establish a connection to the server on the ClientScreen.
      *
      * @see com.Battleship.UI.ClientScreen
      * @param mainPanel the main panel
