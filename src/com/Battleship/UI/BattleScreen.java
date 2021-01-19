@@ -6,6 +6,7 @@ import com.Battleship.SpielstandLaden.GameObj;
 import com.Battleship.SpielstandLaden.SpeichernUnterClass;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -107,6 +108,10 @@ public class BattleScreen extends Panel implements ActionListener {
      * Initlayout.
      */
     public void initlayout() {
+        setBackground(Color.black);
+        Font  buttonfont  = new Font(Font.SANS_SERIF,  Font.BOLD, 19);
+        Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+
         soundButton.addActionListener(this);
 
         Box hbox = Box.createHorizontalBox();
@@ -115,6 +120,8 @@ public class BattleScreen extends Panel implements ActionListener {
             Box vhob1 = Box.createVerticalBox();
             {
                 vhob1.add(enemyLabel);
+                enemyLabel.setBackground(Color.black);
+                enemyLabel.setForeground(Color.WHITE);
                 vhob1.add(enemyBoard);
             }
             hbox.add(vhob1);
@@ -122,6 +129,8 @@ public class BattleScreen extends Panel implements ActionListener {
             Box vhob2 = Box.createVerticalBox();
             {
                 vhob2.add(playerLabel);
+                playerLabel.setBackground(Color.black);
+                playerLabel.setForeground(Color.WHITE);
                 vhob2.add(playerBoard);
             }
             hbox.add(vhob2);
@@ -131,6 +140,61 @@ public class BattleScreen extends Panel implements ActionListener {
 
         Box buttons = Box.createHorizontalBox();
         {
+            endGame.setBackground(Color.black);
+            endGame.setForeground(Color.WHITE);
+            endGame.setFont(buttonfont);
+            endGame.setFocusPainted(false);
+            endGame.setMargin(new Insets(0, 0, 0, 0));
+            endGame.setBorder(b);
+            endGame.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                    endGame.setBorder(b);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                    endGame.setBorder(b);
+                }
+            });
+
+            saveGame.setBackground(Color.black);
+            saveGame.setForeground(Color.WHITE);
+            saveGame.setFont(buttonfont);
+            saveGame.setFocusPainted(false);
+            saveGame.setMargin(new Insets(0, 0, 0, 0));
+            saveGame.setBorder(b);
+            saveGame.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                    saveGame.setBorder(b);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                    saveGame.setBorder(b);
+                }
+            });
+
+
+            soundButton.setBackground(Color.black);
+            soundButton.setForeground(Color.WHITE);
+            soundButton.setFont(buttonfont);
+            soundButton.setFocusPainted(false);
+            soundButton.setMargin(new Insets(0, 0, 0, 0));
+            soundButton.setBorder(b);
+            soundButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                    soundButton.setBorder(b);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                    soundButton.setBorder(b);
+                }
+            });
+
             buttons.add(endGame);
             buttons.add(Box.createHorizontalStrut(15));
             buttons.add(saveGame);

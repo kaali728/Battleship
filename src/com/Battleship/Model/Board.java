@@ -252,12 +252,20 @@ public class Board extends JPanel {
         }
 
         Box vBox = Box.createVerticalBox();
-        vBox.setBackground(Color.white);
         {
             carrierText = new JLabel("Carrier" + carrierCount);
             battleshipText = new JLabel("Battleship" + battleshipCount);
             submarineText = new JLabel("Submarine" + submarineCount);
             destroyerText = new JLabel("Destroyer" + destoryerCount);
+
+            carrierText.setBackground(Color.black);
+            carrierText.setForeground(Color.WHITE);
+            battleshipText.setBackground(Color.black);
+            battleshipText.setForeground(Color.WHITE);
+            submarineText.setBackground(Color.black);
+            submarineText.setForeground(Color.WHITE);
+            destroyerText.setBackground(Color.black);
+            destroyerText.setForeground(Color.WHITE);
 
             vBox.add(carrierText);
             vBox.add(battleshipText);
@@ -309,7 +317,14 @@ public class Board extends JPanel {
             battleshipText = new JLabel("Battleship" + battleshipCount);
             submarineText = new JLabel("Submarine" + submarineCount);
             destroyerText = new JLabel("Destroyer" + destoryerCount);
-
+            carrierText.setBackground(Color.black);
+            carrierText.setForeground(Color.WHITE);
+            battleshipText.setBackground(Color.black);
+            battleshipText.setForeground(Color.WHITE);
+            submarineText.setBackground(Color.black);
+            submarineText.setForeground(Color.WHITE);
+            destroyerText.setBackground(Color.black);
+            destroyerText.setForeground(Color.WHITE);
             vBox.add(carrierText);
             vBox.add(battleshipText);
             vBox.add(submarineText);
