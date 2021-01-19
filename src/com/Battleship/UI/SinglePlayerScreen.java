@@ -123,7 +123,10 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
     }
 
     /**
-     * Initvar.
+     * settings for the slider e.g. how large it can be? , in what steps it goes on ? ect.
+     * create the buttons back and setfleet
+     * Sliders are calculated as to how long they can be
+     * If you set the Silder too big, you get an error message
      */
     public void initvar(){
         fieldslider = new JSlider(5,30);
@@ -190,7 +193,7 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
     }
 
     /**
-     * Initlayout.
+     * Set colors from the slider and structure them
      */
     public void initlayout(){
         setBackground(Color.black);
@@ -311,18 +314,6 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             }
             vbox.add(Box.createVerticalStrut(20));
             vbox.add(hbox);
-//            vbox.add(Box.createVerticalStrut(40));
-//            vbox.add(carrierLabel);
-//            vbox.add(carrierCountTextfield);
-//            vbox.add(Box.createVerticalStrut(20));
-//            vbox.add(battleshipLabel);
-//            vbox.add(battleshipCountTextfield);
-//            vbox.add(Box.createVerticalStrut(20));
-//            vbox.add(submarineLabel);
-//            vbox.add(submarinerCountTextfield);
-//            vbox.add(Box.createVerticalStrut(20));
-//            vbox.add(destroyerLabel);
-//            vbox.add(destroyerCountTextfield);
         }
         vbox.add(Box.createVerticalStrut(100));
         vbox.setAlignmentX(JPanel.CENTER_ALIGNMENT);
@@ -356,10 +347,6 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
         if(e.getSource().equals(fieldslider)){
             size.setText("size= " + fieldslider.getValue());
             this.sizefield = fieldslider.getValue();
-//            this.carrierCounterMax = fieldslider.getValue()/ 6 == 0 ? 1 : fieldslider.getValue()/ 6;
-//            this.battleshipCounterMax = fieldslider.getValue()/ 5;
-//            this.submarineCounterMax = fieldslider.getValue()/ 4;
-//            this.destroyerCounterMax = fieldslider.getValue()/ 2;
 
             if(fieldslider.getValue() <= 5){
                 carrierSlider.setMajorTickSpacing(1);
@@ -390,15 +377,6 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
             this.destroyerslider.setMaximum(destroyerCounterMax);
             this.battleshipSlider.setMaximum(battleshipCounterMax);
 
-
-//            this.battleshipCounterMax = fieldslider.getValue() / carrierSlider.getValue();
-//            this.submarineCounterMax = fieldslider.getValue()/ 2;
-//            this.destroyerCounterMax = fieldslider.getValue()/ 1;
-
-//            this.carrierSlider.setMaximum(carrierCounterMax);
-//            this.submarineslider.setMaximum(submarineCounterMax);
-//            this.destroyerslider.setMaximum(destroyerCounterMax);
-//            this.battleshipSlider.setMaximum(battleshipCounterMax);
 
             carrierLabel.setBackground(Color.black);
             carrierLabel.setForeground(Color.WHITE);
