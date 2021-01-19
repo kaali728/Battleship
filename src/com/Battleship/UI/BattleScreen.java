@@ -70,7 +70,9 @@ public class BattleScreen extends Panel implements ActionListener {
     }
 
     /**
-     * Initvar.
+     * Create a buttons for Sound to take it off
+     * Create a button to End the game
+     * Create a button to save the game
      */
     public void initvar() {
         sound = mainPanel.getSound();
@@ -81,10 +83,8 @@ public class BattleScreen extends Panel implements ActionListener {
         playerLabel = new JLabel("Player");
 
 
-        //if load game => brauchen wir keine neue board sonder nur playerboard = newBoard und wir geben button[][] und restliche sachen
         playerBoard = new Board(this.mainPanel.getSingleplayer().getFieldsize(), this.mainPanel.getSingleplayer().getFleet(), this.mainPanel.getGameState(), true);
 
-        //board.setshootet(load.playerboard); if isshot true => if is mark dann rot(if ship) if not
         enemyBoard = new Board(this.mainPanel.getEnemyPlayer().getFieldsize(), this.mainPanel.getEnemyPlayer().getFleet(), this.mainPanel.getGameState(), false, this.mainPanel.getEnemyPlayer(), playerBoard);
         if(this.mainPanel.isGameload()){
             playerBoard.setMyShip(this.mainPanel.getLoadedPlayerButton());
@@ -105,7 +105,7 @@ public class BattleScreen extends Panel implements ActionListener {
     }
 
     /**
-     * Initlayout.
+     * Set layout.
      */
     public void initlayout() {
         setBackground(Color.black);
@@ -211,7 +211,10 @@ public class BattleScreen extends Panel implements ActionListener {
         add(vbox);
     }
 
-
+    /**
+     * so that the buttons do what is expected of them
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == soundButton){
