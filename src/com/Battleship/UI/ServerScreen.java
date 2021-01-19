@@ -4,8 +4,7 @@ import com.Battleship.Model.*;
 import com.Battleship.SpielstandLaden.GameLoad;
 import com.Battleship.SpielstandLaden.GameObj;
 import com.Battleship.SpielstandLaden.SpeichernUnterClass;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -16,8 +15,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.io.*;
 import java.net.ServerSocket;

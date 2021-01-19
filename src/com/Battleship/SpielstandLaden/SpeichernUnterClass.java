@@ -2,8 +2,6 @@ package com.Battleship.SpielstandLaden;
 
 import com.Battleship.Model.Board;
 import com.Battleship.Model.Field;
-import com.Battleship.Model.MyTypeAdaptor;
-import com.Battleship.Model.Ship;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -94,7 +92,6 @@ public class SpeichernUnterClass  extends JFrame {
                 GameObj data = new GameObj(this.player, this.enemy, multiplayer);
 
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                //Gson gson = new GsonBuilder().registerTypeAdapter(Board.class, new MyTypeAdaptor<Board>()).create();
                 // convert map to JSON File
                 gson.toJson(data, writer);
 

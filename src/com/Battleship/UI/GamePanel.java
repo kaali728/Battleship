@@ -9,7 +9,6 @@ import com.Battleship.Player.NetworkPlayer;
 import com.Battleship.Player.Player;
 import com.Battleship.Sound.Sound;
 import com.Battleship.Sound.SoundFactory;
-import com.Battleship.SpielstandLaden.GameLoad;
 import com.Battleship.SpielstandLaden.GameObj;
 
 

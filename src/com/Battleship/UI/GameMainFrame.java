@@ -3,9 +3,7 @@ package com.Battleship.UI;
 import com.Battleship.Constants.Constants;
 
 import javax.swing.*;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * The type Game main frame.

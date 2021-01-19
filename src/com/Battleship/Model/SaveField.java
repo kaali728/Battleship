@@ -1,7 +1,8 @@
 package com.Battleship.Model;
 
 /**
- * The type Save field.
+ * The type Save field. Convert Field to SaveField.
+ * It will used in GameObj for saving in json.
  */
 public class SaveField {
     /**

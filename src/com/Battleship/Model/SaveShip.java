@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 /**
  * The type Save ship.
+ * Convert Ship to SaveShip.
+ * It will used in GameObj for saving in json.
  */
 public class SaveShip {
 

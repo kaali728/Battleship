@@ -3,14 +3,11 @@ package com.Battleship.AIvsAI;
 import com.Battleship.Model.Board;
 import com.Battleship.Model.Ship;
 import com.Battleship.Player.AINetworkPlayer;
-import com.Battleship.Player.AIPlayer;
 import com.Battleship.UI.GamePanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;

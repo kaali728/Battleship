@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 

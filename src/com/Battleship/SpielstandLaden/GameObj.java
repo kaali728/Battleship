@@ -1,7 +1,6 @@
 package com.Battleship.SpielstandLaden;
 
 import com.Battleship.Model.*;
-import com.Battleship.Player.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
