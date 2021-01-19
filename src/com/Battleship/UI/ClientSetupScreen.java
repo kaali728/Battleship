@@ -42,6 +42,9 @@ public class ClientSetupScreen extends JPanel {
     /**
      * Instantiates a new Client setup screen.
      *
+     * We collect port and address on this screen to establish a connection to the server on the ClientScreen.
+     *
+     * @see com.Battleship.UI.ClientScreen
      * @param mainPanel the main panel
      */
     ClientSetupScreen(GamePanel mainPanel) {
@@ -51,7 +54,7 @@ public class ClientSetupScreen extends JPanel {
     }
 
     /**
-     * Init var.
+     * Initializes variables.
      */
     public void initVar() {
         addressLabel = new JLabel("Address");
@@ -76,7 +79,7 @@ public class ClientSetupScreen extends JPanel {
     }
 
     /**
-     * Init layout.
+     * Everything we draw on the GUI.
      */
     public void initLayout() {
         setBackground(Color.black);
