@@ -9,7 +9,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * The type Game obj.
+ * The type Game obj. This Class will
+ * be used for saving in json. Its converts the Ships and Field object to new Objects Saveship and SaveField
  */
 public class GameObj {
 
@@ -111,7 +112,7 @@ public class GameObj {
 
 
     /**
-     * Set saved field.
+     * Set saved field. Converting Field to SaveField
      *
      * @param button the button
      * @param who    the who
