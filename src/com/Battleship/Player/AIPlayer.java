@@ -290,7 +290,7 @@ public class AIPlayer {
 
     /**
      * Enemy shoots randomly at the Playerfield
-     * When a ship is hit, it checks whether it is Vertiak or Horizontal and destroys the entire Ship
+     * When a ship is hit, it checks whether it is Vertikal or Horizontal and destroys the entire Ship
      * @param player the player
      * @return the boolean
      */
