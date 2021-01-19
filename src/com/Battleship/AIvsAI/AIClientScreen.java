@@ -16,32 +16,69 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * The type Ai client screen.
+ */
 public class AIClientScreen extends JPanel {
     private static JTextArea chat;
     private static JTextField chatInput;
     private static JScrollPane chatScroll;
+    /**
+     * The constant out.
+     */
     public static Writer out;        // Verpackung des Socket-Ausgabestroms.
+    /**
+     * The Fieldsize.
+     */
     public int fieldsize;
     private String ships;
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Postion board.
+     */
     Board postionBoard;
+    /**
+     * The Enemy board.
+     */
     Board enemyBoard;
+    /**
+     * The Ai player.
+     */
     AINetworkPlayer aiPlayer;
+    /**
+     * The Finish.
+     */
     boolean finish;
 
 
+    /**
+     * The Carrier count.
+     */
+    int carrierCount, /**
+     * The Battleship count.
+     */
+    battleshipCount, /**
+     * The Submarine count.
+     */
+    submarineCount, /**
+     * The Destroyer count.
+     */
+    destroyerCount;
 
-    int carrierCount, battleshipCount, submarineCount, destroyerCount;
 
     /**
+     * Instantiates a new Ai client screen.
      *
-     * In this function we make a connection.
+     * This will run in a separated thread in the background through a SwingWorker.
+     * It will run endlessly until the connection is closed.
      *
-     *
-     * @param address
-     * @param port
-     * @param mainPanel
-     * @param aiPlayer
+     * @param address   the address
+     * @param port      the port
+     * @param mainPanel the main panel
+     * @param aiPlayer  the ai player
      */
     public AIClientScreen(String address, Integer port, GamePanel mainPanel, AINetworkPlayer aiPlayer) {
         this.aiPlayer= aiPlayer;
@@ -181,7 +218,7 @@ public class AIClientScreen extends JPanel {
     }
 
     /**
-     *
+     * Everything we draw on the GUI.
      */
     public void initLayout() {
         System.out.println("LAYOUT" + carrierCount);

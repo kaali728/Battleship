@@ -1,9 +1,7 @@
 package com.Battleship.AIvsAI;
 
-import com.Battleship.Model.Board;
 import com.Battleship.Model.Ship;
 import com.Battleship.Player.AINetworkPlayer;
-import com.Battleship.Player.AIPlayer;
 import com.Battleship.Player.Player;
 import com.Battleship.UI.GamePanel;
 
@@ -13,11 +11,7 @@ import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * The type Ai server setup.
@@ -129,6 +123,10 @@ public class AIServerSetup extends JPanel {
     /**
      * Instantiates a new Ai server setup.
      *
+     * It is used to know which port and on which address the server will run on later (see AIServerScreen).
+     * This will also be used to select the fieldsize and which ships and how many of it.
+     *
+     * @see com.Battleship.AIvsAI.AIServerScreen
      * @param mainPanel the main panel
      */
     public AIServerSetup(GamePanel mainPanel) {
@@ -140,7 +138,7 @@ public class AIServerSetup extends JPanel {
     }
 
     /**
-     * Init var.
+     * Initializes variables.
      */
     public void initVar() {
         portLabel = new JLabel("Port");
@@ -203,7 +201,7 @@ public class AIServerSetup extends JPanel {
     }
 
     /**
-     * Init layout.
+     * Everything we draw on the GUI.
      */
     public void initLayout() {
         setBackground(Color.black);
@@ -338,9 +336,9 @@ public class AIServerSetup extends JPanel {
     }
 
     /**
-     * State changed.
+     * Calculates the maximum of a slider which is possible on the selected fieldsize.
      *
-     * @param e the e
+     * @param e the event
      */
     public void stateChanged(ChangeEvent e) {
         if (e.getSource().equals(size)) {
