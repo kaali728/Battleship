@@ -52,14 +52,22 @@ public class ClientScreen extends JPanel {
      */
     JButton vertical;
 
+    /**
+     * The Save button.
+     */
     public JButton saveButton;
 
     /**
      * The Game over.
      */
-
     boolean gameOver = false;
+    /**
+     * The Speicher.
+     */
     SpeichernUnterClass speicher;
+    /**
+     * The Spiel stand.
+     */
     GameObj spielStand;
     private GameLoad load;
     private boolean loadedGame = false;
@@ -68,19 +76,25 @@ public class ClientScreen extends JPanel {
     /**
      * The Carrier count.
      */
-    int carrierCount, /**
+    int carrierCount,
+    /**
      * The Battleship count.
      */
-    battleshipCount, /**
+    battleshipCount,
+    /**
      * The Submarine count.
      */
-    submarineCount, /**
+    submarineCount,
+    /**
      * The Destroyer count.
      */
     destroyerCount;
 
     /**
      * Instantiates a new Client screen.
+     *
+     * This will run in a separated thread in the background through a SwingWorker.
+     * It will run endlessly until the connection is closed.
      *
      * @param address   the address
      * @param port      the port
@@ -303,7 +317,7 @@ public class ClientScreen extends JPanel {
     }
 
     /**
-     * Init layout.
+     * Everything we draw on the GUI.
      */
     public void initLayout() {
         setBackground(Color.black);

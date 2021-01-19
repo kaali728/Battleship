@@ -77,16 +77,14 @@ public class ServerScreen extends JPanel {
      * The Enemy board.
      */
     Board enemyBoard;
-    /**
-     * The Game over.
-     */
-    boolean gameOver = false;
     SpeichernUnterClass speicher;
     private GameLoad load;
 
-
     /**
      * Instantiates a new Server screen.
+     *
+     * This will run in a separated thread in the background through a SwingWorker.
+     * It will run endlessly until the connection is closed.
      *
      * @param port            the port
      * @param fieldsize       the fieldsize
@@ -260,7 +258,7 @@ public class ServerScreen extends JPanel {
     }
 
     /**
-     * Init layout.
+     * Everything we draw on the GUI.
      */
     public void initLayout() {
         setBackground(Color.black);
