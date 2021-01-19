@@ -337,7 +337,7 @@ public class MainScreen extends JPanel {
     // Für den Hintergrund auf einem JPanel muss man diese Funktion überschreiben.
 
     /**
-     *
+     * Paint Component to UI
      * @param g
      */
     @Override
@@ -346,6 +346,7 @@ public class MainScreen extends JPanel {
     }
 
     /**
+     * convert save Ships into our Ships Object.
      *
      * @param saveShips
      * @param b
@@ -379,7 +380,7 @@ public class MainScreen extends JPanel {
     }
 
     /**
-     *
+     * convert saved Fields into out Fields object.
      * @param bt
      * @return
      */
