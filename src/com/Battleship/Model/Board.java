@@ -900,7 +900,8 @@ public class Board extends JPanel {
     }
 
     /**
-     * Gets shootetship.
+     * Gets the shootet ships. look if there is a field
+     * with this row and column in the ship Shipboard array.
      *
      * @param row    the row
      * @param column the column
@@ -920,7 +921,7 @@ public class Board extends JPanel {
     }
 
     /**
-     * Gets pos ship.
+     * Gets positions of ships.
      *
      * @return the pos ship
      */
@@ -936,7 +937,8 @@ public class Board extends JPanel {
 
 
     /**
-     * Sets ship.
+     * Sets ship. This methods set ships with rules on board.
+     * It also marks the fields that are no longer allowed
      *
      * @param e the e
      * @return the ship
