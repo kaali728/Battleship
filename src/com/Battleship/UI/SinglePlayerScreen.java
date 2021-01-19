@@ -323,7 +323,10 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
 
     }
 
-
+    /**
+     * The maximum number of ships that can be placed on an empty field is shown in the gui
+     * @param e
+     */
     @Override
     public void stateChanged(ChangeEvent e) {
         if(e.getSource().equals(carrierSlider)){
