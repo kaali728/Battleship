@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * The type Ai client setup.
+ * The type Ai client setup. We use this to forward address and port to the AIClientScreen to connect to the server.
  */
 public class AIClientSetup extends JPanel {
     /**
@@ -50,7 +50,6 @@ public class AIClientSetup extends JPanel {
     /**
      * Instantiates a new Ai client setup.
      *
-     * We use this to forward address and port to the AIClientScreen to connect to the server.
      *
      * @see com.Battleship.AIvsAI.AIClientScreen
      * @param mainPanel the main panel

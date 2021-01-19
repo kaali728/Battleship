@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * The type Ai screen.
+ * This screen is used to select if the AI is connecting as client or serving as server.
  */
 public class AIScreen extends JPanel {
     /**
@@ -32,7 +32,6 @@ public class AIScreen extends JPanel {
     /**
      * Instantiates a new Ai screen.
      *
-     * This screen is used to select if the AI is connecting as client or serving as server.
      *
      * @param mainPanel the main panel
      */

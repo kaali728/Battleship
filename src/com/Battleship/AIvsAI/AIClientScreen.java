@@ -14,7 +14,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * The type Ai client screen.
+ * This will run in a separated thread in the background through a SwingWorker.
+ * It will run endlessly until the connection is closed.
  */
 public class AIClientScreen extends JPanel {
     private static JTextArea chat;
@@ -69,8 +70,6 @@ public class AIClientScreen extends JPanel {
     /**
      * Instantiates a new Ai client screen.
      *
-     * This will run in a separated thread in the background through a SwingWorker.
-     * It will run endlessly until the connection is closed.
      *
      * @param address   the address
      * @param port      the port

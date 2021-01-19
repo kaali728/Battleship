@@ -14,7 +14,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * The type Ai server setup.
+ * It is used to know which port and on which address the server will run on later (see AIServerScreen).
+ * This will also be used to select the fieldsize and which ships and how many of it.
  */
 public class AIServerSetup extends JPanel {
     /**
@@ -123,8 +124,6 @@ public class AIServerSetup extends JPanel {
     /**
      * Instantiates a new Ai server setup.
      *
-     * It is used to know which port and on which address the server will run on later (see AIServerScreen).
-     * This will also be used to select the fieldsize and which ships and how many of it.
      *
      * @see com.Battleship.AIvsAI.AIServerScreen
      * @param mainPanel the main panel

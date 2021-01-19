@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * The type Ai server screen.
+ * It is used to know which port and on which address the server will run on later (see ServerScreen).
+ * This will also be used to select the fieldsize and which ships and how many of it.
  */
 public class AIServerScreen extends JPanel {
     /**
