@@ -1,11 +1,8 @@
 package com.Battleship.UI;
 
 import com.Battleship.Model.*;
-import com.Battleship.SpielstandLaden.GameLoad;
 import com.Battleship.SpielstandLaden.GameObj;
 import com.Battleship.SpielstandLaden.SpeichernUnterClass;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -18,28 +15,76 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * The type Load multi player screen.
+ */
 public class LoadMultiPlayerScreen extends JPanel {
+    /**
+     * The Portnum.
+     */
     Integer portnum;
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Loadedfile name.
+     */
     String loadedfileName;
+    /**
+     * The Spiel stand.
+     */
     GameObj spielStand;
     private int fieldsize;
+    /**
+     * The Postion board.
+     */
     Board postionBoard;
+    /**
+     * The Enemy board.
+     */
     Board enemyBoard;
+    /**
+     * The constant out.
+     */
     public static Writer out;
+    /**
+     * The Save button.
+     */
     public JButton saveButton;
+    /**
+     * The Speicher.
+     */
     SpeichernUnterClass speicher;
+    /**
+     * The constant chat.
+     */
     public static JTextArea chat;
     private static JTextField chatInput;
     private static JScrollPane chatScroll;
+    /**
+     * The Ready.
+     */
     JButton ready;
 
+
+    /**
+     * Instantiates a new Load multi player screen.
+     *
+     * This will run in a separated thread in the background through a SwingWorker.
+     * It will run endlessly until the connection is closed.
+     *
+     * It will use the saved game file and restore the game state to the saved game file.
+     * The used filename is sent to the client on connection,
+     *
+     * @param port      the port
+     * @param filename  the filename
+     * @param loadGame  the load game
+     * @param mainPanel the main panel
+     */
     public LoadMultiPlayerScreen(Integer port, String filename, GameObj loadGame, GamePanel mainPanel){
         this.portnum = port;
         this.mainPanel = mainPanel;
@@ -171,6 +216,10 @@ public class LoadMultiPlayerScreen extends JPanel {
 
         initLayout();
     }
+
+    /**
+     * Everything we draw on the GUI.
+     */
     public void initLayout() {
         setBackground(Color.black);
         Font  buttonfont  = new Font(Font.SANS_SERIF,  Font.BOLD, 19);
@@ -326,6 +375,10 @@ public class LoadMultiPlayerScreen extends JPanel {
         add(chatInput);
         repaint();
     }
+
+    /**
+     * Initializes the game with values from the save game.
+     */
     void initSpiel() {
 
         if (spielStand != null) {
