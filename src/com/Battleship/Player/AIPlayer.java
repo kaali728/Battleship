@@ -189,7 +189,7 @@ public class AIPlayer {
     }
 
     /**
-     * Sets enemy ship.
+     * Enemyships are randomly placed on the field, except for field sizes 5, 6 and 7
      *
      * @return the enemy ship
      */
@@ -289,8 +289,8 @@ public class AIPlayer {
 
 
     /**
-     * Enemyshoot boolean.
-     *
+     * Enemy shoots randomly at the Playerfield
+     * When a ship is hit, it checks whether it is Vertiak or Horizontal and destroys the entire Ship
      * @param player the player
      * @return the boolean
      */
@@ -366,11 +366,25 @@ public class AIPlayer {
 //        }
 //    }
 
+    /**
+     * Put coordinate for set Ship into a Hashmap
+     *
+     * @param row
+     * @param column
+     */
     public void UsedcordforSet(int row, int column) {
         int[] entry = {row, column};
         tousedCord.put(hashCode(row, column), entry);
     }
 
+    /**
+     *
+     * Checks whether the coordinates were used when placing the ships or not
+     *
+     * @param row
+     * @param column
+     * @return
+     */
     public boolean isUsedCordforSet(int row, int column) {
         for (Map.Entry<Integer, int[]> entry : tousedCord.entrySet()) {
             int[] value = entry.getValue();
@@ -382,7 +396,7 @@ public class AIPlayer {
     }
 
     /**
-     * Add toused cord.
+     * Put coordinate for shoot Ship into a Hashmap
      *
      * @param row    the row
      * @param column the column
@@ -394,7 +408,8 @@ public class AIPlayer {
 
 
     /**
-     * Is used cord boolean.
+     *
+     * Checks whether the coordinate was used when shooting the ships or not
      *
      * @param row    the row
      * @param column the column
@@ -412,7 +427,7 @@ public class AIPlayer {
     }
 
     /**
-     * Hash code int.
+     * calculates a hash
      *
      * @param x the x
      * @param y the y
@@ -423,7 +438,8 @@ public class AIPlayer {
     }
 
     /**
-     * Hit ship behind.
+     *
+     * If a ship has been hit, the above, right, left and below are checked to see if it can continue
      *
      * @param row    the row
      * @param column the column
@@ -473,7 +489,7 @@ public class AIPlayer {
     }
 
     /**
-     * Hit ship behind.
+     * If he found out in which direction it goes, the rest of the ship will be destroyed
      *
      * @param row    the row
      * @param column the column
@@ -515,7 +531,7 @@ public class AIPlayer {
     }
 
     /**
-     * Hori boolean.
+     * Checks whether it is horizontal
      *
      * @param row    the row
      * @param column the column
@@ -536,7 +552,7 @@ public class AIPlayer {
     }
 
     /**
-     * Vert boolean.
+     * Checks whether it is vertical
      *
      * @param row    the row
      * @param column the column
@@ -571,7 +587,7 @@ public class AIPlayer {
     }
 
     /**
-     * End game.
+     * If the game ends prematurely, the Hashmaps should be emptied
      */
     public void endGame() {
         usedCord.clear();
