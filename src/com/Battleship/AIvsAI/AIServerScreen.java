@@ -7,6 +7,7 @@ import com.Battleship.Player.AIPlayer;
 import com.Battleship.UI.GamePanel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.util.*;
 import java.awt.*;
 import java.io.*;
@@ -237,7 +238,15 @@ public class AIServerScreen extends JPanel {
      * Init layout.
      */
     public void initLayout() {
+        setBackground(Color.black);
+        Font  buttonfont  = new Font(Font.SANS_SERIF,  Font.BOLD, 19);
+        Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+
         enemyBoard = new Board(fieldsize, "battle", out, aiPlayer);
+        enemyBoard.setBackground(Color.black);
+
+
+
 
         chat = new JTextArea(7, 55);
         chat.setEditable(false);
@@ -263,13 +272,14 @@ public class AIServerScreen extends JPanel {
 
         chatScroll = new JScrollPane(chat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        setBackground(Color.white);
+
 
         Box board = Box.createHorizontalBox();
         {
             board.add(Box.createHorizontalStrut(10));
             ArrayList<Ship> fleet = this.mainPanel.getSingleplayer().getFleet();
             postionBoard = new Board(fieldsize, fleet, this.mainPanel.getGameState());
+            postionBoard.setBackground(Color.black);
             aiPlayer.setFieldsize(fieldsize);
             aiPlayer.setEnemyBoard(postionBoard);
             aiPlayer.setFleet(fleet);

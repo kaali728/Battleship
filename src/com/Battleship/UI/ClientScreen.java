@@ -6,9 +6,12 @@ import com.Battleship.SpielstandLaden.GameObj;
 import com.Battleship.SpielstandLaden.SpeichernUnterClass;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
@@ -123,10 +126,12 @@ public class ClientScreen extends JPanel {
                                 mainPanel.setLoadedPlayerHealth(spielStand.PlayerHealth);
                                 mainPanel.setLoadedEnemyHealth(spielStand.EnemyHealth);
                                 postionBoard = new Board(fieldsize, playerFleet, "battle");
+                                postionBoard.setBackground(Color.black);
                                 postionBoard.setMyShip(bt);
                                 enemyBoard = new Board(fieldsize, "battle", out,true);
                                 enemyBoard.setMyShipMultiPlayerLoad(enbt);
                                 enemyBoard.setUsedCord(spielStand.usedCord);
+                                enemyBoard.setBackground(Color.black);
                                 enemyBoard.multiEnableBtns(false);
                             });
 
@@ -301,6 +306,13 @@ public class ClientScreen extends JPanel {
      * Init layout.
      */
     public void initLayout() {
+        setBackground(Color.black);
+        Font  buttonfont  = new Font(Font.SANS_SERIF,  Font.BOLD, 19);
+        Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+
+
+
+
         System.out.println("LAYOUT" + carrierCount);
         if(!loadedGame){
             ArrayList<Ship> fleet = new ArrayList<>();
@@ -324,10 +336,10 @@ public class ClientScreen extends JPanel {
 
             enemyBoard = new Board(fieldsize, "battle", out, true);
             enemyBoard.setVisible(false);
-
+            enemyBoard.setBackground(Color.black);
             ArrayList<Ship> fleet1 = this.mainPanel.getNetworkPlayer().getFleet();
             postionBoard = new Board(fieldsize, fleet1, this.mainPanel.getGameState());
-
+            postionBoard.setBackground(Color.black);
             add(vertical);
 
             vertical.addActionListener(new ActionListener() {
@@ -360,6 +372,24 @@ public class ClientScreen extends JPanel {
         }
 
         button = new JButton("Ready");
+
+        button.setBackground(Color.black);
+        button.setForeground(Color.WHITE);
+        button.setFont(buttonfont);
+        button.setFocusPainted(false);
+        button.setMargin(new Insets(0, 0, 0, 0));
+        button.setBorder(b);
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                button.setBorder(b);
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                button.setBorder(b);
+            }
+        });
 
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setEnabled(false);
@@ -399,6 +429,27 @@ public class ClientScreen extends JPanel {
                 }
         );
         saveButton = new JButton("Save Game");
+
+        saveButton.setBackground(Color.black);
+        saveButton.setForeground(Color.WHITE);
+        saveButton.setFont(buttonfont);
+        saveButton.setFocusPainted(false);
+        saveButton.setMargin(new Insets(0, 0, 0, 0));
+        saveButton.setBorder(b);
+        saveButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                saveButton.setBorder(b);
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                saveButton.setBorder(b);
+            }
+        });
+
+
+
         saveButton.setVisible(false);
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -444,7 +495,6 @@ public class ClientScreen extends JPanel {
 
         chatScroll = new JScrollPane(chat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        setBackground(Color.white);
         add(hbox);
         add(button);
         add(saveButton);

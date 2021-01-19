@@ -42,7 +42,11 @@ public class GameLoad {
                 FileReader fr = new FileReader(file);
                 String filenamewith = file.getName();
                 //umunterscheidung zwischen client und server datei(wenn auf der gleiche computer gespielt wird, wird dann überschrieben) deswegen "-c"
-                fileName = filenamewith.replace("-c.json", "");
+                if(filenamewith.contains("-s.json")){
+                    fileName = filenamewith.replace("-s.json", "");
+                }else{
+                    fileName = filenamewith.replace("-c.json", "");
+                }
                 loadedGame = gson.fromJson(fr, GameObj.class);
                 return loadedGame;
             } catch (Exception e) {
@@ -72,7 +76,11 @@ public class GameLoad {
                     FileReader fr = new FileReader(file);
                     String filenamewith = file.getName();
                     //umunterscheidung zwischen client und server datei(wenn auf der gleiche computer gespielt wird, wird dann überschrieben) deswegen "-s"
-                    fileName = filenamewith.replace("-s.json", "");
+                    if(filenamewith.contains("-s.json")){
+                        fileName = filenamewith.replace("-s.json", "");
+                    }else{
+                        fileName = filenamewith.replace("-c.json", "");
+                    }
                     System.out.println(fileName);
 
                     loadedGame = gson.fromJson(fr, GameObj.class);

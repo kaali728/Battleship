@@ -8,9 +8,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
@@ -169,11 +172,57 @@ public class LoadMultiPlayerScreen extends JPanel {
         initLayout();
     }
     public void initLayout() {
+        setBackground(Color.black);
+        Font  buttonfont  = new Font(Font.SANS_SERIF,  Font.BOLD, 19);
+        Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+
+
+
+
         saveButton = new JButton("Save Game");
         saveButton.setVisible(false);
         ready = new JButton("Ready");
         ready.setEnabled(false);
         //enemyBoard.setVisible(false);
+
+        ready.setBackground(Color.black);
+        ready.setForeground(Color.WHITE);
+        ready.setFont(buttonfont);
+        ready.setFocusPainted(false);
+        ready.setMargin(new Insets(0, 0, 0, 0));
+        ready.setBorder(b);
+        ready.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                ready.setBorder(b);
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                ready.setBorder(b);
+            }
+        });
+
+        saveButton.setBackground(Color.black);
+        saveButton.setForeground(Color.WHITE);
+        saveButton.setFont(buttonfont);
+        saveButton.setFocusPainted(false);
+        saveButton.setMargin(new Insets(0, 0, 0, 0));
+        saveButton.setBorder(b);
+        saveButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                saveButton.setBorder(b);
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                saveButton.setBorder(b);
+            }
+        });
+
+
+
 
         ready.addActionListener(
                 // Wenn der Knopf gedrückt wird,
@@ -253,10 +302,10 @@ public class LoadMultiPlayerScreen extends JPanel {
 
         chatScroll = new JScrollPane(chat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        setBackground(Color.white);
 
         add(ready);
         add(saveButton);
+
         Box vbox = Box.createVerticalBox();
         vbox.add(Box.createVerticalStrut(100));
         vbox.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -278,6 +327,7 @@ public class LoadMultiPlayerScreen extends JPanel {
         repaint();
     }
     void initSpiel() {
+
         if (spielStand != null) {
             this.fieldsize = spielStand.size;
             Field bt[][] = convertSaveField(spielStand.playerButton);
@@ -288,10 +338,12 @@ public class LoadMultiPlayerScreen extends JPanel {
             this.mainPanel.setLoadedPlayerHealth(spielStand.PlayerHealth);
             this.mainPanel.setLoadedEnemyHealth(spielStand.EnemyHealth);
             postionBoard = new Board(fieldsize, playerFleet, "battle");
+            postionBoard.setBackground(Color.black);
             this.postionBoard.setMyShip(bt);
             enemyBoard = new Board(fieldsize, "battle", out);
             this.enemyBoard.setMyShipMultiPlayerLoad(enbt);
             this.enemyBoard.setUsedCord(spielStand.usedCord);
+            enemyBoard.setBackground(Color.black);
             enemyBoard.multiEnableBtns(false);
         }
     }

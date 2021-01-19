@@ -7,6 +7,7 @@ import com.Battleship.Player.AIPlayer;
 import com.Battleship.UI.GamePanel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -180,6 +181,9 @@ public class AIClientScreen extends JPanel {
      */
     public void initLayout() {
         System.out.println("LAYOUT" + carrierCount);
+        setBackground(Color.black);
+        Font  buttonfont  = new Font(Font.SANS_SERIF,  Font.BOLD, 19);
+        Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
 
         ArrayList<Ship> fleet = new ArrayList<>();
         for (int i = 0; i < carrierCount; i++) {
@@ -201,12 +205,14 @@ public class AIClientScreen extends JPanel {
 
 
         enemyBoard = new Board(fieldsize, "battle", out, true, aiPlayer);
+        enemyBoard.setBackground(Color.black);
 
         Box hbox = Box.createHorizontalBox();
         {
             hbox.add(Box.createHorizontalStrut(10));
             ArrayList<Ship> fleet1 = this.mainPanel.getNetworkPlayer().getFleet();
             postionBoard = new Board(fieldsize, fleet1, this.mainPanel.getGameState());
+            postionBoard.setBackground(Color.black);
             aiPlayer.setFieldsize(fieldsize);
             aiPlayer.setEnemyBoard(postionBoard);
             aiPlayer.setFleet(fleet);
@@ -258,7 +264,6 @@ public class AIClientScreen extends JPanel {
 
         chatScroll = new JScrollPane(chat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        setBackground(Color.white);
 
         Box vbox = Box.createVerticalBox();
         vbox.add(Box.createVerticalStrut(100));

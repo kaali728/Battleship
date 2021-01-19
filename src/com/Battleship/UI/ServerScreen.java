@@ -8,9 +8,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
@@ -260,6 +263,10 @@ public class ServerScreen extends JPanel {
      * Init layout.
      */
     public void initLayout() {
+        setBackground(Color.black);
+        Font  buttonfont  = new Font(Font.SANS_SERIF,  Font.BOLD, 19);
+        Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+
         button = new JButton("Ready");
         spielstandLaden = new JButton("Load Game");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -270,6 +277,83 @@ public class ServerScreen extends JPanel {
         saveButton.setVisible(false);
         enemyBoard.setVisible(false);
         load = new GameLoad();
+
+
+
+        button.setBackground(Color.black);
+        button.setForeground(Color.WHITE);
+        button.setFont(buttonfont);
+        button.setFocusPainted(false);
+        button.setMargin(new Insets(0, 0, 0, 0));
+        button.setBorder(b);
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                button.setBorder(b);
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                button.setBorder(b);
+            }
+        });
+        spielstandLaden.setBackground(Color.black);
+        spielstandLaden.setForeground(Color.WHITE);
+        spielstandLaden.setFont(buttonfont);
+        spielstandLaden.setFocusPainted(false);
+        spielstandLaden.setMargin(new Insets(0, 0, 0, 0));
+        spielstandLaden.setBorder(b);
+        spielstandLaden.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                spielstandLaden.setBorder(b);
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                spielstandLaden.setBorder(b);
+            }
+        });
+
+        vertical.setBackground(Color.black);
+        vertical.setForeground(Color.WHITE);
+        vertical.setFont(buttonfont);
+        vertical.setFocusPainted(false);
+        vertical.setMargin(new Insets(0, 0, 0, 0));
+        vertical.setBorder(b);
+        vertical.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                vertical.setBorder(b);
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                vertical.setBorder(b);
+            }
+        });
+
+
+        saveButton.setBackground(Color.black);
+        saveButton.setForeground(Color.WHITE);
+        saveButton.setFont(buttonfont);
+        saveButton.setFocusPainted(false);
+        saveButton.setMargin(new Insets(0, 0, 0, 0));
+        saveButton.setBorder(b);
+        saveButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                saveButton.setBorder(b);
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                saveButton.setBorder(b);
+            }
+        });
+
+
+
         button.addActionListener(
                 // Wenn der Knopf gedrückt wird,
                 // erfolgt eine Kontrollausgabe auf System.out.
@@ -359,7 +443,6 @@ public class ServerScreen extends JPanel {
 
         chatScroll = new JScrollPane(chat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        setBackground(Color.white);
         add(saveButton);
         add(button);
         add(vertical);
@@ -369,7 +452,9 @@ public class ServerScreen extends JPanel {
             hbox.add(Box.createHorizontalStrut(10));
             ArrayList<Ship> fleet = this.mainPanel.getSingleplayer().getFleet();
             postionBoard = new Board(fieldsize, fleet, this.mainPanel.getGameState());
+            postionBoard.setBackground(Color.black);
             hbox.add(postionBoard);
+            enemyBoard.setBackground(Color.black);
             hbox.add(enemyBoard);
             hbox.add(Box.createHorizontalStrut(10));
         }
