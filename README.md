@@ -1,6 +1,8 @@
 # Battleship 🎮🕹
 HS-Aalen Battelship Game Team Project
 
+![alt text](assets/images/StartScreen.JPG?raw=true)
+
 # Features:
 - Singleplayer
 - Multiplayer
@@ -11,6 +13,7 @@ HS-Aalen Battelship Game Team Project
 # Repository:
 <ul>
     <li>assets: images, sound, Lib, Fonts</li>
+    <li>Docs: java Docs and UML for Dev and for users.</li>
     <li>lib: jar files of the dependencies</li>
     <li>src: java source code</li>
 </ul>
