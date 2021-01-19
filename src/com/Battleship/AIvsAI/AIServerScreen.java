@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * It is used to know which port and on which address the server will run on later (see ServerScreen).
- * This will also be used to select the fieldsize and which ships and how many of it.
+ * This will run in a separated thread in the background through a SwingWorker.
+ * It will run endlessly until the connection is closed.
  */
 public class AIServerScreen extends JPanel {
     /**
