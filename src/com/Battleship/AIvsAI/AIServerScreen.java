@@ -72,6 +72,10 @@ public class AIServerScreen extends JPanel {
     /**
      * Instantiates a new Ai server screen.
      *
+     * It is used to know which port and on which address the server will run on later (see ServerScreen).
+     * This will also be used to select the fieldsize and which ships and how many of it.
+     *
+     * @see com.Battleship.AIvsAI.AIServerScreen
      * @param port            the port
      * @param fieldsize       the fieldsize
      * @param carrierCount    the carrier count
@@ -235,7 +239,7 @@ public class AIServerScreen extends JPanel {
     }
 
     /**
-     * Init layout.
+     * Everything we draw on the GUI.
      */
     public void initLayout() {
         setBackground(Color.black);

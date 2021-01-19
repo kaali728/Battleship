@@ -39,7 +39,6 @@ public class GamePanel extends JPanel {
     /**
      * Instantiates a new Game panel.
      */
-// Hintergrundbild
     public GamePanel() {
         sound = new SoundFactory();
         sound.load(Sound.MAINSOUND);
@@ -48,7 +47,7 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * Init layout.
+     * Set the Layout for the panel
      */
     void initLayout() {
         cl = new CardLayout();
@@ -69,7 +68,7 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * Change screen.
+     * Change screen to battle.
      *
      * @param s the s
      */
@@ -101,13 +100,22 @@ public class GamePanel extends JPanel {
         cl.show(this, s);
     }
 
+    /**
+     * Change screen to load a Multiplayer Game
+     *
+     * @param s
+     * @param port
+     * @param filename
+     * @param loadGame
+     */
+
     public void changeScreen(String s, int port, String filename, GameObj loadGame) {
         add(new LoadMultiPlayerScreen(port,filename, loadGame, this), "loadMultiPlayer");
         cl.show(this, s);
     }
 
     /**
-     * Change screen.
+     * Change Client screen for Multiplayer.
      *
      * @param s       the s
      * @param address the address
@@ -120,7 +128,7 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * Aichange screen.
+     * AI change screen for the Server.
      *
      * @param s                 the s
      * @param aiport            the aiport
@@ -137,7 +145,7 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * Aichange screen.
+     * AI change screen for the Client.
      *
      * @param s         the s
      * @param aiaddress the aiaddress
@@ -309,12 +317,4 @@ public class GamePanel extends JPanel {
         return AiOnline;
     }
 
-    /**
-     * Sets ai online.
-     *
-     * @param aiOnline the ai online
-     */
-    public void setAiOnline(AINetworkPlayer aiOnline) {
-        AiOnline = aiOnline;
-    }
 }

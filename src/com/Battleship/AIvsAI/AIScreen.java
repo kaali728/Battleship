@@ -8,14 +8,33 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The type Ai screen.
+ */
 public class AIScreen extends JPanel {
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Client.
+     */
     JButton client;
+    /**
+     * The Server.
+     */
     JButton server;
+    /**
+     * The Back.
+     */
     JButton back;
 
     /**
-     * @param mainPanel
+     * Instantiates a new Ai screen.
+     *
+     * This screen is used to select if the AI is connecting as client or serving as server.
+     *
+     * @param mainPanel the main panel
      */
     public AIScreen(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
@@ -24,7 +43,7 @@ public class AIScreen extends JPanel {
     }
 
     /**
-     *
+     * Initializes variables.
      */
     public void initVar() {
         client = new JButton("Connect to a server");
@@ -53,7 +72,7 @@ public class AIScreen extends JPanel {
     }
 
     /**
-     *
+     * Everything we draw on the GUI.
      */
     public void initLayout() {
         setBackground(Color.black);

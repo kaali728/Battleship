@@ -22,10 +22,7 @@ public class AIPlayer {
      * The Next column shoot.
      */
     public int nextColumnShoot;
-    /**
-     * The Gametrun.
-     */
-    public boolean gametrun = false;
+
     /**
      * The Fieldsize.
      */
@@ -43,9 +40,13 @@ public class AIPlayer {
      */
     public Map<Integer, int[]> nextHitnext = new LinkedHashMap<>();
     /**
-     * The Used cord.
+     * The Used coordinates for shot.
      */
     public Map<Integer, int[]> usedCord = new HashMap<>();
+
+    /**
+     * The Used coordinates for placeing a ship.
+     */
     public Map<Integer, int[]> tousedCord = new HashMap<>();
 
     /**
@@ -58,18 +59,12 @@ public class AIPlayer {
     public Board playerBoard;
 
     /**
-     * The Sunked ship.
-     */
-    public boolean sunkedShip = false;
-
-    /**
      * Instantiates a new Ai player.
      */
     public AIPlayer() {
         fieldsize = 0;
     }
 
-    private Field isMarked;
 
     /**
      * Sets fieldsize.
@@ -219,7 +214,6 @@ public class AIPlayer {
             boolean carrship = false;
             boolean battship = false;
             boolean subship = false;
-            boolean destroship = false;
             for (Ship s: fleet) {
                 if(s.getHealth() == 5){
                     enemyBoard.setShip(0,0);
@@ -245,7 +239,6 @@ public class AIPlayer {
                 if(s.getHealth() == 2){
                     if(subship){
                         enemyBoard.setShip(4,3);
-                        destroship = true;
                     }else{
                         enemyBoard.setShip(4,0);
                     }
@@ -308,8 +301,6 @@ public class AIPlayer {
                             isHit = player.shoot(row, column);
                             if (isHit) {
                                 hitShipBehind(row, column);
-//                            System.out.println(isHit);
-//                            Enemyshoot(player);
                             }
                             break;
                         }
@@ -327,7 +318,6 @@ public class AIPlayer {
                     if (isHit) {
                         int[] hited_entry = nextHitnext.get(hashCode(nextRow, nextColumn));
                         if (hited_entry[2] == 0) {
-                            //hori
                             for (Map.Entry<Integer, int[]> s : nextHitnext.entrySet()) {
                                 int[] value_2 = s.getValue();
                                 if (nextHit.get(s.getKey()) != null && value_2[2] == 1) {
@@ -336,7 +326,6 @@ public class AIPlayer {
                             }
                             hitShipBehind(nextRow, nextColumn, true);
                         } else {
-                            //verti
                             for (Map.Entry<Integer, int[]> s : nextHitnext.entrySet()) {
                                 int[] value_2 = s.getValue();
                                 if (nextHit.get(s.getKey()) != null && value_2[2] == 0) {
@@ -345,8 +334,6 @@ public class AIPlayer {
                             }
                             hitShipBehind(nextRow, nextColumn, false);
                         }
-//                    System.out.println(isHit);
-//                    Enemyshoot(player);
                     }
                 }
                 nextHit.remove(key);
@@ -356,15 +343,6 @@ public class AIPlayer {
         return false;
     }
 
-
-
-//    private void sleep(){
-//        try {
-//            TimeUnit.MILLISECONDS.timedJoin(100);
-//        } catch (InterruptedException ie) {
-//            Thread.currentThread().interrupt();
-//        }
-//    }
 
     /**
      * Put coordinate for set Ship into a Hashmap
@@ -570,20 +548,6 @@ public class AIPlayer {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Sunked ship.
-     */
-    public void sunkedShip(){
-        sunkedShip = true;
-    }
-
-    /**
-     * Not sunked.
-     */
-    public void notSunked(){
-        sunkedShip =false;
     }
 
     /**

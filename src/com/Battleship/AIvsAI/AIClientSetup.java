@@ -1,7 +1,6 @@
 package com.Battleship.AIvsAI;
 
 import com.Battleship.Player.AINetworkPlayer;
-import com.Battleship.Player.AIPlayer;
 import com.Battleship.UI.GamePanel;
 
 import javax.swing.*;
@@ -10,20 +9,51 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The type Ai client setup.
+ */
 public class AIClientSetup extends JPanel {
+    /**
+     * The Main panel.
+     */
     GamePanel mainPanel;
+    /**
+     * The Address label.
+     */
     JLabel addressLabel;
+    /**
+     * The Port label.
+     */
     JLabel portLabel;
+    /**
+     * The Address.
+     */
     JTextField address;
+    /**
+     * The Port.
+     */
     JTextField port;
+    /**
+     * The Connect.
+     */
     JButton connect;
+    /**
+     * The Ai player.
+     */
     AINetworkPlayer aiPlayer;
+    /**
+     * The Back.
+     */
     JButton back;
 
 
-
     /**
-     * @param mainPanel
+     * Instantiates a new Ai client setup.
+     *
+     * We use this to forward address and port to the AIClientScreen to connect to the server.
+     *
+     * @see com.Battleship.AIvsAI.AIClientScreen
+     * @param mainPanel the main panel
      */
     public AIClientSetup(GamePanel mainPanel) {
         this.mainPanel = mainPanel;
@@ -32,7 +62,7 @@ public class AIClientSetup extends JPanel {
     }
 
     /**
-     *
+     * Initialize variables.
      */
     public void initVar() {
         addressLabel = new JLabel("Address");
@@ -58,7 +88,7 @@ public class AIClientSetup extends JPanel {
     }
 
     /**
-     *
+     * Everything we draw on the GUI.
      */
     public void initLayout() {
         setBackground(Color.black);

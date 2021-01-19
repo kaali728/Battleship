@@ -48,7 +48,10 @@ public class ShipSetupScreen extends Panel {
     }
 
     /**
-     * Initvar.
+     * Create a field where you can set your fleet
+     * Create buttons for the single player that you can place the ships vertically or horizontally
+     * Button to get back to the main Panel
+     * Create play button to change the screen
      */
     public void initvar() {
         back = new JButton("Back");
@@ -104,7 +107,7 @@ public class ShipSetupScreen extends Panel {
     }
 
     /**
-     * Initlayout.
+     * change color to black and white and the size of the font
      */
     public void initlayout() {
         setBackground(Color.black);

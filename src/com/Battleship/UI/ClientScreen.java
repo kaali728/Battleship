@@ -58,17 +58,9 @@ public class ClientScreen extends JPanel {
     public JButton saveButton;
 
     /**
-     * The Game over.
-     */
-    boolean gameOver = false;
-    /**
      * The Speicher.
      */
     SpeichernUnterClass speicher;
-    /**
-     * The Spiel stand.
-     */
-    GameObj spielStand;
     private GameLoad load;
     private boolean loadedGame = false;
 

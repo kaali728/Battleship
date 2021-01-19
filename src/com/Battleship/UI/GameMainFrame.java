@@ -19,7 +19,7 @@ public class GameMainFrame extends JFrame {
     }
 
     /**
-     * Init.
+     * Standard setting e.g. set a title, closes the panel etc, make panel visible.
      */
     public void init() {
         add(new GamePanel());

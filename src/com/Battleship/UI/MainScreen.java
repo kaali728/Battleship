@@ -49,7 +49,6 @@ public class MainScreen extends JPanel {
      * The Start sound.
      */
     boolean startSound = true;
-    private ImageIcon background;
     private ImageIcon ship;
     private GameLoad load;
     private JLabel shiplabel;
@@ -66,7 +65,8 @@ public class MainScreen extends JPanel {
     }
 
     /**
-     * Init vars.
+     * Create buttons for the main panel
+     *
      */
     void initVars() {
         singleplayer = new JButton("Singleplayer");
@@ -77,13 +77,14 @@ public class MainScreen extends JPanel {
         sound = mainPanel.getSound();
         load = new GameLoad();
 
-        //this.background = ImageFactory.createImage(Image.BACKGROUND);
         this.ship = new ImageIcon(getClass().getClassLoader().getResource("images/ship.png"));
         shiplabel = new JLabel(ship);
     }
 
     /**
-     * Init layout.
+     * Change the font and background of the main penal
+     * Set the size of the buttons
+     * Make buttons functional
      */
     void initLayout() {
         Font  titlefont  = null;
@@ -107,7 +108,6 @@ public class MainScreen extends JPanel {
         Font  buttonfont  = new Font(Font.SANS_SERIF,  Font.BOLD, 25);
 
         JPanel titlePanel = new JPanel();
-        //titlePanel.setBounds(100,100,Constants.WIDTH, Constants.HEIGHT);
         titlePanel.setPreferredSize(new Dimension(Constants.WIDTH,Constants.HEIGHT-100));
         titlePanel.setBackground(Color.black);
 
@@ -212,7 +212,6 @@ public class MainScreen extends JPanel {
                         this.mainPanel.setLoadedEnemyHealth(spielStand.EnemyHealth);
                         this.mainPanel.changeScreen("battle");
                     }
-                    //change screen to battle
                 }
         );
 
@@ -336,17 +335,27 @@ public class MainScreen extends JPanel {
         add(shipPanel);
     }
     // Für den Hintergrund auf einem JPanel muss man diese Funktion überschreiben.
+
+    /**
+     *
+     * @param g
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //g.drawImage(ship.getImage(), 0, 0, getWidth()/2, getHeight()/2, null);
     }
+
+    /**
+     *
+     * @param saveShips
+     * @param b
+     * @return
+     */
     private  ArrayList<Ship> convertSaveShip(ArrayList<SaveShip> saveShips, Field b[][]){
         ArrayList<Ship> retList = new ArrayList<>();
         for (SaveShip saveS:saveShips) {
             Ship ship = new Ship(saveS.getShipModel());
             ship.setRowColumn(saveS.getRow(), saveS.getColumn());
-            //ship.setHorizontal(saveS.isHorizontal());
             if(saveS.getShipBoard().get(0).getColumn() !=  saveS.getShipBoard().get(saveS.getShipBoard().size() -1).getColumn()){
                 ship.setHorizontal(true);
             }else{
@@ -368,6 +377,12 @@ public class MainScreen extends JPanel {
         }
         return retList;
     }
+
+    /**
+     *
+     * @param bt
+     * @return
+     */
     private Field[][] convertSaveField(SaveField bt[][]){
         Field button[][] = new Field[bt.length][bt.length];
         for (int i = 0; i <bt.length ; i++) {
