@@ -1,13 +1,10 @@
 package com.Battleship.UI;
 
 import com.Battleship.Constants.Constants;
-import com.Battleship.Main.Game;
 import com.Battleship.Model.Field;
 import com.Battleship.Model.SaveField;
 import com.Battleship.Model.SaveShip;
 import com.Battleship.Model.Ship;
-import com.Battleship.Player.Player;
-import com.Battleship.Sound.Sound;
 import com.Battleship.Sound.SoundFactory;
 import com.Battleship.SpielstandLaden.GameLoad;
 import com.Battleship.SpielstandLaden.GameObj;
@@ -15,12 +12,8 @@ import com.Battleship.SpielstandLaden.GameObj;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -81,9 +74,7 @@ public class MainScreen extends JPanel {
         aiVSai = new JButton("AI vs AI");
         spielstandLaden = new JButton("Load Game");
         soundButton = new JButton("Sound");
-        sound = new SoundFactory();
-        sound.load(Sound.MAINSOUND);
-        sound.play(SoundFactory.sound);
+        sound = mainPanel.getSound();
         load = new GameLoad();
 
         //this.background = ImageFactory.createImage(Image.BACKGROUND);
@@ -181,13 +172,11 @@ public class MainScreen extends JPanel {
 
         multiplayer.addActionListener(
                 (e) -> {
-                    mainPanel.setSound(sound);
                     mainPanel.changeScreen("multiplayer");
                 }
         );
         singleplayer.addActionListener(
                 (e) -> {
-                    mainPanel.setSound(sound);
                     mainPanel.setGameState("singleplayer");
                     mainPanel.changeScreen("singleplayer");
                 }

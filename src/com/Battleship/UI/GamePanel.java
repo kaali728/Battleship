@@ -7,6 +7,7 @@ import com.Battleship.Player.AINetworkPlayer;
 import com.Battleship.Player.AIPlayer;
 import com.Battleship.Player.NetworkPlayer;
 import com.Battleship.Player.Player;
+import com.Battleship.Sound.Sound;
 import com.Battleship.Sound.SoundFactory;
 import com.Battleship.SpielstandLaden.GameLoad;
 import com.Battleship.SpielstandLaden.GameObj;
@@ -40,6 +41,9 @@ public class GamePanel extends JPanel {
      */
 // Hintergrundbild
     public GamePanel() {
+        sound = new SoundFactory();
+        sound.load(Sound.MAINSOUND);
+        sound.play(SoundFactory.sound);
         initLayout();
     }
 

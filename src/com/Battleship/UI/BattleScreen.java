@@ -234,6 +234,7 @@ public class BattleScreen extends Panel implements ActionListener {
         if(e.getSource() == endGame){
             mainPanel.getEnemyPlayer().endGame();
             this.mainPanel.setGameload(false);
+            mainPanel.getSound().stop();
             mainPanel.setGameState("start");
             mainPanel.changeScreen("main");
         }
