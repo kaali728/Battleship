@@ -22,12 +22,12 @@ public class Board extends JPanel {
     int size = 0;
 
     /**
-     * The Button.
+     * The Buttons of Board. Where ships placed in there
      */
     public Field button[][];
 
     /**
-     * The Button panel.
+     * The Button panel. button will be added to this panel
      */
     JPanel buttonPanel;
 
@@ -40,14 +40,27 @@ public class Board extends JPanel {
      */
     int columns;
 
+    /***
+     * fleet of player
+     */
     private ArrayList<Ship> fleet;
 
+    /***
+     * simple counter to count the ships
+     */
     private int carrierCount;
     private int battleshipCount;
     private int submarineCount;
     private int destoryerCount;
 
+    /***
+     * a boolean to choose if the ship placed horizontal or vertical
+     */
     private boolean horizontal = true;
+
+    /***
+     * gamestate, will be give by gamepanel
+     */
 
     private String gameState;
 
@@ -85,7 +98,6 @@ public class Board extends JPanel {
      */
     public int shootetColumn = -1;
 
-    private int counter = 0;
     private boolean client = false;
 
     private Writer out;
@@ -219,7 +231,7 @@ public class Board extends JPanel {
     }
 
     /**
-     * Initlayoutmulti.
+     * This function will be used
      */
     public void initlayoutmulti() {
         setSize(new Dimension(650, 650));

@@ -34,6 +34,10 @@ public class AIClientScreen extends JPanel {
     int carrierCount, battleshipCount, submarineCount, destroyerCount;
 
     /**
+     *
+     * In this function we make a connection.
+     *
+     *
      * @param address
      * @param port
      * @param mainPanel
