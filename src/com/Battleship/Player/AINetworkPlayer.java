@@ -20,7 +20,7 @@ public class AINetworkPlayer extends AIPlayer{
     }
 
     /**
-     * Aiset enemy ship boolean.
+     * AI vs Ai are randomly placed on the field, except for field sizes 5, 6 and 7
      *
      * @return the boolean
      */
@@ -120,7 +120,10 @@ public class AINetworkPlayer extends AIPlayer{
     }
 
     /**
-     * A ivs a inext shoot boolean.
+     * AI vs AI analysiert den schuss
+     * If the shot has hit a ship, there is a 1 and you can shoot again
+     * If you have sunk a ship then a 2 appears and you can shoot one again and
+     * If you missed the shot a 0 appears and it's the opponent's turn
      *
      * @param ans the ans
      * @return the boolean
@@ -135,8 +138,6 @@ public class AINetworkPlayer extends AIPlayer{
             if(nextHit.size() != 0){
                 int[] hited_entry = nextHitnext.get(hashCode(nextRowShoot, nextColumnShoot));
                 if (hited_entry[2] == 0) {
-                    //hori
-                    //System.out.println("horizental");
                     for (Map.Entry<Integer, int[]> s :nextHitnext.entrySet()) {
                         int[] value_2 = s.getValue();
                         if (nextHit.get(s.getKey()) != null && value_2[2] == 1) {
@@ -145,8 +146,6 @@ public class AINetworkPlayer extends AIPlayer{
                     }
                     hitShipBehind(nextRowShoot, nextColumnShoot, true);
                 } else {
-                    //verti
-                    //System.out.println("vertical");
                     for (Map.Entry<Integer, int[]> s :  nextHitnext.entrySet()) {
                         int[] value_2 = s.getValue();
                         if (nextHit.get(s.getKey()) != null && value_2[2] == 0) {
@@ -165,7 +164,8 @@ public class AINetworkPlayer extends AIPlayer{
     }
 
     /**
-     * A ishot analys.
+     * Ai vs Ai shoot randomly
+     * When a ship is hit, it checks whether it is Vertikal or Horizontal and destroys the entire Ship
      */
     public void AIshotAnalys(){
         if (nextHit.size() == 0) {
@@ -175,7 +175,6 @@ public class AINetworkPlayer extends AIPlayer{
                 int column = random.nextInt(fieldsize);
                 if ((row + column) % 2 == 0) {
                     if (!isUsedCord(row, column)) {
-                        //addTousedCord(row, column);
                         nextRowShoot = row;
                         nextColumnShoot = column;
                         break;
@@ -197,7 +196,7 @@ public class AINetworkPlayer extends AIPlayer{
     }
 
     /**
-     * A ivs ai shot.
+     * AI vs AI shot.
      *
      * @param player the player
      */
