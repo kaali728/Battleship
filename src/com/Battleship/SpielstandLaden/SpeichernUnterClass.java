@@ -44,7 +44,9 @@ public class SpeichernUnterClass  extends JFrame {
     }
 
     /**
-     * Save as boolean.
+     * Save game in a file
+     * The player can choose in Singleplayer the place where the file is saved
+     * In Multiplayer both files are saved with a unique ID in a folder where the players ran the game
      *
      * @param path the path
      * @return the boolean
@@ -69,7 +71,7 @@ public class SpeichernUnterClass  extends JFrame {
                 if(client || multiplayer){
                     path = System.getProperty("user.dir");
                 }else {
-                    System.out.println("ich bin hier");
+//                    System.out.println("ich bin hier");
                     path = choosePath.getSelectedFile().toString();
                 }
                 Map<String, Object> map = new HashMap<>();
@@ -110,34 +112,52 @@ public class SpeichernUnterClass  extends JFrame {
         return false;
     }
 
-    public long getDefaultname() {
-        return defaultname;
-    }
-
+    /**
+     * Set Default name
+     * @param defaultname
+     */
     public void setDefaultname(long defaultname) {
         this.defaultname = defaultname;
     }
 
+
+    /**
+     * Save game for multiplayer
+     *
+     * @return
+     */
     public boolean isMultiplayer() {
         return multiplayer;
     }
 
+    /**
+     * Set Multiplayer
+     * @param multiplayer
+     */
     public void setMultiplayer(boolean multiplayer) {
         this.multiplayer = multiplayer;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
+    /**
+     * Set filename
+     * @param fileName
+     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
+    /**
+     * Check is it a Client or Server
+     * @return
+     */
     public boolean isClient() {
         return client;
     }
 
+    /**
+     * Set Client
+     * @param client
+     */
     public void setClient(boolean client) {
         this.client = client;
     }
