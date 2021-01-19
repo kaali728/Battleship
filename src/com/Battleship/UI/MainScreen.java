@@ -49,7 +49,6 @@ public class MainScreen extends JPanel {
      * The Start sound.
      */
     boolean startSound = true;
-    private ImageIcon background;
     private ImageIcon ship;
     private GameLoad load;
     private JLabel shiplabel;
@@ -66,7 +65,8 @@ public class MainScreen extends JPanel {
     }
 
     /**
-     * Init vars.
+     * Create buttons for the main panel
+     *
      */
     void initVars() {
         singleplayer = new JButton("Singleplayer");
@@ -77,13 +77,12 @@ public class MainScreen extends JPanel {
         sound = mainPanel.getSound();
         load = new GameLoad();
 
-        //this.background = ImageFactory.createImage(Image.BACKGROUND);
         this.ship = new ImageIcon(getClass().getClassLoader().getResource("images/ship.png"));
         shiplabel = new JLabel(ship);
     }
 
     /**
-     * Init layout.
+     * Change the font and background of the main penal
      */
     void initLayout() {
         Font  titlefont  = null;
@@ -212,7 +211,6 @@ public class MainScreen extends JPanel {
                         this.mainPanel.setLoadedEnemyHealth(spielStand.EnemyHealth);
                         this.mainPanel.changeScreen("battle");
                     }
-                    //change screen to battle
                 }
         );
 

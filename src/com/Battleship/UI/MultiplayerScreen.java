@@ -39,7 +39,8 @@ public class MultiplayerScreen extends JPanel {
     }
 
     /**
-     * Init var.
+     * Create buttons to choose if you want to be the Server or the Client
+     * Create a back button to go back to main panel
      */
     public void initVar() {
         client = new JButton("Connect to a server");
@@ -68,7 +69,7 @@ public class MultiplayerScreen extends JPanel {
     }
 
     /**
-     * Init layout.
+     * Set the font, as well as the color and the size
      */
     public void initLayout() {
         setBackground(Color.black);
