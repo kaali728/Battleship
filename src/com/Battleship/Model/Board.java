@@ -231,7 +231,8 @@ public class Board extends JPanel {
     }
 
     /**
-     * This function will be used
+     * This function will be used for layout init on multi player game.
+     * it gave you per click the row and column of the button.
      */
     public void initlayoutmulti() {
         setSize(new Dimension(650, 650));
@@ -291,7 +292,9 @@ public class Board extends JPanel {
     }
 
     /**
-     * Initlayout.
+     * Init layout for normal game. It will make fields button and put them
+     * into the array button. and will make actionlister on
+     * ship placement or shoot if the game state is a battle.
      */
     public void initlayout() {
         setSize(new Dimension(650, 650));
@@ -349,7 +352,7 @@ public class Board extends JPanel {
     }
 
     /**
-     * Convert list.
+     * Its convert the button array to a list
      *
      * @return the list
      */
@@ -359,7 +362,7 @@ public class Board extends JPanel {
     }
 
     /**
-     * Sets my ship.
+     * Sets my ship. set the ships from fleet on the board.
      */
     public void setMyShip() {
         for (Ship s : fleet) {
@@ -379,7 +382,7 @@ public class Board extends JPanel {
     }
 
     /**
-     * Sets my ship.
+     * Sets my ship. for load game. set ship after loaded game
      *
      * @param buttonLoad the button load
      */
@@ -464,6 +467,12 @@ public class Board extends JPanel {
         }
     }
 
+
+    /***
+     * Multi player load is used to set the ships. water or red and also sign button as mark or shot
+     * @param buttonLoad
+     */
+
     public void setMyShipMultiPlayerLoad(Field buttonLoad[][]) {
         for (int i = 0; i < buttonLoad.length; i++) {
             for (int j = 0; j < buttonLoad[i].length; j++) {
@@ -482,7 +491,7 @@ public class Board extends JPanel {
     }
 
     /**
-     * Sets out.
+     * By multi player this function help to set Out writer. for communication and writing.
      *
      * @param out the out
      */
@@ -492,7 +501,7 @@ public class Board extends JPanel {
     }
 
     /**
-     * Multiplayer shoot.
+     * Multiplayer shoot. write the shootetrow and shootetcolumn to the client.
      */
     public void multiplayerShoot() {
         try {
@@ -511,7 +520,9 @@ public class Board extends JPanel {
     }
 
     /**
-     * Aimultiplayer shoot.
+     * Aimultiplayer shoot. write the row and column
+     * and give it to the client. row and column will be added by one because
+     * of network protocol.
      *
      * @param row    the row
      * @param column the column
@@ -533,7 +544,7 @@ public class Board extends JPanel {
     }
 
     /**
-     * Add toused cord.
+     * Add toused cord. the shootet coord and it will be used on multiplayer.
      *
      * @param row    the row
      * @param column the column
@@ -562,7 +573,7 @@ public class Board extends JPanel {
     }
 
     /**
-     * Hash code int.
+     * Hash code int. For usedcord hashmap
      *
      * @param x the x
      * @param y the y
@@ -573,7 +584,7 @@ public class Board extends JPanel {
     }
 
     /**
-     * Multi shoot.
+     * Multiplayer shoot function to draw red or water on screen. it gets the answer.
      *
      * @param shot the shot
      */
@@ -599,7 +610,7 @@ public class Board extends JPanel {
     }
 
     /**
-     * Aimulti shoot.
+     * Aimultiplayer shoot function for draw red or water.
      *
      * @param shot the shot
      */
@@ -623,7 +634,7 @@ public class Board extends JPanel {
 
 
     /**
-     * Sets client.
+     * Sets client. (Multiplayer)
      *
      * @param client the client
      */
@@ -632,7 +643,8 @@ public class Board extends JPanel {
     }
 
     /**
-     * Shoot boolean.
+     * Shoot boolean. if the player shoot enemy board. This function will look if it was a ship
+     * or not. After that it will draw red or water.
      *
      * @param e the e
      * @return the boolean
@@ -708,7 +720,9 @@ public class Board extends JPanel {
     }
 
     /**
-     * Multiplayershoot boolean.
+     * Multiplayershoot boolean. it same as shoot by single player and
+     * it will look at this row and column if there is a ship. And send the
+     * Answer.
      *
      * @param row    the row
      * @param column the column
@@ -776,6 +790,9 @@ public class Board extends JPanel {
     }
 
     /**
+     * it become a answer and
+     * will write it to the other side
+     *
      * 0 = Wasser
      * 1 = Treffer
      * 2 = Schiff ist zerstört
@@ -797,12 +814,15 @@ public class Board extends JPanel {
     }
 
     /**
-     * Shoot boolean.
+     * Shoot boolean. This method is for AI players and see if there are any
+     * at this row and column ship or not. And a true one will be returned
+     * if the ship is hit or a fake one if it is not hit.
      *
      * @param row    the row
      * @param column the column
      * @return the boolean
      */
+
     public boolean shoot(int row, int column) {
         //schauen ob der person gewonnen hat oder nicht
         //health von sag ob ein ship noch leben hat wenn alle 0 sind dann gameover
