@@ -302,15 +302,15 @@ public class AIClientScreen extends JPanel {
         chatScroll = new JScrollPane(chat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 
-        Box vbox = Box.createVerticalBox();
-        vbox.add(Box.createVerticalStrut(100));
-        vbox.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(vbox);
-
+        Box chat = Box.createVerticalBox();
+        {
+            chat.add(Box.createVerticalStrut(15));
+            chat.add(chatScroll);
+            chat.add(Box.createVerticalStrut(10));
+            chat.add(chatInput);
+        }
         add(hbox);
-
-        add(chatScroll);
-        add(chatInput);
+        add(chat);
         updateUI();
     }
 }
