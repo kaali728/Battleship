@@ -337,7 +337,23 @@ public class ClientScreen extends JPanel {
             this.mainPanel.getNetworkPlayer().setFieldsize(fieldsize);
             mainPanel.setGameState("setzen");
             vertical = new JButton("vertical");
+            vertical.setBackground(Color.black);
+            vertical.setForeground(Color.WHITE);
+            vertical.setFont(buttonfont);
+            vertical.setFocusPainted(false);
+            vertical.setMargin(new Insets(0, 0, 0, 0));
+            vertical.setBorder(b);
+            vertical.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent evt) {
+                    Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                    vertical.setBorder(b);
+                }
 
+                public void mouseExited(MouseEvent evt) {
+                    Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                    vertical.setBorder(b);
+                }
+            });
 
             enemyBoard = new Board(fieldsize, "battle", out, true);
             enemyBoard.setVisible(false);
@@ -386,13 +402,13 @@ public class ClientScreen extends JPanel {
         button.setBorder(b);
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
-                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
-                button.setBorder(b);
-            }
+                    Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(43,209,252));
+                    button.setBorder(b);
+                }
 
-            public void mouseExited(MouseEvent evt) {
-                Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
-                button.setBorder(b);
+                public void mouseExited(MouseEvent evt) {
+                    Border b = BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0,0,0));
+                    button.setBorder(b);
             }
         });
 
