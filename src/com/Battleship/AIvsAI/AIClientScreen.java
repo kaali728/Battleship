@@ -67,6 +67,10 @@ public class AIClientScreen extends JPanel {
     destroyerCount;
 
 
+    /***
+     * Count of all ships in fleet
+     */
+    private int allShipsCound;
     /**
      * Instantiates a new Ai client screen.
      *
@@ -137,6 +141,7 @@ public class AIClientScreen extends JPanel {
                             battleshipCount = (int) ships.chars().filter(ch -> ch == '4').count();
                             submarineCount = (int) ships.chars().filter(ch -> ch == '3').count();
                             destroyerCount = (int) ships.chars().filter(ch -> ch == '2').count();
+                            allShipsCound = carrierCount + battleshipCount + submarineCount + destroyerCount;
 
 
                             System.out.println(carrierCount);
@@ -167,7 +172,14 @@ public class AIClientScreen extends JPanel {
                         if (line.contains("answer")) {
                             int ans = Integer.parseInt(line.split(" ")[2]);
                             enemyBoard.aimultiShoot(ans);
-
+                            if(ans == 2){
+                                if(allShipsCound>0){
+                                    allShipsCound--;
+                                }
+                                if(allShipsCound == 0){
+                                    JOptionPane.showMessageDialog(enemyBoard, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                            }
                             // Man darf erst bei Wasser wieder schießen.
                             if (ans == 0) {
                                 printWriter.println("C: next");

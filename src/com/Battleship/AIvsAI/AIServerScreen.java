@@ -70,6 +70,11 @@ public class AIServerScreen extends JPanel {
      */
     Board enemyBoard;
 
+    /***
+     * Count of all ships in fleet
+     */
+    private int allShipsCound;
+
     /**
      * Instantiates a new Ai server screen.
      *
@@ -95,6 +100,7 @@ public class AIServerScreen extends JPanel {
         this.submarineCount = submarineCount;
         this.destroyerCount = destroyerCount;
         this.mainPanel = mainPanel;
+        this.allShipsCound = carrierCount + battleshipCount + submarineCount + destroyerCount;
         this.fieldsize = fieldsize;
         new SwingWorker() {
             @Override
@@ -191,7 +197,14 @@ public class AIServerScreen extends JPanel {
                         if (line.contains("answer")) {
                             int ans = Integer.parseInt(line.split(" ")[2]);
                             enemyBoard.aimultiShoot(ans);
-
+                            if(ans == 2){
+                                if(allShipsCound>0){
+                                    allShipsCound--;
+                                }
+                                if(allShipsCound == 0){
+                                    JOptionPane.showMessageDialog(enemyBoard, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                            }
 
                             // Man darf erst bei Wasser wieder schießen.
                             if (ans == 0) {
