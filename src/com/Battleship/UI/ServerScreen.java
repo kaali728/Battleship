@@ -78,6 +78,11 @@ public class ServerScreen extends JPanel {
     SpeichernUnterClass speicher;
     private GameLoad load;
 
+    /***
+     * Count of all ships in fleet
+     */
+    private int allShipsCound;
+
     /**
      * Instantiates a new Server screen.
      *
@@ -97,6 +102,7 @@ public class ServerScreen extends JPanel {
         this.battleshipCount = battleshipCount;
         this.submarineCount = submarineCount;
         this.destroyerCount = destroyerCount;
+        this.allShipsCound = carrierCount + battleshipCount + submarineCount + destroyerCount;
         this.mainPanel = mainPanel;
         this.fieldsize = fieldsize;
         new SwingWorker() {
@@ -186,14 +192,21 @@ public class ServerScreen extends JPanel {
                         if (line.contains("answer")) {
                             int ans = Integer.parseInt(line.split(" ")[2]);
                             enemyBoard.multiShoot(ans);
-
+                            if(ans == 2){
+                                if(allShipsCound>0){
+                                    allShipsCound--;
+                                }
+                                if(allShipsCound == 0){
+                                    JOptionPane.showMessageDialog(enemyBoard, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                            }
                             // Man darf erst bei Wasser wieder schießen.
                             if (ans == 0) {
                                 enemyBoard.multiEnableBtns(false);
                                 printWriter.println("S: next");
                                 printWriter.flush();
                                 SwingUtilities.invokeLater(()->{
-                                    saveButton.setVisible(false);
+                                    saveButton.setEnabled(false);
                                 });
                             }
                         }
@@ -201,7 +214,7 @@ public class ServerScreen extends JPanel {
                         if(line.contains("save")){
                             int ut = Integer.parseInt(line.split(" ")[2]);
                             SwingUtilities.invokeAndWait(() -> {
-                                speicher = new SpeichernUnterClass(postionBoard, enemyBoard);
+                                speicher = new SpeichernUnterClass(postionBoard, enemyBoard,allShipsCound);
                                 speicher.setDefaultname(ut);
                                 speicher.setMultiplayer(true);
                                 speicher.saveAs(null);
@@ -212,7 +225,7 @@ public class ServerScreen extends JPanel {
 
                         if (line.contains("next") && mainPanel.getGameState().equals("battle")) {
                             enemyBoard.multiEnableBtns(true);
-                            saveButton.setVisible(true);
+                            saveButton.setEnabled(true);
                         }
 
                         SwingUtilities.invokeLater(
@@ -387,7 +400,7 @@ public class ServerScreen extends JPanel {
                 System.out.println("Server Save Game");
                 Date now = new Date();
                 long ut3 = now.getTime() / 1000L;
-                speicher = new SpeichernUnterClass(postionBoard, enemyBoard);
+                speicher = new SpeichernUnterClass(postionBoard, enemyBoard,allShipsCound);
                 speicher.setDefaultname(ut3);
                 speicher.setMultiplayer(true);
                 speicher.saveAs(null);
@@ -480,45 +493,4 @@ public class ServerScreen extends JPanel {
         add(chat);
         repaint();
     }
-
-    private  ArrayList<Ship> convertSaveShip(ArrayList<SaveShip> saveShips, Field b[][]){
-        ArrayList<Ship> retList = new ArrayList<>();
-        for (SaveShip saveS:saveShips) {
-            Ship ship = new Ship(saveS.getShipModel());
-            ship.setRowColumn(saveS.getRow(), saveS.getColumn());
-            //ship.setHorizontal(saveS.isHorizontal());
-            if(saveS.getShipBoard().get(0).getColumn() !=  saveS.getShipBoard().get(saveS.getShipBoard().size() -1).getColumn()){
-                ship.setHorizontal(true);
-            }else{
-                ship.setHorizontal(false);
-            }
-            for (SaveField f: saveS.getShipBoard()) {
-                Field newField = new Field(f.getRow(),f.getColumn(), "battle");
-                for (int i = 0; i <b.length ; i++) {
-                    for (int j = 0; j <b[i].length ; j++) {
-                        if(b[i][j].getRow() == newField.getRow() && b[i][j].getColumn() == newField.getColumn()){
-                            newField.setMark(b[i][j].isMark());
-                            newField.setShot(b[i][j].isShot());
-                        }
-                    }
-                }
-                ship.getShipBoard().add(newField);
-            }
-            retList.add(ship);
-        }
-        return retList;
-    }
-    private Field[][] convertSaveField(SaveField bt[][]){
-        Field button[][] = new Field[bt.length][bt.length];
-        for (int i = 0; i <bt.length ; i++) {
-            for (int j = 0; j <bt[i].length ; j++) {
-                button[i][j] = new Field(bt[i][j].getRow(),bt[i][j].getColumn(), "battle");
-                button[i][j].setMark(bt[i][j].isMark());
-                button[i][j].setShot(bt[i][j].isShot());
-            }
-        }
-        return button;
-    }
-
-
 }

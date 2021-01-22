@@ -99,9 +99,15 @@ public class Board extends JPanel {
     public int shootetColumn = -1;
 
     private boolean client = false;
-
+    /***
+     * For multiplayer writer
+     */
     private Writer out;
+    /***
+     * The coordinate that we shooted already
+     */
     private Map<Integer, int[]> usedCord = new HashMap<>();
+
 
     /**
      * Instantiates a new Board.

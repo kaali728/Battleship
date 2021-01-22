@@ -176,7 +176,12 @@ public class SinglePlayerScreen extends JPanel implements ChangeListener {
                         mainPanel.setGameState("setzen");
                         mainPanel.changeScreen("battlefield");
                     }else{
-                        JOptionPane.showMessageDialog(mainPanel, "Set your Field size!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                        if(carrierCount == 0 || battleshipCount == 0 || submarineCount == 0 || destroyerCount == 0){
+                            JOptionPane.showMessageDialog(mainPanel, "Set your Ships!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+
+                        }else{
+                            JOptionPane.showMessageDialog(mainPanel, "Set your Field size!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                 }
 

@@ -168,7 +168,7 @@ public class ServerSetupScreen extends JPanel {
                 if(tempArea < 0 || port.getText().equals("")){
                     JOptionPane.showMessageDialog(mainPanel, "You have too many ship, not enough space!", "Warning", JOptionPane.INFORMATION_MESSAGE);
                 }else{
-                    if(fieldsize != 0){
+                    if(fieldsize != 0  && (carrierCount != 0 || battleshipCount != 0 || submarineCount != 0 || destroyerCount != 0)){
                         ArrayList<Ship> fleet = new ArrayList<>();
                         for (int i=0; i<carrierCount; i++){
                             fleet.add(new Ship("carrier"));
@@ -189,7 +189,12 @@ public class ServerSetupScreen extends JPanel {
                         portNumber = Integer.parseInt(port.getText());
                         mainPanel.changeScreen("serverScreen", portNumber, fieldsize, carrierCount, battleshipCount, submarineCount, destroyerCount);
                     }else{
-                        JOptionPane.showMessageDialog(mainPanel, "Set your Field size!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                        if(carrierCount == 0 || battleshipCount == 0 || submarineCount == 0 || destroyerCount == 0){
+                            JOptionPane.showMessageDialog(mainPanel, "Set your Ships!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+
+                        }else{
+                            JOptionPane.showMessageDialog(mainPanel, "Set your Field size!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                 }
             }

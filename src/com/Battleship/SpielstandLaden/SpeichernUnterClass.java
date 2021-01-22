@@ -29,6 +29,10 @@ public class SpeichernUnterClass  extends JFrame {
     private String fileName;
     private boolean client = false;
 
+    /***
+     * count of all rest ship to shoot
+     */
+    public int allShipsCount;
 
     /**
      * Instantiates a new Speichern unter class.
@@ -41,6 +45,11 @@ public class SpeichernUnterClass  extends JFrame {
         this.enemy = enemyBoard;
     }
 
+    public SpeichernUnterClass(Board playerBoard, Board enemyBoard, int allShipsCount) {
+        this.player = playerBoard;
+        this.enemy = enemyBoard;
+        this.allShipsCount = allShipsCount;
+    }
     /**
      * Save game in a file
      * The player can choose in Singleplayer the place where the file is saved
@@ -89,7 +98,7 @@ public class SpeichernUnterClass  extends JFrame {
                     }
                 }
 
-                GameObj data = new GameObj(this.player, this.enemy, multiplayer);
+                GameObj data = new GameObj(this.player, this.enemy, multiplayer, allShipsCount);
 
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 // convert map to JSON File

@@ -83,6 +83,11 @@ public class ClientScreen extends JPanel {
      */
     destroyerCount;
 
+    /***
+     * Count of all ships in fleet
+     */
+    private int allShipsCount;
+
     /**
      * Instantiates a new Client screen.
      *
@@ -126,6 +131,7 @@ public class ClientScreen extends JPanel {
                                 Field bt[][] = convertSaveField(spielStand.playerButton);
                                 Field enbt[][] = convertSaveField(spielStand.enemyButton);
                                 ArrayList<Ship> playerFleet = convertSaveShip(spielStand.playerFleet, bt);
+                                allShipsCount = spielStand.allShipsCount;
                                 mainPanel.getSingleplayer().setFieldsize(spielStand.size);
                                 mainPanel.getSingleplayer().setFleet(playerFleet);
                                 mainPanel.setLoadedPlayerHealth(spielStand.PlayerHealth);
@@ -195,8 +201,7 @@ public class ClientScreen extends JPanel {
                             battleshipCount = (int) ships.chars().filter(ch -> ch == '4').count();
                             submarineCount = (int) ships.chars().filter(ch -> ch == '3').count();
                             destroyerCount = (int) ships.chars().filter(ch -> ch == '2').count();
-
-                            System.out.println(carrierCount);
+                            allShipsCount = carrierCount + battleshipCount + submarineCount + destroyerCount;
 
                             SwingUtilities.invokeLater(() -> {
                                         initLayout();
@@ -239,10 +244,19 @@ public class ClientScreen extends JPanel {
                             int ans = Integer.parseInt(line.split(" ")[2]);
                             enemyBoard.multiShoot(ans);
 
+                            if(ans == 2){
+                                if(allShipsCount>0){
+                                    allShipsCount--;
+                                }
+                                if(allShipsCount == 0){
+                                    JOptionPane.showMessageDialog(enemyBoard, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                            }
+
                             // Man darf erst bei Wasser wieder schießen.
                             if (ans == 0) {
                                 enemyBoard.multiEnableBtns(false);
-                                saveButton.setVisible(false);
+                                saveButton.setEnabled(false);
                                 printWriter.println("C: next");
                                 printWriter.flush();
                             }
@@ -250,14 +264,14 @@ public class ClientScreen extends JPanel {
 
                         if (line.contains("next")) {
                             enemyBoard.multiEnableBtns(true);
-                            saveButton.setVisible(true);
+                            saveButton.setEnabled(true);
                         }
 
                         if(line.contains("save")){
                             int ut = Integer.parseInt(line.split(" ")[2]);
                             System.out.println("save clinet"+ut);
                             SwingUtilities.invokeAndWait(() -> {
-                                speicher = new SpeichernUnterClass(postionBoard, enemyBoard);
+                                speicher = new SpeichernUnterClass(postionBoard, enemyBoard, allShipsCount);
                                 speicher.setDefaultname(ut);
                                 speicher.setMultiplayer(true);
                                 speicher.setClient(true);
@@ -440,6 +454,8 @@ public class ClientScreen extends JPanel {
                             // enemy Spielbrett
                             mainPanel.setGameState("battle");
                             enemyBoard.setVisible(true);
+                            saveButton.setVisible(true);
+                            saveButton.setEnabled(false);
                             if(!loadedGame){
                                 vertical.setVisible(false);
                             }
@@ -481,7 +497,7 @@ public class ClientScreen extends JPanel {
                 try {
                     out.write(String.format("%s%n", "C: save " + ut3));
                     System.out.println("C: save " + ut3);
-                    speicher = new SpeichernUnterClass(postionBoard, enemyBoard);
+                    speicher = new SpeichernUnterClass(postionBoard, enemyBoard, allShipsCount);
                     speicher.setDefaultname(ut3);
                     speicher.setMultiplayer(true);
                     speicher.saveAs(null);

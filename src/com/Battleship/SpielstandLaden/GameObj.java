@@ -55,7 +55,10 @@ public class GameObj {
      * The Size.
      */
     public int size;
-
+    /***
+     * Count of rest Ships to shoot
+     */
+    public int allShipsCount;
 
     public boolean multiplayer = false;
     /**
@@ -94,17 +97,45 @@ public class GameObj {
             for (Ship s: playerBoard.getFleet()) {
                 this.playerFleet.add(new SaveShip(s));
             }
-            //System.out.println("enemyBoard"+enemyBoard.getFleet());
-//            for (Ship s: enemyBoard.getFleet()) {
-//                this.enemyFleet.add(new SaveShip(s));
-//            }
             EnemyHealth = enemyBoard.getAllHealthEnemy();
             PlayerHealth = enemyBoard.getAllHealthPlayer();
             usedCord =  enemyBoard.getUsedCord();
-//            System.out.println("aiOnline from multi " + enemyBoard.aiOnline);
-//            usedCord =  enemyBoard.aiOnline.getUsedCord();
-//            nextHit = enemyBoard.aiOnline.getNextHit();
-//            nextHitnext = enemyBoard.aiOnline.getNextHitnext();
+        }
+
+    }
+
+    public GameObj(Board playerBoard, Board enemyBoard, boolean multiplayer, int allShipsCount){
+        if(!multiplayer){
+            this.size = playerBoard.getButton().length;
+            playerButton = new SaveField[size][size];
+            enemyButton = new SaveField[size][size];
+
+            setSavedField(playerBoard.getButton(), 1);
+            setSavedField(enemyBoard.getButton(), 2);
+            for (Ship s: playerBoard.getFleet()) {
+                this.playerFleet.add(new SaveShip(s));
+            }
+            for (Ship s: enemyBoard.getFleet()) {
+                this.enemyFleet.add(new SaveShip(s));
+            }
+            EnemyHealth = enemyBoard.getAllHealthEnemy();
+            PlayerHealth = enemyBoard.getAllHealthPlayer();
+            usedCord =  enemyBoard.aiPlayer.getUsedCord();
+            nextHit = enemyBoard.aiPlayer.getNextHit();
+            nextHitnext = enemyBoard.aiPlayer.getNextHitnext();
+        }else{
+            this.size = playerBoard.getButton().length;
+            playerButton = new SaveField[size][size];
+            enemyButton = new SaveField[size][size];
+            this.allShipsCount = allShipsCount;
+            setSavedField(playerBoard.getButton(), 1);
+            setSavedField(enemyBoard.getButton(), 2);
+            for (Ship s: playerBoard.getFleet()) {
+                this.playerFleet.add(new SaveShip(s));
+            }
+            EnemyHealth = enemyBoard.getAllHealthEnemy();
+            PlayerHealth = enemyBoard.getAllHealthPlayer();
+            usedCord =  enemyBoard.getUsedCord();
         }
 
     }

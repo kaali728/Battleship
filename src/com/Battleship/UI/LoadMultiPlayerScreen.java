@@ -71,6 +71,11 @@ public class LoadMultiPlayerScreen extends JPanel {
     JButton ready;
 
 
+    /***
+     * Count of all ships in fleet
+     */
+    private int allShipsCound;
+
     /**
      * Instantiates a new Load multi player screen.
      *
@@ -148,14 +153,21 @@ public class LoadMultiPlayerScreen extends JPanel {
                         if (line.contains("answer")) {
                             int ans = Integer.parseInt(line.split(" ")[2]);
                             enemyBoard.multiShoot(ans);
-
+                            if(ans == 2){
+                                if(allShipsCound>0){
+                                    allShipsCound--;
+                                }
+                                if(allShipsCound == 0){
+                                    JOptionPane.showMessageDialog(enemyBoard, "You Win!", "End Game", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                            }
                             // Man darf erst bei Wasser wieder schießen.
                             if (ans == 0) {
                                 enemyBoard.multiEnableBtns(false);
                                 printWriter.println("S: next");
                                 printWriter.flush();
                                 SwingUtilities.invokeLater(()->{
-                                    saveButton.setVisible(false);
+                                    saveButton.setEnabled(false);
                                 });
                             }
                         }
@@ -175,7 +187,7 @@ public class LoadMultiPlayerScreen extends JPanel {
 
                         if (line.contains("next") && mainPanel.getGameState().equals("battle")) {
                             enemyBoard.multiEnableBtns(true);
-                            saveButton.setVisible(true);
+                            saveButton.setEnabled(true);
                         }
 
                         SwingUtilities.invokeLater(
@@ -312,7 +324,7 @@ public class LoadMultiPlayerScreen extends JPanel {
                 System.out.println("Server Save Game");
                 Date now = new Date();
                 long ut3 = now.getTime() / 1000L;
-                speicher = new SpeichernUnterClass(postionBoard, enemyBoard);
+                speicher = new SpeichernUnterClass(postionBoard, enemyBoard, allShipsCound);
                 speicher.setDefaultname(ut3);
                 speicher.setMultiplayer(true);
                 speicher.saveAs(null);
@@ -383,6 +395,7 @@ public class LoadMultiPlayerScreen extends JPanel {
 
         if (spielStand != null) {
             this.fieldsize = spielStand.size;
+            this.allShipsCound = spielStand.allShipsCount;
             Field bt[][] = convertSaveField(spielStand.playerButton);
             Field enbt[][] = convertSaveField(spielStand.enemyButton);
             ArrayList<Ship> playerFleet = convertSaveShip(spielStand.playerFleet, bt);
