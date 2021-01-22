@@ -28,7 +28,7 @@ HS-Aalen Battelship Game Team Project
 # ✨ Compiled version
 
 - go into the **binaries** folder
-- on windows: just double click the **battleship.exe** file. You need to have a jre (java runtime environment) folder there. You can create a shortcut and add it where you want.
+- on windows: just double click the **battleship.exe** file. If there is an error then you need to have a jre (java runtime environment) folder there.After that You can create a shortcut from .exe file and add it where you want.
 Go to Program file > java > copy jre and pase into binaries.
 - all platforms: in the console write:
 ```shell script
