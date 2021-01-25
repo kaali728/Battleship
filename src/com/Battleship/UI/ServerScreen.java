@@ -221,6 +221,11 @@ public class ServerScreen extends JPanel {
                             });
                             printWriter.println("S: done");
                             printWriter.flush();
+
+                            // Close game
+                            socket.shutdownOutput();
+                            System.out.println("Connection closed.");
+                            System.exit(0);
                         }
 
                         if (line.contains("next") && mainPanel.getGameState().equals("battle")) {

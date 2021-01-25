@@ -280,6 +280,11 @@ public class ClientScreen extends JPanel {
                             });
                             printWriter.println("C: done");
                             printWriter.flush();
+
+                            // Close game
+                            socket.shutdownOutput();
+                            System.out.println("Connection closed.");
+                            System.exit(0);
                         }
 
 
