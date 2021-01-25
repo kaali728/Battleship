@@ -269,7 +269,6 @@ public class ClientScreen extends JPanel {
 
                         if(line.contains("save")){
                             int ut = Integer.parseInt(line.split(" ")[2]);
-                            System.out.println("save clinet"+ut);
                             SwingUtilities.invokeAndWait(() -> {
                                 speicher = new SpeichernUnterClass(postionBoard, enemyBoard, allShipsCount);
                                 speicher.setDefaultname(ut);
