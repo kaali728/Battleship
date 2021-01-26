@@ -83,6 +83,11 @@ public class ServerScreen extends JPanel {
      */
     private int allShipsCound;
 
+    /***
+     * if the button save clicked
+     */
+    private boolean savedClicked = false;
+
     /**
      * Instantiates a new Server screen.
      *
@@ -166,9 +171,16 @@ public class ServerScreen extends JPanel {
 
                         // Server ist bereit für die Schlacht
                         if (line.equals("C: done")) {
-                            SwingUtilities.invokeLater(() -> {
-                                button.setEnabled(true);
-                            });
+                            if(savedClicked){
+                                // Close game
+                                socket.shutdownOutput();
+                                System.out.println("Connection closed.");
+                                System.exit(0);
+                            }else{
+                                SwingUtilities.invokeLater(() -> {
+                                    button.setEnabled(true);
+                                });
+                            }
                         }
 
                         if (line.equals("C: ready")) {
@@ -409,6 +421,7 @@ public class ServerScreen extends JPanel {
                 speicher.setDefaultname(ut3);
                 speicher.setMultiplayer(true);
                 speicher.saveAs(null);
+                savedClicked = true;
                 try{
                     out.write(String.format("%s%n", "S: save "+ut3));
                     System.out.println("S: save "+ ut3);

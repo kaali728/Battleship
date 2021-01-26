@@ -88,6 +88,12 @@ public class ClientScreen extends JPanel {
      */
     private int allShipsCount;
 
+    /***
+     * if the button save clicked
+     */
+    private boolean savedClicked = false;
+
+
     /**
      * Instantiates a new Client screen.
      *
@@ -238,6 +244,19 @@ public class ClientScreen extends JPanel {
                             int row = Integer.parseInt(line.split(" ")[2]) - 1;
                             int col = Integer.parseInt(line.split(" ")[3]) - 1;
                             postionBoard.multiplayershoot(row, col);
+                        }
+
+                        if(line.contains("done")){
+                            if(savedClicked){
+                                // Close game
+                                socket.shutdownOutput();
+                                System.out.println("Connection closed.");
+                                System.exit(0);
+                            }else{
+                                SwingUtilities.invokeLater(() -> {
+                                    button.setEnabled(true);
+                                });
+                            }
                         }
 
                         if (line.contains("answer")) {
@@ -498,13 +517,14 @@ public class ClientScreen extends JPanel {
                 System.out.println("Client save Game");
                 Date now = new Date();
                 long ut3 = now.getTime() / 1000L;
+                speicher = new SpeichernUnterClass(postionBoard, enemyBoard, allShipsCount);
+                speicher.setDefaultname(ut3);
+                speicher.setMultiplayer(true);
+                speicher.saveAs(null);
+                savedClicked = true;
                 try {
                     out.write(String.format("%s%n", "C: save " + ut3));
                     System.out.println("C: save " + ut3);
-                    speicher = new SpeichernUnterClass(postionBoard, enemyBoard, allShipsCount);
-                    speicher.setDefaultname(ut3);
-                    speicher.setMultiplayer(true);
-                    speicher.saveAs(null);
                     out.flush();
                 } catch (Exception es) {
                     System.out.println("write to socket failed by C; save" + es);

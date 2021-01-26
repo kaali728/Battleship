@@ -70,7 +70,10 @@ public class LoadMultiPlayerScreen extends JPanel {
      */
     JButton ready;
 
-
+    /***
+     * if the button save clicked
+     */
+    private boolean savedClicked = false;
     /***
      * Count of all ships in fleet
      */
@@ -127,9 +130,16 @@ public class LoadMultiPlayerScreen extends JPanel {
 
                         // Server ist bereit für die Schlacht
                         if (line.equals("C: done")) {
-                            SwingUtilities.invokeLater(() -> {
-                                ready.setEnabled(true);
-                            });
+                            if(savedClicked){
+                                // Close game
+                                socket.shutdownOutput();
+                                System.out.println("Connection closed.");
+                                System.exit(0);
+                            }else{
+                                SwingUtilities.invokeLater(() -> {
+                                    ready.setEnabled(true);
+                                });
+                            }
                         }
 
                         if (line.equals("C: ready")) {
@@ -333,6 +343,7 @@ public class LoadMultiPlayerScreen extends JPanel {
                 speicher.setDefaultname(ut3);
                 speicher.setMultiplayer(true);
                 speicher.saveAs(null);
+                savedClicked = true;
                 try{
                     out.write(String.format("%s%n", "S: save "+ut3));
                     System.out.println("S: save "+ ut3);
