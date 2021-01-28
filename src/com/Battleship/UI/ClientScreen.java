@@ -520,6 +520,7 @@ public class ClientScreen extends JPanel {
                 speicher = new SpeichernUnterClass(postionBoard, enemyBoard, allShipsCount);
                 speicher.setDefaultname(ut3);
                 speicher.setMultiplayer(true);
+                speicher.setClient(true);
                 speicher.saveAs(null);
                 savedClicked = true;
                 try {
